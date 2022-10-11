@@ -39,3 +39,17 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Temporary CSS */
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+form input {
+  height: 1.5rem;
+  padding: 0.25rem;
+  font-size: 1rem;
+}
