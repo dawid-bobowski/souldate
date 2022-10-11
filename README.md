@@ -25,11 +25,9 @@ Souldate is an alternative to popular dating app called Tinder. What's different
 ### First run
 
 1. py -m pip install -r requirements.txt
-2. set FLASK_APP=app.py
-3. set FLASK_DEBUG=true
-4. py -m flask run
-5. npm i
-6. npm run dev
+2. py app.py
+3. npm i
+4. npm run dev
 
 ### How to run the project
 

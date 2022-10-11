@@ -5,6 +5,8 @@ import smtplib
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
+from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -23,6 +25,10 @@ server = smtplib.SMTP('smtp.gmail.com', 587)
 
 # App configuration
 app = Flask(__name__)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -32,6 +38,7 @@ Session(app)
 # SQLite database
 db = SQL("sqlite:///database.db")
 
+x='cos'
 
 @app.after_request
 def after_request(response):
@@ -39,3 +46,12 @@ def after_request(response):
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
+
+@app.route("/data", methods=["GET", "POST"])
+def index():
+    return {
+        'Name':"Dawid",
+        "Age":'69',
+        "Date":x,
+        "programming":"python"
+    }
