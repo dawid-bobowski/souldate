@@ -13,7 +13,6 @@ Souldate is an alternative to popular dating app called Tinder. What's different
 ### Repo Structure
 
 - **main** branch for working bits of code,
-- **development** branch used for development,
 - **commit messages** related to separate parts of code, e.g. "footer", "profile component", "database connection", etc.
 
 ### Prerequisites
@@ -23,10 +22,17 @@ Souldate is an alternative to popular dating app called Tinder. What's different
 - Node 16.17.1
 - NPM 8.19.2
 
-### How to run the project
+### First run
 
 1. py -m pip install -r requirements.txt
 2. set FLASK_APP=app.py
 3. set FLASK_DEBUG=true
 4. py -m flask run
-5. Happy coding
+5. npm i
+6. npm run dev
+
+### How to run the project
+
+1. py -m flask run (backend)
+2. npm run dev (frontend)
+3. Happy coding!
