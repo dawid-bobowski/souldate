@@ -26,8 +26,6 @@ Session(app)
 if __name__ == '__main__':
     app.run(debug=True)
 
-# 
-
 @app.after_request
 def after_request(response):
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -36,20 +34,77 @@ def after_request(response):
     return response
 
 # Routes
-@app.route('/')
+# Index Page Json
+@app.route('/api/index')
 def index():
-    return 'Index Page'
+    return jsonify(komunikat="hejka",czy_dziala="tak")
 
-@app.route('/hello')
-def hello():
-    return jsonify('Hello, greetings from different endpoint', 'e')
+# Authors Page Json
+@app.route('/api/authors')
+def authors():
+    # Define Variable
+    imie1 = "Dawid"
+    nazwisko1 = "Bobowski"
+    Itemid1 = 1
 
-@app.route('/user/<username>')
-def show_user(username):
-    # returns the username
-    return 'Username: %s' % username
+    imie2 = "Igor"
+    nazwisko2 = "Olszewski"
+    Itemid2 = 2
 
-@app.route('/post/<int:post_id>')
-def show_post(post_id):
+    value = {
+        "imie": imie1,
+        "nazwisko": nazwisko1,
+        "id": Itemid1
+    }
+    value2 = {
+        "imie": imie2,
+        "nazwisko": nazwisko2,
+        "id": Itemid2
+    }
+    return jsonify(value,value2)
+
+# Register Page Json
+@app.route("/api/register", methods=["GET", "POST"])
+def register():
+    # Render register page json
+    if request.method == "GET":
+        info = 'Strona rejestracji'
+        return jsonify(info)
+
+    # Checking if user provided all the required fields correctly and if the username is taken
+    elif request.method == "POST":
+        if not request.form.get("username"):
+            return jsonify("You must provide a username.")
+        if not request.form.get("email"):
+            return jsonify("You must provide a valid email.")
+        if not request.form.get("password"):
+            return jsonify("You must provide a password.")
+        if not request.form.get("confirmation"):
+            return jsonify("You must confirm your password.")
+        if request.form.get("password") != request.form.get("confirmation"):
+            return jsonify("Your passwords don't match! Try typing again.")
+        if not db.execute("SELECT username FROM users WHERE username = :username", username=request.form.get("username")):
+            hashword = generate_password_hash(request.form.get("password"))
+            users = db.execute("INSERT INTO users (username, hashword, email) VALUES(:username, :hash, :email)",
+                               username=request.form.get("username"), hash=hashword, email=request.form.get("email"))
+            rows = db.execute("SELECT * FROM users WHERE username = :username",
+                              username=request.form.get("username"))
+            session["user_id"] = rows[0]["user_id"]
+            return redirect("/index")
+        elif True:
+            return jsonify("Username was already taken!")
+### sample subpages below with api
+
+#@app.route('/api/hello')
+#def hello():
+#    return jsonify(simanko="no_hej")
+
+#@app.route('/api/user/<username>')
+#def show_user(username):
+#    # returns the username
+#    return 'Username: %s' % username
+
+#@app.route('/api/post/<int:post_id>')
+#def show_post(post_id):
     # returns the post, the post_id should be an int
-    return str(post_id)
+#   return str(post_id)
