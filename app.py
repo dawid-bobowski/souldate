@@ -1,3 +1,5 @@
+import os
+
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
@@ -32,6 +34,9 @@ def after_request(response):
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
+
+# Database
+db = SQL("sqlite:///database.db")
 
 # Routes
 # Index Page Json
@@ -73,24 +78,24 @@ def register():
 
     # Checking if user provided all the required fields correctly and if the username is taken
     elif request.method == "POST":
-        if not request.form.get("username"):
+        if not request.args.get("username"):
             return jsonify("You must provide a username.")
-        if not request.form.get("email"):
+        if not request.args.get("email"):
             return jsonify("You must provide a valid email.")
-        if not request.form.get("password"):
+        if not request.args.get("password"):
             return jsonify("You must provide a password.")
-        if not request.form.get("confirmation"):
+        if not request.args.get("confirmation"):
             return jsonify("You must confirm your password.")
-        if request.form.get("password") != request.form.get("confirmation"):
+        if request.args.get("password") != request.args.get("confirmation"):
             return jsonify("Your passwords don't match! Try typing again.")
-        if not db.execute("SELECT username FROM users WHERE username = :username", username=request.form.get("username")):
-            hashword = generate_password_hash(request.form.get("password"))
+        if not db.execute("SELECT username FROM users WHERE username = :username", username=request.args.get("username")):
+            hashword = generate_password_hash(request.args.get("password"))
             users = db.execute("INSERT INTO users (username, hashword, email) VALUES(:username, :hash, :email)",
-                               username=request.form.get("username"), hash=hashword, email=request.form.get("email"))
+                               username=request.args.get("username"), hash=hashword, email=request.args.get("email"))
             rows = db.execute("SELECT * FROM users WHERE username = :username",
-                              username=request.form.get("username"))
+                              username=request.args.get("username"))
             session["user_id"] = rows[0]["user_id"]
-            return redirect("/index")
+            return redirect("/")
         elif True:
             return jsonify("Username was already taken!")
 ### sample subpages below with api
