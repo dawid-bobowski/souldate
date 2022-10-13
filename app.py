@@ -44,15 +44,11 @@ db = SQL("sqlite:///database.db")
 
 # Routes
 # Index Page Json
-
-
 @app.route('/api/index')
 def index():
     return jsonify(komunikat="hejka", czy_dziala="tak")
 
 # Authors Page Json
-
-
 @app.route('/api/authors')
 def authors():
     # Define Variable
@@ -77,8 +73,6 @@ def authors():
     return jsonify(value, value2)
 
 # Register Page Json
-
-
 @app.route("/api/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
@@ -106,7 +100,7 @@ def register():
         elif True:
             return jsonify("Username was already taken!")
 
-
+# Register Page Json
 @app.route("/api/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -124,6 +118,12 @@ def login():
             return jsonify("invalid username and/or password", 403)
         session["user_id"] = rows[0]["user_id"]
         return jsonify("Zalogowano")
+
+# Logout Page Json
+@app.route("/api/logout")
+def logout():
+    session.clear()
+    return jsonify("Wylogowano")
 
 # sample subpages below with api
 
