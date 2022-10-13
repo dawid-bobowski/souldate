@@ -12,6 +12,6 @@ Flask-SQLAlchemy==2.4.4
 Flask-WTF==1.0.1
 Flask-Session==0.4.0
 cs50
-flask-marshmallow==0.14.0]
+flask-marshmallow==0.14.0
 marshmallow-sqlalchemy==0.28.1
 SQLAlchemy==1.4.41
