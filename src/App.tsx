@@ -10,6 +10,7 @@ function App(): JSX.Element {
         <Route path='/' element={<SharedLayout />}>
           <Route index element={<Pages.Home />} />
           <Route path='/login' element={<Pages.Login />} />
+          <Route path='/register' element={<Pages.Register />} />
           <Route path='*' element={<Pages.Error />} />
         </Route>
       </Routes>

@@ -10,6 +10,9 @@ function Navbar(): JSX.Element {
       <Link className='navbar-link' to='/login'>
         Logowanie
       </Link>
+      <Link className='navbar-link' to='/register'>
+        Rejestracja
+      </Link>
     </nav>
   );
 }

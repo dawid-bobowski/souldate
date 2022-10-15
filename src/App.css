@@ -38,3 +38,21 @@ button:focus-visible {
 input:focus {
   outline: 2px solid #00eeff;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+form input {
+  height: 1.5rem;
+  width: 10rem;
+  padding: 0.25rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+form button {
+  margin-top: 1rem;
+}

@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { PageTitle } from '../common';
-import './Login.css';
 
 function Login(): JSX.Element {
   const [login, setLogin] = useState<string>('user');
-  const [password, setPassword] = useState<string>('user');
+  const [password, setPassword] = useState<string>('user123');
 
   function handleLoginChange(event: React.ChangeEvent<HTMLInputElement>) {
     setLogin(event.target.value);
