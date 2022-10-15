@@ -36,6 +36,7 @@ def after_request(response):
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
+    response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
 
@@ -96,9 +97,13 @@ def register():
             rows = db.execute("SELECT * FROM users WHERE username = :username",
                               username=request.args.get("username"))
             session["user_id"] = rows[0]["user_id"]
-            return redirect("/api/index")
+            return jsonify({
+                "msg": "Użytkownik " + request.args.get("username") + " został utworzony!"
+            }), 201
         elif True:
-            return jsonify("Username was already taken!")
+            return jsonify({
+                "errorMsg": "Użytkownik o nazwie " + request.args.get("username") + " już istnieje!"
+            }), 409
 
 # Register Page Json
 @app.route("/api/login", methods=["GET", "POST"])
