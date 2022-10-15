@@ -1,4 +1,4 @@
-#page-menu {
+#navbar {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -11,14 +11,14 @@
     padding: 1rem 3rem;
 }
 
-.menu-link {
+.navbar-link {
     margin-right: 1rem;
     color: black;
     transition: 0.3s ease-in-out;
     font-weight: bold;
 }
 
-.menu-link:hover {
+.navbar-link:hover {
     color: rgb(241, 187, 24);
     transition: 0.3s ease-in-out;
 }
