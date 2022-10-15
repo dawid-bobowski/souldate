@@ -1,0 +1,9 @@
+#page-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 6rem);
+    height: 8rem;
+    background-color: rgb(0, 0, 0);
+    padding: 3rem;
+}
