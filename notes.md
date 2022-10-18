@@ -15,6 +15,11 @@ Example --> http://127.0.0.1:5000/api/login?username=igorek&password=12345
 
 Example --> http://127.0.0.1:5000/api/logout
 
+#### PERSONAL TEST
+
+Please let me know when the form on the frontend will be ready @Igor
+Example --> http://127.0.0.1:5000/api/personal_test........
+
 ### COMMANDS
 
 Uninstall all python packages:
