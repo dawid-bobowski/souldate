@@ -2,6 +2,7 @@ import json
 import os
 import sys
 import smtplib
+import urllib.parse
 
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
@@ -13,7 +14,7 @@ from collections import Counter, defaultdict
 from itertools import groupby
 from operator import itemgetter
 from timeit import timeit
-
+from functools import wraps
 
 # hmm
 lista = [0]
@@ -43,13 +44,29 @@ def after_request(response):
 # Database
 db = SQL("sqlite:///database.db")
 
+# FUNKCJE
+# Wymaganie zalogowania
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
+
 # Routes
 # Index Page Json
+
+
 @app.route('/api/index')
 def index():
     return jsonify(komunikat="hejka", czy_dziala="tak")
 
 # Authors Page Json
+
+
 @app.route('/api/authors')
 def authors():
     # Define Variable
@@ -74,6 +91,8 @@ def authors():
     return jsonify(value, value2)
 
 # Register Page Json
+
+
 @app.route("/api/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
@@ -106,6 +125,8 @@ def register():
             }), 409
 
 # Register Page Json
+
+
 @app.route("/api/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -124,11 +145,40 @@ def login():
         session["user_id"] = rows[0]["user_id"]
         return jsonify("Zalogowano")
 
+
+# Personal test
+@app.route("/api/personal_test", methods=["GET", "POST"])
+@login_required
+def personalTest():
+    if request.method == "GET":
+        session["user_id"]
+        return jsonify("Strona z testem osobowości")
+    session["user_id"]
+    if request.method == "POST":
+        ekstrawersja = int(request.args.get("EXT1")) + int(request.args.get("EXT3")) + int(request.args.get("EXT5")) + int(request.args.get("EXT7")) + int(request.args.get(
+            "EXT9")) - int(request.args.get("EXT2")) - int(request.args.get("EXT4")) - int(request.args.get("EXT6")) - int(request.args.get("EXT8")) - int(request.args.get("EXT10"))
+        ugodowosc = int(request.args.get("AGR2")) + int(request.args.get("AGR4")) + int(request.args.get("AGR6")) + int(request.args.get("AGR8")) + int(request.args.get(
+            "AGR9")) + int(request.args.get("AGR10")) - int(request.args.get("AGR1")) - int(request.args.get("AGR3")) - int(request.args.get("AGR5")) - int(request.args.get("AGR7"))
+        swiadomosc = int(request.args.get("CSN1")) + int(request.args.get("CSN3")) + int(request.args.get("CSN5")) + int(request.args.get("CSN7")) + int(request.args.get(
+            "CSN9")) + int(request.args.get("CSN10")) - int(request.args.get("CSN2")) - int(request.args.get("CSN4")) - int(request.args.get("CSN6")) - int(request.args.get("CSN8"))
+        stabilnosc = int(request.args.get("EST2")) + int(request.args.get("EST4")) - int(request.args.get("EST1")) - int(request.args.get("EST3")) - int(request.args.get(
+            "EST5")) - int(request.args.get("EST6")) - int(request.args.get("EST7")) - int(request.args.get("EST8")) - int(request.args.get("EST9")) - int(request.args.get("EST10"))
+        otwartosc = int(request.args.get("OPN1")) + int(request.args.get("OPN3")) + int(request.args.get("OPN5")) + int(request.args.get("OPN7")) + int(request.args.get(
+            "OPN8")) + int(request.args.get("OPN9")) + int(request.args.get("OPN10")) - int(request.args.get("OPN2")) - int(request.args.get("OPN4")) - int(request.args.get(
+                "OPN6"))
+
+        user = db.execute(
+            "SELECT user_id FROM traits where user_id = :user_id", user_id=session["user_id"])
+    return jsonify("KONIEC")
+
 # Logout Page Json
+
+
 @app.route("/api/logout")
 def logout():
     session.clear()
     return jsonify("Wylogowano")
+
 
 # sample subpages below with api
 
