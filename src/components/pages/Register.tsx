@@ -57,18 +57,40 @@ function Register(): JSX.Element {
   }, [isError]);
 
   return (
-    <div id='registration-container' className='page-container'>
+    <div
+      id='registration-container'
+      className='page-container'
+    >
       <PageTitle title='Rejestracja' />
       <form>
-        <input type='text' value={username} onChange={handleUsernameChange} />
-        <input type='password' value={password} onChange={handlePasswordChange} />
-        <input type='password' value={confirmPassword} onChange={handleConfirmPasswordChange} />
-        <input type='email' value={email} onChange={handleEmailChange} />
-        <button onClick={handleRegister} disabled={isError}>
+        <input
+          type='text'
+          value={username}
+          onChange={handleUsernameChange}
+        />
+        <input
+          type='password'
+          value={password}
+          onChange={handlePasswordChange}
+        />
+        <input
+          type='password'
+          value={confirmPassword}
+          onChange={handleConfirmPasswordChange}
+        />
+        <input
+          type='email'
+          value={email}
+          onChange={handleEmailChange}
+        />
+        <button
+          onClick={handleRegister}
+          disabled={isError}
+        >
           Zarejestruj
         </button>
       </form>
-      {isError && <span>{errorMsg}</span>}
+      {isError && <span style={{ color: 'red' }}>{errorMsg}</span>}
     </div>
   );
 }

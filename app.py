@@ -127,23 +127,19 @@ def register():
 # Register Page Json
 
 
-@app.route("/api/login", methods=["GET", "POST"])
+@app.route("/api/login", methods=["GET"])
 def login():
     if request.method == "GET":
-        info = 'Strona logowania'
-        return jsonify(info)
-
-    if request.method == "POST":
         if not request.args.get("username"):
-            return jsonify("must provide username", 403)
+            return jsonify({"errorMsg": "Must provide username!"}), 403
         elif not request.args.get("password"):
-            return jsonify("must provide password", 403)
+            return jsonify({"errorMsg": "Must provide password!"}), 403
         rows = db.execute("SELECT * FROM users WHERE username = :username",
                           username=request.args.get("username"))
         if len(rows) != 1 or not check_password_hash(rows[0]["hashword"], request.args.get("password")):
-            return jsonify("invalid username and/or password", 403)
+            return jsonify({"errorMsg": "Invalid username and/or password!"}), 403
         session["user_id"] = rows[0]["user_id"]
-        return jsonify("Zalogowano")
+        return jsonify({ "username": request.args.get("username") }), 200
 
 
 # Personal test
