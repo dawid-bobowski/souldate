@@ -16,8 +16,10 @@ from operator import itemgetter
 from timeit import timeit
 from functools import wraps
 
-# hmm
+# Table necessary for matching
 lista = [0]
+
+# This is interesting, CHECK OUT
 server = smtplib.SMTP('smtp.gmail.com', 587)
 
 # Configure application
@@ -44,10 +46,8 @@ def after_request(response):
 # Database
 db = SQL("sqlite:///database.db")
 
-# FUNKCJE
-# Wymaganie zalogowania
 
-
+# Login required
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -56,17 +56,12 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Routes
-# Index Page Json
-
-
+# API index
 @app.route('/api/index')
 def index():
     return jsonify(komunikat="hejka", czy_dziala="tak")
 
-# Authors Page Json
-
-
+# API authors
 @app.route('/api/authors')
 def authors():
     # Define Variable
@@ -90,9 +85,7 @@ def authors():
     }
     return jsonify(value, value2)
 
-# Register Page Json
-
-
+# API register
 @app.route("/api/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
@@ -124,9 +117,7 @@ def register():
                 "errorMsg": "Użytkownik o nazwie " + request.args.get("username") + " już istnieje!"
             }), 409
 
-# Register Page Json
-
-
+# API login
 @app.route("/api/login", methods=["GET"])
 def login():
     if request.method == "GET":
@@ -141,9 +132,7 @@ def login():
         session["user_id"] = rows[0]["user_id"]
         return jsonify({"username": request.args.get("username")}), 200
 
-# Personal test
-
-
+# API personal test
 @app.route("/api/personal_test", methods=["GET", "POST"])
 @login_required
 def personalTest():
@@ -168,16 +157,13 @@ def personalTest():
             "SELECT user_id FROM traits where user_id = :user_id", user_id=session["user_id"])
     return jsonify("KONIEC")
 
-# Gets data from user lifestyle and interests
-
-
+# API lifestyle test (testing required)
 @app.route("/api/lifestyle_test", methods=["GET", "POST"])
 @login_required
 def lifestyle():
     if request.method == "GET":
         return jsonify("Strona z testem zainteresowań")
         session["user_id"]
-    ####################################################### do testów API !!! ######
     for i in range(1, 15):
         zmienna_pomocnicza_a = "lf"+str(i)
         tablica_pomocnicza_b = []
@@ -200,10 +186,7 @@ def lifestyle():
                        user_id=session["user_id"])
             return jsonify("Poprawiono test")
 
-
-# Logout Page Json
-
-
+# API logout
 @app.route("/api/logout")
 def logout():
     session.clear()
@@ -211,16 +194,13 @@ def logout():
 
 
 # sample subpages below with api
-
 # @app.route('/api/hello')
 # def hello():
 #    return jsonify(simanko="no_hej")
-
 # @app.route('/api/user/<username>')
 # def show_user(username):
 #    # returns the username
 #    return 'Username: %s' % username
-
 # @app.route('/api/post/<int:post_id>')
 # def show_post(post_id):
     # returns the post, the post_id should be an int
