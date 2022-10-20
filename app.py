@@ -139,10 +139,11 @@ def login():
         if len(rows) != 1 or not check_password_hash(rows[0]["hashword"], request.args.get("password")):
             return jsonify({"errorMsg": "Invalid username and/or password!"}), 403
         session["user_id"] = rows[0]["user_id"]
-        return jsonify({ "username": request.args.get("username") }), 200
-
+        return jsonify({"username": request.args.get("username")}), 200
 
 # Personal test
+
+
 @app.route("/api/personal_test", methods=["GET", "POST"])
 @login_required
 def personalTest():
@@ -166,6 +167,39 @@ def personalTest():
         user = db.execute(
             "SELECT user_id FROM traits where user_id = :user_id", user_id=session["user_id"])
     return jsonify("KONIEC")
+
+# Gets data from user lifestyle and interests
+
+
+@app.route("/api/lifestyle_test", methods=["GET", "POST"])
+@login_required
+def lifestyle():
+    if request.method == "GET":
+        return jsonify("Strona z testem zainteresowań")
+        session["user_id"]
+    ####################################################### do testów API !!! ######
+    for i in range(1, 15):
+        zmienna_pomocnicza_a = "lf"+str(i)
+        tablica_pomocnicza_b = []
+        if request.form.get(zmienna_pomocnicza_a):
+            tablica_pomocnicza_b[i] = 1
+        else:
+            tablica_pomocnicza_b[i] = 0
+        user = db.execute(
+            "SELECT user_id FROM traits where user_id = :user_id", user_id=session["user_id"])
+        if not user:
+            db.execute("INSERT INTO traits (lf1, lf2, lf3, lf4, lf5, lf6, lf7, lf8, lf9, lf10, lf11, lf12, lf13, lf14, lf15, user_id) VALUES (:lf1, :lf2, :lf3, :lf4, :lf5, :lf6, :lf7, :lf8, :lf9, :lf10, :lf11, :lf12, :lf13, :lf14, :lf15, :user_id)",
+                       lf1=tablica_pomocnicza_b[1], lf2=tablica_pomocnicza_b[2], lf3=tablica_pomocnicza_b[3], lf4=tablica_pomocnicza_b[4], lf5=tablica_pomocnicza_b[5], lf6=tablica_pomocnicza_b[6], lf7=tablica_pomocnicza_b[7], lf8=tablica_pomocnicza_b[
+                           8], lf9=tablica_pomocnicza_b[9], lf10=tablica_pomocnicza_b[10], lf11=tablica_pomocnicza_b[11], lf12=tablica_pomocnicza_b[12], lf13=tablica_pomocnicza_b[13], lf14=tablica_pomocnicza_b[14], lf15=tablica_pomocnicza_b[15],
+                       user_id=session["user_id"])
+            return jsonify("Wypełniono test")
+        else:
+            db.execute("UPDATE traits SET lf1=:lf1, lf2=:lf2, lf3=:lf3, lf4=:lf4, lf5=:lf5, lf6=:lf6, lf7=:lf7, lf8=:lf8, lf9=:lf9, lf10=:lf10, lf11=:lf11, lf12=:lf12, lf13=:lf13, lf14=:lf14, lf15=:lf15 WHERE user_id= :user_id",
+                       lf1=tablica_pomocnicza_b[1], lf2=tablica_pomocnicza_b[2], lf3=tablica_pomocnicza_b[3], lf4=tablica_pomocnicza_b[4], lf5=tablica_pomocnicza_b[5], lf6=tablica_pomocnicza_b[6], lf7=tablica_pomocnicza_b[7], lf8=tablica_pomocnicza_b[
+                           8], lf9=tablica_pomocnicza_b[9], lf10=tablica_pomocnicza_b[10], lf11=tablica_pomocnicza_b[11], lf12=tablica_pomocnicza_b[12], lf13=tablica_pomocnicza_b[13], lf14=tablica_pomocnicza_b[14], lf15=tablica_pomocnicza_b[15],
+                       user_id=session["user_id"])
+            return jsonify("Poprawiono test")
+
 
 # Logout Page Json
 
