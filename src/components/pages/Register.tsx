@@ -61,7 +61,7 @@ function Register(): JSX.Element {
       id='registration-container'
       className='page-container'
     >
-      <PageTitle title='Rejestracja' />
+      <PageTitle title='REJESTRACJA' />
       <form>
         <input
           type='text'
@@ -87,7 +87,7 @@ function Register(): JSX.Element {
           onClick={handleRegister}
           disabled={isError}
         >
-          Zarejestruj
+          ZAREJESTRUJ
         </button>
       </form>
       {isError && <span style={{ color: 'red' }}>{errorMsg}</span>}

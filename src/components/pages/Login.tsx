@@ -63,7 +63,7 @@ function Login({ user, setUser }: LoginProps): JSX.Element {
       id='login-container'
       className='page-container'
     >
-      <PageTitle title='Logowanie' />
+      <PageTitle title='LOGOWANIE' />
       <form>
         <input
           type='text'
@@ -75,7 +75,7 @@ function Login({ user, setUser }: LoginProps): JSX.Element {
           value={password}
           onChange={handlePasswordChange}
         />
-        <button onClick={handleLogin}>Zaloguj</button>
+        <button onClick={handleLogin}>ZALOGUJ</button>
       </form>
       {isError && <span style={{ color: 'red' }}>{errorMsg}</span>}
     </div>
