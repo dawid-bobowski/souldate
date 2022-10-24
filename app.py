@@ -1,3 +1,4 @@
+from crypt import methods
 import json
 import os
 import sys
@@ -192,6 +193,115 @@ def logout():
     session.clear()
     return jsonify("Wylogowano")
 
+# People matching
+@app.route("/api/matching", methods=["GET"])
+@login_required
+def matching():
+    otwartosc = db.execute("SELECT OPN FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['OPN']
+    ugodowosc = db.execute("SELECT AGR FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['AGR']
+    stabilnosc = db.execute("SELECT EST FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['EST']
+    swiadomosc = db.execute("SELECT CON FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['CON']
+    ekstrawersja = db.execute("SELECT EXT FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['EXT']
+
+    otw = db.execute("SELECT user_id FROM traits WHERE OPN BETWEEN :value1 AND :value2", value1=otwartosc-5, value2=otwartosc+5)
+    ugd = db.execute("SELECT user_id FROM traits WHERE AGR BETWEEN :value1 AND :value2",
+                         value1=ugodowosc-5, value2=ugodowosc+5)
+    stab = db.execute("SELECT user_id FROM traits WHERE EST BETWEEN :value1 AND :value2",
+                         value1=stabilnosc-5, value2=stabilnosc+5)
+    swd = db.execute("SELECT user_id FROM traits WHERE CON BETWEEN :value1 AND :value2",
+                         value1=swiadomosc-5, value2=swiadomosc+5)
+    ekt = db.execute("SELECT user_id FROM traits WHERE EXT BETWEEN :value1 AND :value2",
+                         value1=ekstrawersja-5, value2=ekstrawersja+5)
+
+    for item in otw:
+        lista.append(item['user_id'])
+    for item in ugd:
+        lista.append(item['user_id'])
+    for item in stab:
+        lista.append(item['user_id'])
+    for item in swd:
+        lista.append(item['user_id'])
+    for item in ekt:
+        lista.append(item['user_id'])
+
+    # Code below for optimization
+
+    # Gets the user's data about his interests/lifestyle
+    lf1 = db.execute("SELECT lf1 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf1']
+    lf2 = db.execute("SELECT lf2 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf2']
+    lf3 = db.execute("SELECT lf3 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf3']
+    lf4 = db.execute("SELECT lf4 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf4']
+    lf5 = db.execute("SELECT lf5 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf5']
+    lf6 = db.execute("SELECT lf6 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf6']
+    lf7 = db.execute("SELECT lf7 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf7']
+    lf8 = db.execute("SELECT lf8 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf8']
+    lf9 = db.execute("SELECT lf9 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf9']
+    lf10 = db.execute("SELECT lf10 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf10']
+    lf11 = db.execute("SELECT lf11 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf11']
+    lf12 = db.execute("SELECT lf12 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf12']
+    lf13 = db.execute("SELECT lf13 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf13']
+    lf14 = db.execute("SELECT lf14 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf14']
+    lf15 = db.execute("SELECT lf15 FROM traits WHERE user_id=:user_id", user_id=session["user_id"])[0]['lf15']
+
+    # Creates a list of dicts for every lifestyle item consisting in all the users that have marked the same response
+    lifestyle1 = db.execute("SELECT user_id FROM traits WHERE lf1=:lf1", lf1=lf1)
+    lifestyle2 = db.execute("SELECT user_id FROM traits WHERE lf2=:lf2", lf2=lf2)
+    lifestyle3 = db.execute("SELECT user_id FROM traits WHERE lf3=:lf3", lf3=lf3)
+    lifestyle4 = db.execute("SELECT user_id FROM traits WHERE lf4=:lf4", lf4=lf4)
+    lifestyle5 = db.execute("SELECT user_id FROM traits WHERE lf5=:lf5", lf5=lf5)
+    lifestyle6 = db.execute("SELECT user_id FROM traits WHERE lf6=:lf6", lf6=lf6)
+    lifestyle7 = db.execute("SELECT user_id FROM traits WHERE lf7=:lf7", lf7=lf7)
+    lifestyle8 = db.execute("SELECT user_id FROM traits WHERE lf8=:lf8", lf8=lf8)
+    lifestyle9 = db.execute("SELECT user_id FROM traits WHERE lf9=:lf9", lf9=lf9)
+    lifestyle10 = db.execute("SELECT user_id FROM traits WHERE lf10=:lf10", lf10=lf10)
+    lifestyle11 = db.execute("SELECT user_id FROM traits WHERE lf11=:lf11", lf11=lf11)
+    lifestyle12 = db.execute("SELECT user_id FROM traits WHERE lf12=:lf12", lf12=lf12)
+    lifestyle13 = db.execute("SELECT user_id FROM traits WHERE lf13=:lf13", lf13=lf13)
+    lifestyle14 = db.execute("SELECT user_id FROM traits WHERE lf14=:lf14", lf14=lf14)
+    lifestyle15 = db.execute("SELECT user_id FROM traits WHERE lf15=:lf15", lf15=lf15)
+
+    # Appends all those users that had things in common to one list
+    for item in lifestyle1:
+        lista.append(item['user_id'])
+    for item in lifestyle2:
+        lista.append(item['user_id'])
+    for item in lifestyle3:
+        lista.append(item['user_id'])
+    for item in lifestyle4:
+        lista.append(item['user_id'])
+    for item in lifestyle5:
+        lista.append(item['user_id'])
+    for item in lifestyle6:
+        lista.append(item['user_id'])
+    for item in lifestyle7:
+        lista.append(item['user_id'])
+    for item in lifestyle8:
+        lista.append(item['user_id'])
+    for item in lifestyle9:
+        lista.append(item['user_id'])
+    for item in lifestyle10:
+        lista.append(item['user_id'])
+    for item in lifestyle11:
+        lista.append(item['user_id'])
+    for item in lifestyle12:
+        lista.append(item['user_id'])
+    for item in lifestyle13:
+        lista.append(item['user_id'])
+    for item in lifestyle14:
+        lista.append(item['user_id'])
+    for item in lifestyle15:
+        lista.append(item['user_id'])
+
+    # Calculating which user appears the most number of times
+    user_id = session["user_id"]
+    # Removes the own user (loged in) from the list
+    nova = [x for x in lista if x != user_id]
+    # Calculates the mode in that list
+    partner = max(set(nova), key=nova.count)
+    # Get the user's info based on their user_id
+    name = db.execute("SELECT username, email FROM users WHERE user_id=:user_id", user_id=partner)
+    # Render the results of who is the highest matching person
+    return jsonify(komunikat="Masz parkę", nazwa=name)
 
 # sample subpages below with api
 # @app.route('/api/hello')
