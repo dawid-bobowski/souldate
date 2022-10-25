@@ -1,0 +1,52 @@
+[
+  {
+    "name": "ext1",
+    "id": "ext1",
+    "options": [
+      { "value": "1", "text": "lorem ipsum" },
+      { "value": "2", "text": "lorem ipsum" },
+      { "value": "3", "text": "lorem ipsum" },
+      { "value": "4", "text": "lorem ipsum" }
+    ]
+  },
+  {
+    "name": "ext2",
+    "id": "ext2",
+    "options": [
+      { "value": "1", "text": "lorem ipsum" },
+      { "value": "2", "text": "lorem ipsum" },
+      { "value": "3", "text": "lorem ipsum" },
+      { "value": "4", "text": "lorem ipsum" }
+    ]
+  },
+  {
+    "name": "ext3",
+    "id": "ext3",
+    "options": [
+      { "value": "1", "text": "lorem ipsum" },
+      { "value": "2", "text": "lorem ipsum" },
+      { "value": "3", "text": "lorem ipsum" },
+      { "value": "4", "text": "lorem ipsum" }
+    ]
+  },
+  {
+    "name": "ext4",
+    "id": "ext4",
+    "options": [
+      { "value": "1", "text": "lorem ipsum" },
+      { "value": "2", "text": "lorem ipsum" },
+      { "value": "3", "text": "lorem ipsum" },
+      { "value": "4", "text": "lorem ipsum" }
+    ]
+  },
+  {
+    "name": "ext5",
+    "id": "ext5",
+    "options": [
+      { "value": "1", "text": "lorem ipsum" },
+      { "value": "2", "text": "lorem ipsum" },
+      { "value": "3", "text": "lorem ipsum" },
+      { "value": "4", "text": "lorem ipsum" }
+    ]
+  }
+]

@@ -32,6 +32,10 @@ function App(): JSX.Element {
             element={<Pages.Dashboard user={user} />}
           />
           <Route
+            path='/personality-test'
+            element={<Pages.PersonalityTest />}
+          />
+          <Route
             path='/register'
             element={<Pages.Register />}
           />
