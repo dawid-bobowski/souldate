@@ -28,10 +28,6 @@ Currently personal_test doesn't include POST endpoint, so it's impossible to sen
 
 It would be nice to send all the data inside of request's body rather than through endpoint attributes.
 This way endpoints would become cleaner and easier to handle.
-
-I'm unable to start backend server. app.py throws error in line 1:
-ImportError: The crypt module is not supported on Windows
-
 ### COMMANDS
 
 Uninstall all python packages:
