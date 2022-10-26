@@ -1,12 +1,9 @@
-import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import * as Pages from './components/pages';
 import SharedLayout from './components/layouts/SharedLayout';
 import './App.css';
 
 function App(): JSX.Element {
-  const [user, setUser] = useState<User | null>(null);
-
   return (
     <BrowserRouter>
       <Routes>
@@ -20,16 +17,11 @@ function App(): JSX.Element {
           />
           <Route
             path='/login'
-            element={
-              <Pages.Login
-                user={user}
-                setUser={setUser}
-              />
-            }
+            element={<Pages.Login />}
           />
           <Route
             path='/dashboard'
-            element={<Pages.Dashboard user={user} />}
+            element={<Pages.Dashboard />}
           />
           <Route
             path='/personality-test'

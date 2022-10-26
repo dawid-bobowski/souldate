@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { login } from '../../features/user/userSlice';
 import { PageTitle } from '../common';
 
-function Login({ user, setUser }: LoginProps): JSX.Element {
+function Login(): JSX.Element {
+  const user: User = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState<string>('user');
   const [password, setPassword] = useState<string>('user123');
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
-  const navigate = useNavigate();
 
   function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
     setUsername(event.target.value);
@@ -32,7 +37,7 @@ function Login({ user, setUser }: LoginProps): JSX.Element {
         console.log(resultJson);
         setUsername('');
         setPassword('');
-        setUser({ username: resultJson.username });
+        dispatch(login(resultJson.username));
         navigate('/dashboard');
       } else {
         setIsError(true);
@@ -46,7 +51,7 @@ function Login({ user, setUser }: LoginProps): JSX.Element {
   }
 
   useEffect(() => {
-    if (user) navigate('/dashboard');
+    if (user.username !== null) navigate('/dashboard');
   }, []);
 
   useEffect(() => {

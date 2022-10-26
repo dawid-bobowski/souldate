@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../app/hooks';
 import { PageTitle } from '../common';
 import '../../App.css';
 
-function Dashboard({ user }: DashboardProps): JSX.Element {
-  const navigate = useNavigate();
+function Dashboard(): JSX.Element {
+  const user: User = useAppSelector((state) => state.user);
+  const navigate: NavigateFunction = useNavigate();
 
   useEffect(() => {
-    if (!user) navigate('/login');
-  }, [user]);
+    if (user.username === null) navigate('/login');
+  }, []);
 
   return (
     <div
@@ -16,7 +18,7 @@ function Dashboard({ user }: DashboardProps): JSX.Element {
       className='page-container'
     >
       <PageTitle title='EKRAN GŁÓWNY' />
-      <h2>WITAJ {user?.username} NA EKRANIE GŁÓWNYM!</h2>
+      <h2>WITAJ {user.username} NA EKRANIE GŁÓWNYM!</h2>
     </div>
   );
 }
