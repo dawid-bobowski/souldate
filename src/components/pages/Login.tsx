@@ -64,7 +64,7 @@ function Login({ user, setUser }: LoginProps): JSX.Element {
       className='page-container'
     >
       <PageTitle title='LOGOWANIE' />
-      <form>
+      <form id='loginForm'>
         <input
           type='text'
           value={username}

@@ -6,7 +6,7 @@
 .page-container {
   margin-top: 5rem;
   width: 100%;
-  height: calc(100vh - 19rem);
+  min-height: calc(100vh - 19rem);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,7 +35,7 @@ button:focus-visible {
   outline: 2px auto -webkit-focus-ring-color;
 }
 
-input:focus {
+input[type=text]:focus {
   outline: 2px solid #00eeff;
 }
 
@@ -45,12 +45,22 @@ form {
   justify-content: center;
 }
 
-form input {
+form input[type=text] {
   height: 1.5rem;
   width: 10rem;
   padding: 0.25rem;
   font-size: 1rem;
   margin-bottom: 0.5rem;
+}
+
+form input[type=radio] {
+  height: 1.5rem;
+  width: 1.5rem;
+  font-size: 1rem;
+}
+
+form label {
+  margin-left: 1rem;
 }
 
 form button {

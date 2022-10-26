@@ -62,7 +62,7 @@ function Register(): JSX.Element {
       className='page-container'
     >
       <PageTitle title='REJESTRACJA' />
-      <form>
+      <form id='registrationForm'>
         <input
           type='text'
           value={username}

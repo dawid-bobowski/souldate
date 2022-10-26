@@ -1,29 +1,45 @@
+import { useState } from 'react';
 import schema from '../../schemas/schemaPersonalityTestForm.json';
+import './PersonalityForm.css';
 
-function PersonalityForm() {
+function PersonalityForm(): JSX.Element {
+  const [answers, setAnswers] = useState({});
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    console.log(event);
+    console.log('POST personality-test');
+  }
   return (
-    <form>
+    <form
+      id='personalityForm'
+      onSubmit={handleSubmit}
+    >
       {schema.map((question, index) => {
         return (
-          <select
+          <div
             key={index}
-            name={question.name}
-            id={question.id}
+            className='personalityForm-question'
           >
-            {question.options.map((option, index) => {
+            <h2>{question.text}</h2>
+            {question.options.map((option, optionIndex) => {
               return (
-                <option
-                  key={index}
-                  value={option.value}
-                  onClick={() => console.log(option.value)}
+                <div
+                  key={optionIndex}
+                  className='personalityForm-option'
                 >
-                  {option.text}
-                </option>
+                  <input
+                    type='radio'
+                    name={question.name}
+                    value={option.value}
+                  />
+                  <label>{option.text}</label>
+                </div>
               );
             })}
-          </select>
+          </div>
         );
       })}
+      <button type='submit'>Wyślij</button>
     </form>
   );
 }

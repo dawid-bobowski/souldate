@@ -1,0 +1,9 @@
+#personalityForm {
+    padding-bottom: 5rem;
+}
+
+.personalityForm-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}

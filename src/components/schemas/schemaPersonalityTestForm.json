@@ -1,52 +1,22 @@
 [
   {
     "name": "ext1",
-    "id": "ext1",
+    "text": "Gdybyś mógł/mogła zamienić się w zwierzę, co by to było?",
     "options": [
-      { "value": "1", "text": "lorem ipsum" },
-      { "value": "2", "text": "lorem ipsum" },
-      { "value": "3", "text": "lorem ipsum" },
-      { "value": "4", "text": "lorem ipsum" }
+      { "value": "1", "text": "kot" },
+      { "value": "2", "text": "pies" },
+      { "value": "3", "text": "małpa" },
+      { "value": "4", "text": "słoń" }
     ]
   },
   {
     "name": "ext2",
-    "id": "ext2",
+    "text": "Jaki rodzaj sera lubisz?",
     "options": [
-      { "value": "1", "text": "lorem ipsum" },
-      { "value": "2", "text": "lorem ipsum" },
-      { "value": "3", "text": "lorem ipsum" },
-      { "value": "4", "text": "lorem ipsum" }
-    ]
-  },
-  {
-    "name": "ext3",
-    "id": "ext3",
-    "options": [
-      { "value": "1", "text": "lorem ipsum" },
-      { "value": "2", "text": "lorem ipsum" },
-      { "value": "3", "text": "lorem ipsum" },
-      { "value": "4", "text": "lorem ipsum" }
-    ]
-  },
-  {
-    "name": "ext4",
-    "id": "ext4",
-    "options": [
-      { "value": "1", "text": "lorem ipsum" },
-      { "value": "2", "text": "lorem ipsum" },
-      { "value": "3", "text": "lorem ipsum" },
-      { "value": "4", "text": "lorem ipsum" }
-    ]
-  },
-  {
-    "name": "ext5",
-    "id": "ext5",
-    "options": [
-      { "value": "1", "text": "lorem ipsum" },
-      { "value": "2", "text": "lorem ipsum" },
-      { "value": "3", "text": "lorem ipsum" },
-      { "value": "4", "text": "lorem ipsum" }
+      { "value": "1", "text": "Roquefort" },
+      { "value": "2", "text": "Gorgonzola" },
+      { "value": "3", "text": "Gouda" },
+      { "value": "4", "text": "Mozzarella" }
     ]
   }
 ]
