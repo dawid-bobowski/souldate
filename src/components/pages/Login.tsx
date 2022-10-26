@@ -34,7 +34,6 @@ function Login(): JSX.Element {
       const resultJson = await result.json();
 
       if (result.status === 200) {
-        console.log(resultJson);
         setUsername('');
         setPassword('');
         dispatch(login(resultJson.username));

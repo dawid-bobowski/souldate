@@ -5,7 +5,7 @@
     position: fixed;
     background-color: #fff;
     max-width: calc(1200px - 6rem);
-    width: 100%;
+    width: calc(100% - 6rem);
     top: 0;
     height: 3rem;
     padding: 1rem 3rem;

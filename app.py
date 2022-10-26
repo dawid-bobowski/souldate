@@ -238,7 +238,7 @@ def lifestyle():
 @app.route("/api/logout")
 def logout():
     session.clear()
-    return jsonify("Wylogowano")
+    return {}, 204
 
 
 @app.route("/api/matching", methods=["GET"])
