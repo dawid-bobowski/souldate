@@ -2,6 +2,14 @@ import { useState } from 'react';
 import schema from '../../schemas/schemaPersonalityTestForm.json';
 import './PersonalityForm.css';
 
+enum PersonalityFormOption {
+  DEFINITELY_DISAGREE = 'Kategorycznie się nie zgadzam',
+  DISAGREE = 'Nie zgadzam się',
+  NEUTRAL = 'Neutralna odpowiedź',
+  AGREE = 'Zgadzam się',
+  DEFINITELY_AGREE = 'Oczywiście że tak!',
+}
+
 function PersonalityForm(): JSX.Element {
   const [answers, setAnswers] = useState({});
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
@@ -21,7 +29,7 @@ function PersonalityForm(): JSX.Element {
             className='personalityForm-question'
           >
             <h2>{question.text}</h2>
-            {question.options.map((option, optionIndex) => {
+            {Object.values(PersonalityFormOption).map((option, optionIndex) => {
               return (
                 <div
                   key={optionIndex}
@@ -30,9 +38,9 @@ function PersonalityForm(): JSX.Element {
                   <input
                     type='radio'
                     name={question.name}
-                    value={option.value}
+                    value={optionIndex}
                   />
-                  <label>{option.text}</label>
+                  <label>{option}</label>
                 </div>
               );
             })}
