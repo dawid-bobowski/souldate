@@ -24,12 +24,14 @@ function Navbar(): JSX.Element {
             Test osobowości
           </Link>
         )}
-        <Link
-          className='navbar-link'
-          to='/register'
-        >
-          Załóż konto
-        </Link>
+        {!user.username && (
+          <Link
+            className='navbar-link'
+            to='/register'
+          >
+            Załóż konto
+          </Link>
+        )}
       </div>
       {user.username ? <LogoutButton /> : <LoginButton />}
     </nav>

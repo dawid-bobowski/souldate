@@ -50,10 +50,6 @@ function Login(): JSX.Element {
   }
 
   useEffect(() => {
-    if (user.username !== null) navigate('/dashboard');
-  }, []);
-
-  useEffect(() => {
     if (isError) {
       setTimeout(() => {
         setIsError(false);

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import * as Pages from './components/pages';
 import SharedLayout from './components/layouts/SharedLayout';
+import PrivateRoute from './helpers/PrivateRoute';
 import './App.css';
 
 function App(): JSX.Element {
@@ -11,6 +12,16 @@ function App(): JSX.Element {
           path='/'
           element={<SharedLayout />}
         >
+          <Route element={<PrivateRoute />}>
+            <Route
+              path='/dashboard'
+              element={<Pages.Dashboard />}
+            />
+            <Route
+              path='/personality-test'
+              element={<Pages.PersonalityTest />}
+            />
+          </Route>
           <Route
             index
             element={<Pages.Home />}
@@ -18,14 +29,6 @@ function App(): JSX.Element {
           <Route
             path='/login'
             element={<Pages.Login />}
-          />
-          <Route
-            path='/dashboard'
-            element={<Pages.Dashboard />}
-          />
-          <Route
-            path='/personality-test'
-            element={<Pages.PersonalityTest />}
           />
           <Route
             path='/register'

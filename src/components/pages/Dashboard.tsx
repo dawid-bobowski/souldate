@@ -1,16 +1,9 @@
-import { useEffect } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
 import { PageTitle } from '../common';
 import '../../App.css';
 
 function Dashboard(): JSX.Element {
   const user: User = useAppSelector((state) => state.user);
-  const navigate: NavigateFunction = useNavigate();
-
-  useEffect(() => {
-    if (user.username === null) navigate('/login');
-  }, []);
 
   return (
     <div
