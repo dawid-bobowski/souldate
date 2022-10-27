@@ -163,5 +163,390 @@
       { "value": "4", "text": "Zgadzam się" },
       { "value": "5", "text": "Oczywiście że tak!" }
     ]
+  },
+  {
+    "name": "EXT4",
+    "text": "Trzymam się na uboczu.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "ARG4",
+    "text": "Często zdarza mi się współczuć innym.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "CSN4",
+    "text": "Robię bałagan.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EST4",
+    "text": "Rzadko kiedy czuję się smutny.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "OPN4",
+    "text": "Nie interesują mnie abstrakcyjne idee.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EXT5",
+    "text": "Rozpoczynam rozmowy.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam." },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "ARG5",
+    "text": "Nie interesują mnie problemy innych ludzi.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "CSN5",
+    "text": "Obowiązki wykonuję od razu.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EST5",
+    "text": "Łatwo mnie wyprowadzić z równowagi.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "OPN5",
+    "text": "Mam znakomite pomysły.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EXT6",
+    "text": "Nie mam wiele do powiedzenia.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "ARG6",
+    "text": "Mam miękkie serce.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "CSN6",
+    "text": "Często zapominam odkładać rzeczy na właściwe miejsce.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EST6",
+    "text": "Łatwo się denerwuję.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "OPN6",
+    "text": "Nie mam zbyt dobrej wyobraźni.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EXT7",
+    "text": "Na imprezach rozmawiam z wieloma różnymi ludźmi.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "ARG7",
+    "text": "Nie interesują mnie inni ludzie.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "CSN7",
+    "text": "Lubię porządek.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EST7",
+    "text": "Bardzo często zmieniam swój nastrój.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "OPN7",
+    "text": "Szybko rozumiem różne rzeczy.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EXT8",
+    "text": "Nie lubię zwracać na siebie uwagi.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "ARG8",
+    "text": "Poświęcam czas dla innych osób.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "CSN8",
+    "text": "Zaniedbuję swoje obowiązki.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EST8",
+    "text": "Mam częste wahania nastroju.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "OPN8",
+    "text": "Używam trudnych słów.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EXT9",
+    "text": "Nie przeszkadza mi bycie w centrum uwagi.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "ARG9",
+    "text": "Wyczuwam cudze emocje.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "CSN9",
+    "text": "Postępuję zgodnie z moimi planami.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EST9",
+    "text": "Łatwo się denerwuję.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "OPN9",
+    "text": "Poświęcam dużo czasu na przemyślenia.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EXT10",
+    "text": "Zachowuję spokój w obecności innych osób.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "ARG10",
+    "text": "Dzięki mnie ludzie czują się swobodnie.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "CSN10",
+    "text": "Jestem dokładny w swojej pracy.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "EST10",
+    "text": "Często czuję się niewesoły.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
+  },
+  {
+    "name": "OPN10",
+    "text": "Jestem pełen pomysłów.",
+    "options": [
+      { "value": "1", "text": "Kategorycznie się nie zgadzam" },
+      { "value": "2", "text": "Nie zgadzam się" },
+      { "value": "3", "text": "Neutralna odpowiedź" },
+      { "value": "4", "text": "Zgadzam się" },
+      { "value": "5", "text": "Oczywiście że tak!" }
+    ]
   }
 ]
