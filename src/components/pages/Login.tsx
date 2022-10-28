@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { login } from '../../features/user/userSlice';
-import { PageTitle } from '../common';
+import { PageTitle, TextInput } from '../common';
 
 function Login(): JSX.Element {
   const user: User = useAppSelector((state) => state.user);
@@ -13,14 +13,6 @@ function Login(): JSX.Element {
   const [password, setPassword] = useState<string>('user123');
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
-
-  function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setUsername(event.target.value);
-  }
-
-  function handlePasswordChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    setPassword(event.target.value);
-  }
 
   async function handleLogin(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
@@ -65,15 +57,15 @@ function Login(): JSX.Element {
     >
       <PageTitle title='LOGOWANIE' />
       <form id='loginForm'>
-        <input
+        <TextInput
           type='text'
           value={username}
-          onChange={handleUsernameChange}
+          setState={setUsername}
         />
-        <input
+        <TextInput
           type='password'
           value={password}
-          onChange={handlePasswordChange}
+          setState={setPassword}
         />
         <button onClick={handleLogin}>ZALOGUJ</button>
       </form>

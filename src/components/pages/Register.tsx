@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
-import { PageTitle } from '../common';
+import { useNavigate } from 'react-router-dom';
+import { PageTitle, TextInput } from '../common';
 
 function Register(): JSX.Element {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState<string>('user');
   const [password, setPassword] = useState<string>('user123');
   const [confirmPassword, setConfirmPassword] = useState<string>('user123');
@@ -9,18 +12,6 @@ function Register(): JSX.Element {
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
-  function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setUsername(event.target.value);
-  }
-  function handlePasswordChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    setPassword(event.target.value);
-  }
-  function handleConfirmPasswordChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    setConfirmPassword(event.target.value);
-  }
-  function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    setEmail(event.target.value);
-  }
   async function handleRegister(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
     try {
@@ -35,13 +26,12 @@ function Register(): JSX.Element {
         setPassword('');
         setConfirmPassword('');
         setEmail('');
-        console.log(resultJson);
+        navigate('/login');
       } else {
         setIsError(true);
         setErrorMsg(resultJson.errorMsg);
       }
     } catch (error: any) {
-      console.log(error);
       setIsError(true);
       setErrorMsg(error.message);
     }
@@ -63,25 +53,25 @@ function Register(): JSX.Element {
     >
       <PageTitle title='REJESTRACJA' />
       <form id='registrationForm'>
-        <input
+        <TextInput
           type='text'
           value={username}
-          onChange={handleUsernameChange}
+          setState={setUsername}
         />
-        <input
+        <TextInput
           type='password'
           value={password}
-          onChange={handlePasswordChange}
+          setState={setPassword}
         />
-        <input
+        <TextInput
           type='password'
           value={confirmPassword}
-          onChange={handleConfirmPasswordChange}
+          setState={setConfirmPassword}
         />
-        <input
+        <TextInput
           type='email'
           value={email}
-          onChange={handleEmailChange}
+          setState={setEmail}
         />
         <button
           onClick={handleRegister}
