@@ -1,15 +1,16 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
 import { PageTitle, TextInput } from '../common';
 
 function Register(): JSX.Element {
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState<string>('user');
-  const [password, setPassword] = useState<string>('user123');
-  const [confirmPassword, setConfirmPassword] = useState<string>('user123');
-  const [email, setEmail] = useState<string>('user@souldate.pl');
+  const [username, setUsername] = useState<string>(DEFAULT_USER);
+  const [password, setPassword] = useState<string>(DEFAULT_PASSWORD);
+  const [confirmPassword, setConfirmPassword] = useState<string>(DEFAULT_PASSWORD);
+  const [email, setEmail] = useState<string>(DEFAULT_EMAIL);
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
@@ -17,7 +18,7 @@ function Register(): JSX.Element {
     event.preventDefault();
     try {
       const result = await axios.post(
-        `http://127.0.0.1:5000/api/register?username=${username}&email=${email}&password=${password}&confirmation=${confirmPassword}`
+        `${API_SERVER}/register?username=${username}&email=${email}&password=${password}&confirmation=${confirmPassword}`
       );
 
       if (result.status === 201) {

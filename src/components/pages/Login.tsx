@@ -1,17 +1,17 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_SERVER, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { login } from '../../features/user/userSlice';
 import { PageTitle, TextInput } from '../common';
 
 function Login(): JSX.Element {
-  const user: User = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState<string>('user');
-  const [password, setPassword] = useState<string>('user123');
+  const [username, setUsername] = useState<string>(DEFAULT_USER);
+  const [password, setPassword] = useState<string>(DEFAULT_PASSWORD);
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
@@ -21,7 +21,7 @@ function Login(): JSX.Element {
     if (!username || !password) return;
 
     try {
-      const result = await axios.get(`http://127.0.0.1:5000/api/login?username=${username}&password=${password}`);
+      const result = await axios.get(`${API_SERVER}/login?username=${username}&password=${password}`);
 
       if (result.status === 200) {
         setUsername('');
