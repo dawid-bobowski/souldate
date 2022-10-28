@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PageTitle, TextInput } from '../common';
@@ -15,11 +16,9 @@ function Register(): JSX.Element {
   async function handleRegister(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
     try {
-      const result = await fetch(
-        `http://127.0.0.1:5000/api/register?username=${username}&email=${email}&password=${password}&confirmation=${confirmPassword}`,
-        { method: 'POST' }
+      const result = await axios.post(
+        `http://127.0.0.1:5000/api/register?username=${username}&email=${email}&password=${password}&confirmation=${confirmPassword}`
       );
-      const resultJson = await result.json();
 
       if (result.status === 201) {
         setUsername('');
@@ -29,7 +28,7 @@ function Register(): JSX.Element {
         navigate('/login');
       } else {
         setIsError(true);
-        setErrorMsg(resultJson.errorMsg);
+        setErrorMsg(result.data.errorMsg);
       }
     } catch (error: any) {
       setIsError(true);

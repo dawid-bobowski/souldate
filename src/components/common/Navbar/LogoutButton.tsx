@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/hooks';
@@ -13,9 +14,7 @@ function LogoutButton(): JSX.Element {
   async function handleLogout(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
     try {
-      const result = await fetch(`http://127.0.0.1:5000/api/logout`, {
-        method: 'GET',
-      });
+      const result = await axios.get(`http://127.0.0.1:5000/api/logout`);
 
       if (result.status === 204) {
         dispatch(logout());

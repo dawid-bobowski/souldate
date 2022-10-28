@@ -5,12 +5,14 @@ interface TextInputProps {
 }
 
 function TextInput(props: TextInputProps): JSX.Element {
+  const { type, value, setState } = props;
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    props.setState(event.target.value);
+    setState(event.target.value);
   }
   return (
     <input
-      {...props}
+      type={type}
+      value={value}
       onChange={handleChange}
     />
   );

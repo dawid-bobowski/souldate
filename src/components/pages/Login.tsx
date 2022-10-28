@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -20,19 +21,16 @@ function Login(): JSX.Element {
     if (!username || !password) return;
 
     try {
-      const result = await fetch(`http://127.0.0.1:5000/api/login?username=${username}&password=${password}`, {
-        method: 'GET',
-      });
-      const resultJson = await result.json();
+      const result = await axios.get(`http://127.0.0.1:5000/api/login?username=${username}&password=${password}`);
 
       if (result.status === 200) {
         setUsername('');
         setPassword('');
-        dispatch(login(resultJson.username));
+        dispatch(login(result.data.username));
         navigate('/dashboard');
       } else {
         setIsError(true);
-        setErrorMsg(resultJson.errorMsg);
+        setErrorMsg(result.data.errorMsg);
       }
     } catch (error: any) {
       console.log(error);
