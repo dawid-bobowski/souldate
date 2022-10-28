@@ -6,8 +6,8 @@ function Home(): JSX.Element {
       id='home-container'
       className='page-container'
     >
-      <PageTitle title='STRONA GŁÓWNA' />
-      <h2>STWÓRZ KONTO I ZNAJDŹ SWOJĄ BRATNIĄ DUSZĘ</h2>
+      <PageTitle title='Strona główna' />
+      <h2>Witaj na stronie głównej!</h2>
     </div>
   );
 }

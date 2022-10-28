@@ -53,7 +53,7 @@ function Login(): JSX.Element {
       id='login-container'
       className='page-container'
     >
-      <PageTitle title='LOGOWANIE' />
+      <PageTitle title='Logowanie' />
       <form id='loginForm'>
         <TextInput
           type='text'

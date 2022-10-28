@@ -24,7 +24,6 @@ function LogoutButton(): JSX.Element {
         setErrorMsg('Unable to log out.');
       }
     } catch (error: any) {
-      console.log(error);
       setIsError(true);
       setErrorMsg(error.message);
     }

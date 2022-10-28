@@ -3,8 +3,18 @@ import * as Pages from './components/pages';
 import SharedLayout from './components/layouts/SharedLayout';
 import PrivateRoute from './helpers/PrivateRoute';
 import './App.css';
+import { useAppDispatch } from './app/hooks';
+import { useEffect } from 'react';
+import { login } from './features/user/userSlice';
 
 function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem('username');
+    if (loggedInUser) {
+      dispatch(login(loggedInUser));
+    }
+  }, []);
   return (
     <BrowserRouter>
       <Routes>

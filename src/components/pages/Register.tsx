@@ -50,7 +50,7 @@ function Register(): JSX.Element {
       id='registration-container'
       className='page-container'
     >
-      <PageTitle title='REJESTRACJA' />
+      <PageTitle title='Rejestracja' />
       <form id='registrationForm'>
         <TextInput
           type='text'
