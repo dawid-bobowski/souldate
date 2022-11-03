@@ -176,6 +176,12 @@ def personalTest():
             user_id=session["user_id"])
     return jsonify("KONIEC")
 
+@app.route("/api/personality_questions", methods=["GET"])
+def personalityQuestions():
+    if request.method == "GET":
+        questions = db.execute('SELECT * FROM "personality-questions"')
+        return jsonify({"questions": questions}), 200
+
 
 @app.route("/api/lifestyle_test", methods=["GET", "POST"])
 @login_required
