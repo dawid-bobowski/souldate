@@ -1,0 +1,9 @@
+#lifestyleForm {
+    padding-bottom: 5rem;
+}
+
+.lifestyleForm-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}

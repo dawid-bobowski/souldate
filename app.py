@@ -117,9 +117,9 @@ def login():
         return jsonify({"username": request.args.get("username")}), 200
 
 
-@app.route("/api/personal_test", methods=["GET", "POST"])
+@app.route("/api/personality_test", methods=["GET", "POST"])
 @login_required
-def personalTest():
+def personalityTest():
     if request.method == "GET":
         session["user_id"]
         return jsonify("Strona z testem osobowości")

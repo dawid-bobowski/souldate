@@ -24,6 +24,14 @@ function Navbar(): JSX.Element {
             Test osobowości
           </Link>
         )}
+        {user.username && (
+          <Link
+            className='navbar-link'
+            to='/lifestyle-test'
+          >
+            Test zainteresowań
+          </Link>
+        )}
         {!user.username && (
           <Link
             className='navbar-link'
