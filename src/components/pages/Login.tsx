@@ -21,7 +21,7 @@ function Login(): JSX.Element {
     if (!username || !password) return;
 
     try {
-      const result = await axios.get(`${API_SERVER}/login?username=${username}&password=${password}`);
+      const result = await axios.post(`${API_SERVER}/login?username=${username}&password=${password}`);
 
       if (result.status === 200) {
         setUsername('');

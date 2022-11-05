@@ -15,3 +15,8 @@ interface IQuestion {
 }
 type Question = IQuestion;
 type Questions = Question[];
+
+interface IAnswers {
+  [key: string]: number;
+}
+type Answers = IAnswers;

@@ -37,6 +37,8 @@ def after_request(response):
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
     return response
 
 
@@ -100,9 +102,9 @@ def register():
             }), 409
 
 
-@app.route("/api/login", methods=["GET"])
+@app.route("/api/login", methods=["POST"])
 def login():
-    if request.method == "GET":
+    if request.method == "POST":
         if not request.args.get("username"):
             return jsonify({"errorMsg": "Must provide username!"}), 403
         elif not request.args.get("password"):
@@ -118,63 +120,39 @@ def login():
 
 
 @app.route("/api/personality_test", methods=["GET", "POST"])
-@login_required
+# Currently not working properly
+# @login_required
 def personalityTest():
     if request.method == "GET":
         session["user_id"]
         return jsonify("Strona z testem osobowości")
-    session["user_id"]
     if request.method == "POST":
-        ekstrawersja = int(request.args.get("EXT1")) + int(
-            request.args.get("EXT3")) + int(request.args.get("EXT5")) + int(
-                request.args.get("EXT7")) + int(
-                    request.args.get("EXT9")) - int(
-                        request.args.get("EXT2")) - int(
-                            request.args.get("EXT4")) - int(
-                                request.args.get("EXT6")) - int(
-                                    request.args.get("EXT8")) - int(
-                                        request.args.get("EXT10"))
-        ugodowosc = int(request.args.get("AGR2")) + int(
-            request.args.get("AGR4")) + int(request.args.get("AGR6")) + int(
-                request.args.get("AGR8")) + int(
-                    request.args.get("AGR9")) + int(
-                        request.args.get("AGR10")) - int(
-                            request.args.get("AGR1")) - int(
-                                request.args.get("AGR3")) - int(
-                                    request.args.get("AGR5")) - int(
-                                        request.args.get("AGR7"))
-        swiadomosc = int(request.args.get("CSN1")) + int(
-            request.args.get("CSN3")) + int(request.args.get("CSN5")) + int(
-                request.args.get("CSN7")) + int(
-                    request.args.get("CSN9")) + int(
-                        request.args.get("CSN10")) - int(
-                            request.args.get("CSN2")) - int(
-                                request.args.get("CSN4")) - int(
-                                    request.args.get("CSN6")) - int(
-                                        request.args.get("CSN8"))
-        stabilnosc = int(request.args.get("EST2")) + int(
-            request.args.get("EST4")) - int(request.args.get("EST1")) - int(
-                request.args.get("EST3")) - int(
-                    request.args.get("EST5")) - int(
-                        request.args.get("EST6")) - int(
-                            request.args.get("EST7")) - int(
-                                request.args.get("EST8")) - int(
-                                    request.args.get("EST9")) - int(
-                                        request.args.get("EST10"))
-        otwartosc = int(request.args.get("OPN1")) + int(
-            request.args.get("OPN3")) + int(request.args.get("OPN5")) + int(
-                request.args.get("OPN7")) + int(
-                    request.args.get("OPN8")) + int(
-                        request.args.get("OPN9")) + int(
-                            request.args.get("OPN10")) - int(
-                                request.args.get("OPN2")) - int(
-                                    request.args.get("OPN4")) - int(
-                                        request.args.get("OPN6"))
+        answers = json.loads(request.data.decode('utf-8'))
+        ekstrawersja = (answers["EXT1"] + answers["EXT3"] + answers["EXT5"] + answers["EXT7"] +
+            answers["EXT9"] - answers["EXT2"] - answers["EXT4"] - answers["EXT6"] - answers["EXT8"] - answers["EXT10"])
+        ugodowosc = (answers["AGR2"] + answers["AGR4"] +answers["AGR6"] + answers["AGR8"] + answers["AGR9"] +
+            answers["AGR10"] - answers["AGR1"] - answers["AGR3"] - answers["AGR5"] - answers["AGR7"])
+        swiadomosc = (answers["CSN1"] + answers["CSN3"] +answers["CSN5"] + answers["CSN7"] + answers["CSN9"] +
+            answers["CSN10"] - answers["CSN2"] - answers["CSN4"] - answers["CSN6"] - answers["CSN8"])
+        stabilnosc = (answers["EST2"] + answers["EST4"] - answers["EST1"] - answers["EST3"] - answers["EST5"] -
+            answers["EST6"] - answers["EST7"] - answers["EST8"] - answers["EST9"] - answers["EST10"])
+        otwartosc = (answers["OPN1"] + answers["OPN3"] + answers["OPN5"] + answers["OPN7"] + answers["OPN8"] +
+            answers["OPN9"] + answers["OPN10"] - answers["OPN2"] - answers["OPN4"] - answers["OPN6"])
 
-        user = db.execute(
-            "SELECT user_id FROM traits where user_id = :user_id",
-            user_id=session["user_id"])
-    return jsonify("KONIEC")
+        print(ekstrawersja, ugodowosc, swiadomosc, stabilnosc, otwartosc)
+
+        # Currently not working properly
+        # user = db.execute(
+        #     "SELECT user_id FROM traits where user_id = :user_id",
+        #     user_id=session["user_id"])
+
+        return jsonify({
+            "ekstrawersja": ekstrawersja,
+            "ugodowosc": ugodowosc,
+            "swiadomosc": swiadomosc,
+            "stabilnosc": stabilnosc,
+            "otwartosc": otwartosc
+            }), 201
 
 @app.route("/api/personality_questions", methods=["GET"])
 def personalityQuestions():

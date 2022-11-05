@@ -14,10 +14,6 @@ We shouldn't send login and password this way. They shouldn't be visible in the 
 
 Example --> http://127.0.0.1:5000/api/logout
 
-#### PERSONAL TEST
-
-Currently personal_test doesn't include POST endpoint, so it's impossible to send any data.
-
 ### GENERAL COMMENTS
 
 It would be nice to send all the data inside of request's body rather than through endpoint attributes.
@@ -30,6 +26,7 @@ Uninstall all python packages:
 - pip uninstall -y $(pip freeze)
 
 ### Pytania do testu zainteresowań:
+
 lf1. Przebywanie z kimś, kto lubi sport jest dla mnie istotne.
 lf2. Spędzanie czasu z kimś, kto lubi ten sam sport co ja, jest dla mnie ważne.
 lf3. Podstawą dobrych spotkań są udane głębokie rozmowy.
