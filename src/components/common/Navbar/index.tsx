@@ -32,6 +32,14 @@ function Navbar(): JSX.Element {
             Test zainteresowań
           </Link>
         )}
+        {user.username && (
+          <Link
+            className='navbar-link'
+            to='/your-match'
+          >
+            Twoje dopasowanie
+          </Link>
+        )}
         {!user.username && (
           <Link
             className='navbar-link'

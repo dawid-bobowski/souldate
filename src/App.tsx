@@ -35,6 +35,10 @@ function App(): JSX.Element {
               path='/lifestyle-test'
               element={<Pages.LifestyleTest />}
             />
+            <Route
+              path='/your-match'
+              element={<Pages.YourMatch />}
+            />
           </Route>
           <Route
             index
