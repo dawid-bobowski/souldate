@@ -16,6 +16,11 @@ from operator import itemgetter
 from timeit import timeit
 from functools import wraps
 
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+
 lista = [0]
 
 server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -25,7 +30,11 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["JWT_SECRET_KEY"] = "super-secret"
+app.config["SECRET_KEY"] = "pass"
+#app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1) # Change this!
 Session(app)
+jwt = JWTManager(app)
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -45,15 +54,14 @@ def after_request(response):
 db = SQL("sqlite:///database.db")
 
 
-def login_required(f):
+#def login_required(f):
 
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if session.get("user_id") is None:
-            return redirect("/login")
-        return f(*args, **kwargs)
-
-    return decorated_function
+    #@wraps(f)
+    #def decorated_function(*args, **kwargs):
+     #   if session.get("user_id") is None:
+     #       return redirect("/login")
+      #  return f(*args, **kwargs)
+   # return decorated_function
 
 
 @app.route('/api/index')
@@ -116,12 +124,15 @@ def login():
             return jsonify({"errorMsg":
                             "Invalid username and/or password!"}), 403
         session["user_id"] = rows[0]["user_id"]
-        return jsonify({"username": request.args.get("username")}), 200
+        cos = session["user_id"]
+        additional_claims = {"aud": "some_audience", "foo": "bar"}
+        access_token = create_access_token(cos, additional_claims=additional_claims)
+        return jsonify({"username": request.args.get("username"), "access_token": access_token}), 200
 
 
 @app.route("/api/personality_test", methods=["GET", "POST"])
 # Currently not working properly
-# @login_required
+@jwt_required()
 def personalityTest():
     if request.method == "GET":
         session["user_id"]
@@ -140,11 +151,11 @@ def personalityTest():
             answers["OPN9"] + answers["OPN10"] - answers["OPN2"] - answers["OPN4"] - answers["OPN6"])
 
         print(ekstrawersja, ugodowosc, swiadomosc, stabilnosc, otwartosc)
-
+        a = session["user_id"]
         # Currently not working properly
-        # user = db.execute(
-        #     "SELECT user_id FROM traits where user_id = :user_id",
-        #     user_id=session["user_id"])
+        user = db.execute(
+             "SELECT user_id FROM traits where user_id = :user_id",
+             user_id=a)
 
         return jsonify({
             "ekstrawersja": ekstrawersja,
@@ -230,7 +241,7 @@ def logout():
 
 
 @app.route("/api/matching", methods=["GET"])
-@login_required
+#@login_required
 def matching():
     otwartosc = db.execute("SELECT OPN FROM traits WHERE user_id=:user_id",
                            user_id=session["user_id"])[0]['OPN']
