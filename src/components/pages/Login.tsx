@@ -26,7 +26,7 @@ function Login(): JSX.Element {
       if (result.status === 200) {
         setUsername('');
         setPassword('');
-        dispatch(login(result.data.username));
+        dispatch(login(result.data));
         navigate('/dashboard');
       } else {
         setIsError(true);

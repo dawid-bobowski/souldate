@@ -2,6 +2,7 @@
 
 interface IUser {
   username: string | null;
+  token: string | null;
 }
 type User = IUser;
 interface IPrivateRouteProps {

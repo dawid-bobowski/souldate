@@ -10,9 +10,10 @@ import { login } from './features/user/userSlice';
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const loggedInUser = localStorage.getItem('username');
-    if (loggedInUser) {
-      dispatch(login(loggedInUser));
+    const username = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
+    if (token !== null && username !== null) {
+      dispatch(login({ username, token }));
     }
   }, []);
   return (

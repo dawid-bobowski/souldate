@@ -98,7 +98,15 @@ function PersonalityForm(): JSX.Element {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     await axios
-      .post(`${API_SERVER}/personality_test`, answers)
+      .post(
+        `${API_SERVER}/personality_test`,
+        { answers, username: localStorage.getItem('username') },
+        {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+      )
       .then((result) => {
         if (result.status === 201) {
           console.log(result);

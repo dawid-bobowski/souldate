@@ -127,7 +127,7 @@ def login():
         cos = session["user_id"]
         additional_claims = {"aud": "some_audience", "foo": "bar"}
         access_token = create_access_token(cos, additional_claims=additional_claims)
-        return jsonify({"username": request.args.get("username"), "access_token": access_token}), 200
+        return jsonify({ "username": request.args.get("username"), "token": access_token }), 200
 
 
 @app.route("/api/personality_test", methods=["GET", "POST"])
@@ -138,12 +138,14 @@ def personalityTest():
         session["user_id"]
         return jsonify("Strona z testem osobowości")
     if request.method == "POST":
-        answers = json.loads(request.data.decode('utf-8'))
-        ekstrawersja = (answers["EXT1"] + answers["EXT3"] + answers["EXT5"] + answers["EXT7"] +
-            answers["EXT9"] - answers["EXT2"] - answers["EXT4"] - answers["EXT6"] - answers["EXT8"] - answers["EXT10"])
-        ugodowosc = (answers["AGR2"] + answers["AGR4"] +answers["AGR6"] + answers["AGR8"] + answers["AGR9"] +
+        data = json.loads(request.data.decode('utf-8'))
+        answers = data['answers']
+        username = data['username']
+        ekstrawersja = (answers["EXT1"] + answers["EXT3"] + answers["EXT5"] + answers["EXT7"] + answers["EXT9"]
+          - answers["EXT2"] - answers["EXT4"] - answers["EXT6"] - answers["EXT8"] - answers["EXT10"])
+        ugodowosc = (answers["AGR2"] + answers["AGR4"] + answers["AGR6"] + answers["AGR8"] + answers["AGR9"] +
             answers["AGR10"] - answers["AGR1"] - answers["AGR3"] - answers["AGR5"] - answers["AGR7"])
-        swiadomosc = (answers["CSN1"] + answers["CSN3"] +answers["CSN5"] + answers["CSN7"] + answers["CSN9"] +
+        swiadomosc = (answers["CSN1"] + answers["CSN3"] + answers["CSN5"] + answers["CSN7"] + answers["CSN9"] +
             answers["CSN10"] - answers["CSN2"] - answers["CSN4"] - answers["CSN6"] - answers["CSN8"])
         stabilnosc = (answers["EST2"] + answers["EST4"] - answers["EST1"] - answers["EST3"] - answers["EST5"] -
             answers["EST6"] - answers["EST7"] - answers["EST8"] - answers["EST9"] - answers["EST10"])
@@ -151,11 +153,10 @@ def personalityTest():
             answers["OPN9"] + answers["OPN10"] - answers["OPN2"] - answers["OPN4"] - answers["OPN6"])
 
         print(ekstrawersja, ugodowosc, swiadomosc, stabilnosc, otwartosc)
-        a = session["user_id"]
+        # a = session["user_id"]
         # Currently not working properly
-        user = db.execute(
-             "SELECT user_id FROM traits where user_id = :user_id",
-             user_id=a)
+        user = db.execute("SELECT * FROM users where username = :username", username=username)
+        print(user)
 
         return jsonify({
             "ekstrawersja": ekstrawersja,
@@ -163,13 +164,15 @@ def personalityTest():
             "swiadomosc": swiadomosc,
             "stabilnosc": stabilnosc,
             "otwartosc": otwartosc
-            }), 201
+        }), 201
+
 
 @app.route("/api/personality_questions", methods=["GET"])
 def personalityQuestions():
     if request.method == "GET":
         questions = db.execute('SELECT * FROM "personality-questions"')
         return jsonify({"questions": questions}), 200
+
 
 @app.route("/api/lifestyle_questions", methods=["GET"])
 def lifestyleQuestions():
@@ -241,7 +244,7 @@ def logout():
 
 
 @app.route("/api/matching", methods=["GET"])
-#@login_required
+# @login_required
 def matching():
     otwartosc = db.execute("SELECT OPN FROM traits WHERE user_id=:user_id",
                            user_id=session["user_id"])[0]['OPN']
