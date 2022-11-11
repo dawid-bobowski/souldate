@@ -3,7 +3,7 @@ import { PageTitle } from '../common';
 import '../../App.css';
 
 function Dashboard(): JSX.Element {
-  const user: User = useAppSelector((state) => state.user);
+  const username: string | null = useAppSelector((state) => state.user.username);
 
   return (
     <div
@@ -11,7 +11,7 @@ function Dashboard(): JSX.Element {
       className='page-container'
     >
       <PageTitle title='Ekran główny' />
-      <h2>Witaj {user.username} na ekranie głównym!</h2>
+      <h2>Witaj {username} na ekranie głównym!</h2>
     </div>
   );
 }

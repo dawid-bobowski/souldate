@@ -1,8 +1,8 @@
-#lifestyleForm {
+.form {
     padding-bottom: 5rem;
 }
 
-.lifestyleForm-option {
+.lifestyle-form-option {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;

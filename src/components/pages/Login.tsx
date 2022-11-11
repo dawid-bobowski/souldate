@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_SERVER, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -12,8 +12,6 @@ function Login(): JSX.Element {
 
   const [username, setUsername] = useState<string>(DEFAULT_USER);
   const [password, setPassword] = useState<string>(DEFAULT_PASSWORD);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
 
   async function handleLogin(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
@@ -29,24 +27,16 @@ function Login(): JSX.Element {
         dispatch(login(result.data));
         navigate('/dashboard');
       } else {
-        setIsError(true);
-        setErrorMsg(result.data.errorMsg);
+        console.log(
+          'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+        );
+        alert('Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? '');
       }
     } catch (error: any) {
-      console.log(error);
-      setIsError(true);
-      setErrorMsg(error.message);
+      console.log('Unable to send request. Error message: ' + error.message);
+      alert('Unable to send request. Error message: ' + error.message);
     }
   }
-
-  useEffect(() => {
-    if (isError) {
-      setTimeout(() => {
-        setIsError(false);
-        setErrorMsg('');
-      }, 3000);
-    }
-  }, [isError]);
 
   return (
     <div
@@ -54,7 +44,7 @@ function Login(): JSX.Element {
       className='page-container'
     >
       <PageTitle title='Logowanie' />
-      <form id='loginForm'>
+      <form id='login-form'>
         <TextInput
           type='text'
           value={username}
@@ -67,7 +57,6 @@ function Login(): JSX.Element {
         />
         <button onClick={handleLogin}>ZALOGUJ</button>
       </form>
-      {isError && <span style={{ color: 'red' }}>{errorMsg}</span>}
     </div>
   );
 }

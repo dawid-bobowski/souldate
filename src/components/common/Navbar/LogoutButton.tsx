@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../app/hooks';
 import { logout } from '../../../features/user/userSlice';
@@ -7,9 +6,6 @@ import { logout } from '../../../features/user/userSlice';
 function LogoutButton(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const [isError, setIsError] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
 
   async function handleLogout(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
@@ -20,14 +16,19 @@ function LogoutButton(): JSX.Element {
         dispatch(logout());
         navigate('/');
       } else {
-        setIsError(true);
-        setErrorMsg('Unable to log out.');
+        console.log(
+          'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+        );
+        alert(
+          'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+        );
       }
     } catch (error: any) {
-      setIsError(true);
-      setErrorMsg(error.message);
+      console.log('Unable to send request. Error message: ' + error.message);
+      alert('Unable to send request. Error message: ' + error.message);
     }
   }
+
   return (
     <>
       <button
@@ -36,7 +37,6 @@ function LogoutButton(): JSX.Element {
       >
         Wyloguj
       </button>
-      {isError && <span style={{ color: 'red' }}>{errorMsg}</span>}
     </>
   );
 }

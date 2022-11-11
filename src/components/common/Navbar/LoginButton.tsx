@@ -7,6 +7,7 @@ function LoginButton(): JSX.Element {
     event.preventDefault();
     navigate('/login');
   }
+
   return (
     <>
       <button

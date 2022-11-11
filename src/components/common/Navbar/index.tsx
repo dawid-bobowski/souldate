@@ -5,7 +5,7 @@ import LogoutButton from './LogoutButton';
 import './Navbar.css';
 
 function Navbar(): JSX.Element {
-  const user: User = useAppSelector((state) => state.user);
+  const username: string | null = useAppSelector((state) => state.user.username);
 
   return (
     <nav id='navbar'>
@@ -16,31 +16,28 @@ function Navbar(): JSX.Element {
         >
           Strona główna
         </Link>
-        {user.username && (
-          <Link
-            className='navbar-link'
-            to='/personality-test'
-          >
-            Test osobowości
-          </Link>
-        )}
-        {user.username && (
-          <Link
-            className='navbar-link'
-            to='/lifestyle-test'
-          >
-            Test zainteresowań
-          </Link>
-        )}
-        {user.username && (
-          <Link
-            className='navbar-link'
-            to='/your-match'
-          >
-            Twoje dopasowanie
-          </Link>
-        )}
-        {!user.username && (
+        {username ? (
+          <>
+            <Link
+              className='navbar-link'
+              to='/personality-test'
+            >
+              Test osobowości
+            </Link>
+            <Link
+              className='navbar-link'
+              to='/lifestyle-test'
+            >
+              Test zainteresowań
+            </Link>
+            <Link
+              className='navbar-link'
+              to='/your-match'
+            >
+              Twoje dopasowanie
+            </Link>
+          </>
+        ) : (
           <Link
             className='navbar-link'
             to='/register'
@@ -49,7 +46,7 @@ function Navbar(): JSX.Element {
           </Link>
         )}
       </div>
-      {user.username ? <LogoutButton /> : <LoginButton />}
+      {username ? <LogoutButton /> : <LoginButton />}
     </nav>
   );
 }

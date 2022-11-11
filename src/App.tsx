@@ -1,21 +1,24 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import * as Pages from './components/pages';
+import { useAppDispatch } from './app/hooks';
+import { login } from './features/user/userSlice';
 import SharedLayout from './components/layouts/SharedLayout';
 import PrivateRoute from './helpers/PrivateRoute';
+import * as Pages from './components/pages';
 import './App.css';
-import { useAppDispatch } from './app/hooks';
-import { useEffect } from 'react';
-import { login } from './features/user/userSlice';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     const username = localStorage.getItem('username');
     const token = localStorage.getItem('token');
+
     if (token !== null && username !== null) {
       dispatch(login({ username, token }));
     }
   }, []);
+
   return (
     <BrowserRouter>
       <Routes>

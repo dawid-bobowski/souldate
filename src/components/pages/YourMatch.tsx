@@ -3,7 +3,7 @@ import { PageTitle } from '../common';
 import '../../App.css';
 
 function YourMatch(): JSX.Element {
-  const user: User = useAppSelector((state) => state.user);
+  const username: string | null = useAppSelector((state) => state.user.username);
 
   return (
     <div
@@ -11,7 +11,7 @@ function YourMatch(): JSX.Element {
       className='page-container'
     >
       <PageTitle title='Twoje dopasowanie' />
-      <h2>Witaj {user.username} twoje dopasowanie to: </h2>
+      <h2>Witaj {username} twoje dopasowanie to: </h2>
     </div>
   );
 }

@@ -1,18 +1,15 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
 import { PageTitle, TextInput } from '../common';
 
 function Register(): JSX.Element {
   const navigate = useNavigate();
-
   const [username, setUsername] = useState<string>(DEFAULT_USER);
   const [password, setPassword] = useState<string>(DEFAULT_PASSWORD);
   const [confirmPassword, setConfirmPassword] = useState<string>(DEFAULT_PASSWORD);
   const [email, setEmail] = useState<string>(DEFAULT_EMAIL);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>('');
 
   async function handleRegister(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
@@ -28,23 +25,18 @@ function Register(): JSX.Element {
         setEmail('');
         navigate('/login');
       } else {
-        setIsError(true);
-        setErrorMsg(result.data.errorMsg);
+        console.log(
+          'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+        );
+        alert(
+          'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+        );
       }
     } catch (error: any) {
-      setIsError(true);
-      setErrorMsg(error.message);
+      console.log('Unable to send request. Error message: ' + error.message);
+      alert('Unable to send request. Error message: ' + error.message);
     }
   }
-
-  useEffect(() => {
-    if (isError) {
-      setTimeout(() => {
-        setIsError(false);
-        setErrorMsg('');
-      }, 3000);
-    }
-  }, [isError]);
 
   return (
     <div
@@ -73,14 +65,8 @@ function Register(): JSX.Element {
           value={email}
           setState={setEmail}
         />
-        <button
-          onClick={handleRegister}
-          disabled={isError}
-        >
-          ZAREJESTRUJ
-        </button>
+        <button onClick={handleRegister}>ZAREJESTRUJ</button>
       </form>
-      {isError && <span style={{ color: 'red' }}>{errorMsg}</span>}
     </div>
   );
 }
