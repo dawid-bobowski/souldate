@@ -9,24 +9,25 @@ function LogoutButton(): JSX.Element {
 
   async function handleLogout(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
-    try {
-      const result = await axios.get(`http://127.0.0.1:5000/api/logout`);
-
-      if (result.status === 204) {
-        dispatch(logout());
-        navigate('/');
-      } else {
-        console.log(
-          'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-        );
-        alert(
-          'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-        );
-      }
-    } catch (error: any) {
-      console.log('Unable to send request. Error message: ' + error.message);
-      alert('Unable to send request. Error message: ' + error.message);
-    }
+    await axios
+      .get(`http://127.0.0.1:5000/api/logout`)
+      .then((result) => {
+        if (result.status === 204) {
+          dispatch(logout());
+          navigate('/');
+        } else {
+          console.log(
+            'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+          );
+          alert(
+            'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+          );
+        }
+      })
+      .catch((error) => {
+        console.log('Unable to send request. Error message: ' + error.message);
+        alert('Unable to send request. Error message: ' + error.message);
+      });
   }
 
   return (

@@ -45,25 +45,30 @@ function Form(props: FormProps): JSX.Element {
   }
 
   async function getQuestions(): Promise<void> {
-    try {
-      const result = await axios.get(`${API_SERVER}/${type}_questions`);
-
-      if (result.status === 200) {
-        setQuestions(result.data.questions);
-      } else {
-        console.log(
-          'Unable to get questions. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ??
-            ''
-        );
-        alert(
-          'Unable to get questions. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ??
-            ''
-        );
-      }
-    } catch (error: any) {
-      console.log('Unable to send request. Error message: ' + error.message);
-      alert('Unable to send request. Error message: ' + error.message);
-    }
+    await axios
+      .get(`${API_SERVER}/${type}_questions`)
+      .then((result) => {
+        if (result.status === 200) {
+          setQuestions(result.data.questions);
+        } else {
+          console.log(
+            'Unable to get questions. HTTP status code: ' +
+              result.status +
+              '\nError message: ' +
+              result.data.errorMsg ?? ''
+          );
+          alert(
+            'Unable to get questions. HTTP status code: ' +
+              result.status +
+              '\nError message: ' +
+              result.data.errorMsg ?? ''
+          );
+        }
+      })
+      .catch((error) => {
+        console.log('Unable to send request. Error message: ' + error.message);
+        alert('Unable to send request. Error message: ' + error.message);
+      });
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {

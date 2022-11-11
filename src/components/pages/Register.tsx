@@ -13,29 +13,30 @@ function Register(): JSX.Element {
 
   async function handleRegister(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
-    try {
-      const result = await axios.post(
+    await axios
+      .post(
         `${API_SERVER}/register?username=${username}&email=${email}&password=${password}&confirmation=${confirmPassword}`
-      );
-
-      if (result.status === 201) {
-        setUsername('');
-        setPassword('');
-        setConfirmPassword('');
-        setEmail('');
-        navigate('/login');
-      } else {
-        console.log(
-          'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-        );
-        alert(
-          'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-        );
-      }
-    } catch (error: any) {
-      console.log('Unable to send request. Error message: ' + error.message);
-      alert('Unable to send request. Error message: ' + error.message);
-    }
+      )
+      .then((result) => {
+        if (result.status === 201) {
+          setUsername('');
+          setPassword('');
+          setConfirmPassword('');
+          setEmail('');
+          navigate('/login');
+        } else {
+          console.log(
+            'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+          );
+          alert(
+            'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+          );
+        }
+      })
+      .catch((error) => {
+        console.log('Unable to send request. Error message: ' + error.message);
+        alert('Unable to send request. Error message: ' + error.message);
+      });
   }
 
   return (

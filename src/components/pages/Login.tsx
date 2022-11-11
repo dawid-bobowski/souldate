@@ -18,24 +18,27 @@ function Login(): JSX.Element {
 
     if (!username || !password) return;
 
-    try {
-      const result = await axios.post(`${API_SERVER}/login?username=${username}&password=${password}`);
-
-      if (result.status === 200) {
-        setUsername('');
-        setPassword('');
-        dispatch(login(result.data));
-        navigate('/dashboard');
-      } else {
-        console.log(
-          'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-        );
-        alert('Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? '');
-      }
-    } catch (error: any) {
-      console.log('Unable to send request. Error message: ' + error.message);
-      alert('Unable to send request. Error message: ' + error.message);
-    }
+    await axios
+      .post(`${API_SERVER}/login?username=${username}&password=${password}`)
+      .then((result) => {
+        if (result.status === 200) {
+          setUsername('');
+          setPassword('');
+          dispatch(login(result.data));
+          navigate('/dashboard');
+        } else {
+          console.log(
+            'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+          );
+          alert(
+            'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+          );
+        }
+      })
+      .catch((error) => {
+        console.log('Unable to send request. Error message: ' + error.message);
+        alert('Unable to send request. Error message: ' + error.message);
+      });
   }
 
   return (
