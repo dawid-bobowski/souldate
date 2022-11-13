@@ -32,7 +32,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["JWT_SECRET_KEY"] = "super-secret"
 app.config["SECRET_KEY"] = "pass"
-#app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1) # Change this!
+# app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1) # Change this!
 Session(app)
 jwt = JWTManager(app)
 
@@ -50,19 +50,7 @@ def after_request(response):
     response.headers["Access-Control-Allow-Methods"] = "*"
     return response
 
-
 db = SQL("sqlite:///database.db")
-
-
-#def login_required(f):
-
-    #@wraps(f)
-    #def decorated_function(*args, **kwargs):
-     #   if session.get("user_id") is None:
-     #       return redirect("/login")
-      #  return f(*args, **kwargs)
-   # return decorated_function
-
 
 @app.route('/api/index')
 def index():
@@ -126,12 +114,13 @@ def login():
         session["user_id"] = rows[0]["user_id"]
         cos = session["user_id"]
         additional_claims = {"aud": "some_audience", "foo": "bar"}
-        access_token = create_access_token(cos, additional_claims=additional_claims)
-        return jsonify({ "username": request.args.get("username"), "token": access_token }), 200
+        access_token = create_access_token(
+            cos, additional_claims=additional_claims)
+        return jsonify({"username": request.args.get("username"), "token": access_token}), 200
 
 
 @app.route("/api/personality_test", methods=["GET", "POST"])
-# Currently not working properly
+# Still to be tested for errors.
 @jwt_required()
 def personalityTest():
     if request.method == "GET":
@@ -141,23 +130,32 @@ def personalityTest():
         data = json.loads(request.data.decode('utf-8'))
         answers = data['answers']
         username = data['username']
+
         ekstrawersja = (answers["EXT1"] + answers["EXT3"] + answers["EXT5"] + answers["EXT7"] + answers["EXT9"]
-          - answers["EXT2"] - answers["EXT4"] - answers["EXT6"] - answers["EXT8"] - answers["EXT10"])
+                        - answers["EXT2"] - answers["EXT4"] - answers["EXT6"] - answers["EXT8"] - answers["EXT10"])
         ugodowosc = (answers["AGR2"] + answers["AGR4"] + answers["AGR6"] + answers["AGR8"] + answers["AGR9"] +
-            answers["AGR10"] - answers["AGR1"] - answers["AGR3"] - answers["AGR5"] - answers["AGR7"])
+                     answers["AGR10"] - answers["AGR1"] - answers["AGR3"] - answers["AGR5"] - answers["AGR7"])
         swiadomosc = (answers["CSN1"] + answers["CSN3"] + answers["CSN5"] + answers["CSN7"] + answers["CSN9"] +
-            answers["CSN10"] - answers["CSN2"] - answers["CSN4"] - answers["CSN6"] - answers["CSN8"])
+                      answers["CSN10"] - answers["CSN2"] - answers["CSN4"] - answers["CSN6"] - answers["CSN8"])
         stabilnosc = (answers["EST2"] + answers["EST4"] - answers["EST1"] - answers["EST3"] - answers["EST5"] -
-            answers["EST6"] - answers["EST7"] - answers["EST8"] - answers["EST9"] - answers["EST10"])
+                      answers["EST6"] - answers["EST7"] - answers["EST8"] - answers["EST9"] - answers["EST10"])
         otwartosc = (answers["OPN1"] + answers["OPN3"] + answers["OPN5"] + answers["OPN7"] + answers["OPN8"] +
-            answers["OPN9"] + answers["OPN10"] - answers["OPN2"] - answers["OPN4"] - answers["OPN6"])
+                     answers["OPN9"] + answers["OPN10"] - answers["OPN2"] - answers["OPN4"] - answers["OPN6"])
 
-        print(ekstrawersja, ugodowosc, swiadomosc, stabilnosc, otwartosc)
-        # a = session["user_id"]
-        # Currently not working properly
-        user = db.execute("SELECT * FROM users where username = :username", username=username)
-        print(user)
+        user = db.execute(
+            "SELECT * FROM users where username = :username", username=username)
 
+        userid = user[0]['user_id']
+
+        traits_user = db.execute(
+            "SELECT user_id FROM traits where user_id = :user_id", user_id=userid)
+
+        if not traits_user:
+            db.execute("INSERT INTO traits (EXT, AGR, CON, EST, OPN, user_id) VALUES (:EXT, :AGR, :CON, :EST, :OPN, :user_id)",
+                       EXT=ekstrawersja, AGR=ugodowosc, CON=swiadomosc, EST=stabilnosc, OPN=otwartosc, user_id=userid)
+        else:
+            db.execute("UPDATE traits SET EXT=:EXT, AGR=:AGR, CON=:CON, EST=:EST, OPN=:OPN WHERE user_id= :user_id",
+                       EXT=ekstrawersja, AGR=ugodowosc, CON=swiadomosc, EST=stabilnosc, OPN=otwartosc, user_id=userid)
         return jsonify({
             "ekstrawersja": ekstrawersja,
             "ugodowosc": ugodowosc,
