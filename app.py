@@ -149,7 +149,7 @@ def personalityTest():
 
         traits_user = db.execute(
             "SELECT user_id FROM traits where user_id = :user_id", user_id=userid)
-
+        print (ekstrawersja, ugodowosc, swiadomosc,stabilnosc,otwartosc)
         if not traits_user:
             db.execute("INSERT INTO traits (EXT, AGR, CON, EST, OPN, user_id) VALUES (:EXT, :AGR, :CON, :EST, :OPN, :user_id)",
                        EXT=ekstrawersja, AGR=ugodowosc, CON=swiadomosc, EST=stabilnosc, OPN=otwartosc, user_id=userid)
@@ -180,59 +180,78 @@ def lifestyleQuestions():
 
 
 @app.route("/api/lifestyle_test", methods=["GET", "POST"])
-# @login_required
+#It sends by some miracle the value of 2, to check and test.
+@jwt_required()
 def lifestyle():
     if request.method == "GET":
+        session["user_id"]
         return jsonify("Strona z testem zainteresowań")
-    answers = json.loads(request.data.decode('utf-8'))
-    for i in range(1, 15):
-        zmienna_pomocnicza_a = "lf" + str(i)
-        tablica_pomocnicza_b = []
-        tablica_pomocnicza_b.append(answers[zmienna_pomocnicza_a])
-        print(tablica_pomocnicza_b)
-    user = db.execute(
-        "SELECT user_id FROM traits where user_id = :user_id",
-        user_id=session["user_id"])
-    if not user:
-        db.execute(
+    if request.method == "POST":
+        data = json.loads(request.data.decode('utf-8'))
+        answers = data['answers']
+        username = data['username']
+
+        user = db.execute("SELECT * FROM users where username = :username", username=username)
+
+        userid = user[0]['user_id']
+
+        traits_user = db.execute("SELECT user_id FROM traits where user_id = :user_id", user_id=userid)
+
+        lf1 = answers['lf1']
+        lf2 = answers['lf2']
+        lf3 = answers['lf3']
+        lf4 = answers['lf4']
+        lf5 = answers['lf5']
+        lf6 = answers['lf6']
+        lf7 = answers['lf7']
+        lf8 = answers['lf8']
+        lf9 = answers['lf9']
+        lf10 = answers['lf10']
+        lf11 = answers['lf11']
+        lf12 = answers['lf12']
+        lf13 = answers['lf13']
+        lf14 = answers['lf14']
+        lf15 = answers['lf15']
+        print(answers)
+        if not traits_user:
+            db.execute(
             "INSERT INTO traits (lf1, lf2, lf3, lf4, lf5, lf6, lf7, lf8, lf9, lf10, lf11, lf12, lf13, lf14, lf15, user_id) VALUES (:lf1, :lf2, :lf3, :lf4, :lf5, :lf6, :lf7, :lf8, :lf9, :lf10, :lf11, :lf12, :lf13, :lf14, :lf15, :user_id)",
-            lf1=tablica_pomocnicza_b[1],
-            lf2=tablica_pomocnicza_b[2],
-            lf3=tablica_pomocnicza_b[3],
-            lf4=tablica_pomocnicza_b[4],
-            lf5=tablica_pomocnicza_b[5],
-            lf6=tablica_pomocnicza_b[6],
-            lf7=tablica_pomocnicza_b[7],
-            lf8=tablica_pomocnicza_b[8],
-            lf9=tablica_pomocnicza_b[9],
-            lf10=tablica_pomocnicza_b[10],
-            lf11=tablica_pomocnicza_b[11],
-            lf12=tablica_pomocnicza_b[12],
-            lf13=tablica_pomocnicza_b[13],
-            lf14=tablica_pomocnicza_b[14],
-            lf15=tablica_pomocnicza_b[15],
-            user_id=session["user_id"])
-        return jsonify("Wypełniono test")
-    else:
-        db.execute(
+            lf1=lf1,
+            lf2=lf2,
+            lf3=lf3,
+            lf4=lf4,
+            lf5=lf5,
+            lf6=lf6,
+            lf7=lf7,
+            lf8=lf8,
+            lf9=lf9,
+            lf10=lf10,
+            lf11=lf11,
+            lf12=lf12,
+            lf13=lf13,
+            lf14=lf14,
+            lf15=lf15,
+            user_id=userid)
+        else:
+            db.execute(
             "UPDATE traits SET lf1=:lf1, lf2=:lf2, lf3=:lf3, lf4=:lf4, lf5=:lf5, lf6=:lf6, lf7=:lf7, lf8=:lf8, lf9=:lf9, lf10=:lf10, lf11=:lf11, lf12=:lf12, lf13=:lf13, lf14=:lf14, lf15=:lf15 WHERE user_id= :user_id",
-            lf1=tablica_pomocnicza_b[1],
-            lf2=tablica_pomocnicza_b[2],
-            lf3=tablica_pomocnicza_b[3],
-            lf4=tablica_pomocnicza_b[4],
-            lf5=tablica_pomocnicza_b[5],
-            lf6=tablica_pomocnicza_b[6],
-            lf7=tablica_pomocnicza_b[7],
-            lf8=tablica_pomocnicza_b[8],
-            lf9=tablica_pomocnicza_b[9],
-            lf10=tablica_pomocnicza_b[10],
-            lf11=tablica_pomocnicza_b[11],
-            lf12=tablica_pomocnicza_b[12],
-            lf13=tablica_pomocnicza_b[13],
-            lf14=tablica_pomocnicza_b[14],
-            lf15=tablica_pomocnicza_b[15],
-            user_id=session["user_id"])
-        return jsonify("Poprawiono test")
+            lf1=lf1,
+            lf2=lf2,
+            lf3=lf3,
+            lf4=lf4,
+            lf5=lf5,
+            lf6=lf6,
+            lf7=lf7,
+            lf8=lf8,
+            lf9=lf9,
+            lf10=lf10,
+            lf11=lf11,
+            lf12=lf12,
+            lf13=lf13,
+            lf14=lf14,
+            lf15=lf15,
+            user_id=userid)
+    return {}, 201
 
 
 @app.route("/api/logout")
@@ -243,6 +262,7 @@ def logout():
 
 @app.route("/api/matching", methods=["GET"])
 # @login_required
+@jwt_required
 def matching():
     otwartosc = db.execute("SELECT OPN FROM traits WHERE user_id=:user_id",
                            user_id=session["user_id"])[0]['OPN']
@@ -386,4 +406,4 @@ def matching():
     name = db.execute(
         "SELECT username, email FROM users WHERE user_id=:user_id",
         user_id=partner)
-    return jsonify(komunikat="Masz parkę", nazwa=name)
+    return jsonify(komunikat="Para", nazwa=name)
