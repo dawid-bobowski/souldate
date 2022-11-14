@@ -5,11 +5,11 @@ import { API_SERVER } from '../../app/constants';
 import './Form.css';
 
 enum PersonalityFormOption {
-  DEFINITELY_DISAGREE = 'Kategorycznie się nie zgadzam',
-  DISAGREE = 'Nie zgadzam się',
-  NEUTRAL = 'Neutralna odpowiedź',
-  AGREE = 'Zgadzam się',
-  DEFINITELY_AGREE = 'Oczywiście że tak!',
+  DEFINITELY_DISAGREE = 'Stanowczo nie zgadzam się z tym stwierdzeniem',
+  DISAGREE = 'Nie zgadzam się z tym stwierdzeniem',
+  NEUTRAL = 'Nie potrafię tego określić',
+  AGREE = 'Zgadzam się z tym stwierdzeniem',
+  DEFINITELY_AGREE = 'Zdecydowanie zgadzam się z tym stwierdzeniem',
 }
 
 enum LifestyleFormOption {
