@@ -262,7 +262,7 @@ def logout():
 
 @app.route("/api/matching", methods=["GET"])
 # @login_required
-@jwt_required
+@jwt_required()
 def matching():
     otwartosc = db.execute("SELECT OPN FROM traits WHERE user_id=:user_id",
                            user_id=session["user_id"])[0]['OPN']
@@ -406,4 +406,4 @@ def matching():
     name = db.execute(
         "SELECT username, email FROM users WHERE user_id=:user_id",
         user_id=partner)
-    return jsonify(komunikat="Para", nazwa=name)
+    return jsonify({ "msg": "Masz parę!", "name": name }), 200
