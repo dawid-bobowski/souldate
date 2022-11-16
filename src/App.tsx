@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { useAppDispatch } from './app/hooks';
+import { useCookies } from 'react-cookie';
 import { login } from './features/user/userSlice';
 import SharedLayout from './components/layouts/SharedLayout';
 import PrivateRoute from './helpers/PrivateRoute';
@@ -43,13 +44,14 @@ const theme = createTheme({
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
+  const [cookies, setCookie] = useCookies(['token']);
 
   useEffect(() => {
     const username = localStorage.getItem('username');
-    const token = localStorage.getItem('token');
 
-    if (token !== null && username !== null) {
-      dispatch(login({ username, token }));
+    if (username !== null) {
+      setCookie('token', cookies.token, { path: '/', maxAge: 600 });
+      dispatch(login({ username }));
     }
   }, []);
 
