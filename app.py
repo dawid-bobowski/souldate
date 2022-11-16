@@ -1,27 +1,26 @@
 import json
 import os
-import sys
 import smtplib
+import sys
 import urllib.parse
-
-from cs50 import SQL
-from flask import Flask, flash, jsonify, redirect, render_template, request, session
-from flask_session import Session
-from tempfile import mkdtemp
-from werkzeug.exceptions import default_exceptions
-from werkzeug.security import check_password_hash, generate_password_hash
 from collections import Counter, defaultdict
+from functools import wraps
 from itertools import groupby
 from operator import itemgetter
+from tempfile import mkdtemp
 from timeit import timeit
-from functools import wraps
 
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import JWTManager
+from cs50 import SQL
+from flask import (Flask, flash, jsonify, redirect, render_template, request,
+                   session)
+from flask_jwt_extended import (JWTManager, create_access_token, get_jwt,
+                                jwt_required)
+from flask_session import Session
+from werkzeug.exceptions import default_exceptions
+from werkzeug.security import check_password_hash, generate_password_hash
 
 lista = [0]
+username_globalzmienna = []
 
 server = smtplib.SMTP('smtp.gmail.com', 587)
 
@@ -50,7 +49,9 @@ def after_request(response):
     response.headers["Access-Control-Allow-Methods"] = "*"
     return response
 
+
 db = SQL("sqlite:///database.db")
+
 
 @app.route('/api/index')
 def index():
@@ -84,7 +85,6 @@ def register():
                 email=request.args.get("email"))
             rows = db.execute("SELECT * FROM users WHERE username = :username",
                               username=request.args.get("username"))
-            session["user_id"] = rows[0]["user_id"]
             return jsonify({
                 "msg":
                 "Użytkownik " + request.args.get("username") +
@@ -113,6 +113,8 @@ def login():
                             "Invalid username and/or password!"}), 403
         session["user_id"] = rows[0]["user_id"]
         cos = session["user_id"]
+        username_globalzmienna.clear()
+        username_globalzmienna.insert(0, request.args.get("username"))
         additional_claims = {"aud": "some_audience", "foo": "bar"}
         access_token = create_access_token(
             cos, additional_claims=additional_claims)
@@ -120,7 +122,6 @@ def login():
 
 
 @app.route("/api/personality_test", methods=["GET", "POST"])
-# Still to be tested for errors.
 @jwt_required()
 def personalityTest():
     if request.method == "GET":
@@ -149,7 +150,7 @@ def personalityTest():
 
         traits_user = db.execute(
             "SELECT user_id FROM traits where user_id = :user_id", user_id=userid)
-        print (ekstrawersja, ugodowosc, swiadomosc,stabilnosc,otwartosc)
+        print(ekstrawersja, ugodowosc, swiadomosc, stabilnosc, otwartosc)
         if not traits_user:
             db.execute("INSERT INTO traits (EXT, AGR, CON, EST, OPN, user_id) VALUES (:EXT, :AGR, :CON, :EST, :OPN, :user_id)",
                        EXT=ekstrawersja, AGR=ugodowosc, CON=swiadomosc, EST=stabilnosc, OPN=otwartosc, user_id=userid)
@@ -180,7 +181,7 @@ def lifestyleQuestions():
 
 
 @app.route("/api/lifestyle_test", methods=["GET", "POST"])
-#It sends by some miracle the value of 2, to check and test.
+# It sends by some miracle the value of 2, to check and test.
 @jwt_required()
 def lifestyle():
     if request.method == "GET":
@@ -191,11 +192,13 @@ def lifestyle():
         answers = data['answers']
         username = data['username']
 
-        user = db.execute("SELECT * FROM users where username = :username", username=username)
+        user = db.execute(
+            "SELECT * FROM users where username = :username", username=username)
 
         userid = user[0]['user_id']
 
-        traits_user = db.execute("SELECT user_id FROM traits where user_id = :user_id", user_id=userid)
+        traits_user = db.execute(
+            "SELECT user_id FROM traits where user_id = :user_id", user_id=userid)
 
         lf1 = answers['lf1']
         lf2 = answers['lf2']
@@ -215,42 +218,42 @@ def lifestyle():
         print(answers)
         if not traits_user:
             db.execute(
-            "INSERT INTO traits (lf1, lf2, lf3, lf4, lf5, lf6, lf7, lf8, lf9, lf10, lf11, lf12, lf13, lf14, lf15, user_id) VALUES (:lf1, :lf2, :lf3, :lf4, :lf5, :lf6, :lf7, :lf8, :lf9, :lf10, :lf11, :lf12, :lf13, :lf14, :lf15, :user_id)",
-            lf1=lf1,
-            lf2=lf2,
-            lf3=lf3,
-            lf4=lf4,
-            lf5=lf5,
-            lf6=lf6,
-            lf7=lf7,
-            lf8=lf8,
-            lf9=lf9,
-            lf10=lf10,
-            lf11=lf11,
-            lf12=lf12,
-            lf13=lf13,
-            lf14=lf14,
-            lf15=lf15,
-            user_id=userid)
+                "INSERT INTO traits (lf1, lf2, lf3, lf4, lf5, lf6, lf7, lf8, lf9, lf10, lf11, lf12, lf13, lf14, lf15, user_id) VALUES (:lf1, :lf2, :lf3, :lf4, :lf5, :lf6, :lf7, :lf8, :lf9, :lf10, :lf11, :lf12, :lf13, :lf14, :lf15, :user_id)",
+                lf1=lf1,
+                lf2=lf2,
+                lf3=lf3,
+                lf4=lf4,
+                lf5=lf5,
+                lf6=lf6,
+                lf7=lf7,
+                lf8=lf8,
+                lf9=lf9,
+                lf10=lf10,
+                lf11=lf11,
+                lf12=lf12,
+                lf13=lf13,
+                lf14=lf14,
+                lf15=lf15,
+                user_id=userid)
         else:
             db.execute(
-            "UPDATE traits SET lf1=:lf1, lf2=:lf2, lf3=:lf3, lf4=:lf4, lf5=:lf5, lf6=:lf6, lf7=:lf7, lf8=:lf8, lf9=:lf9, lf10=:lf10, lf11=:lf11, lf12=:lf12, lf13=:lf13, lf14=:lf14, lf15=:lf15 WHERE user_id= :user_id",
-            lf1=lf1,
-            lf2=lf2,
-            lf3=lf3,
-            lf4=lf4,
-            lf5=lf5,
-            lf6=lf6,
-            lf7=lf7,
-            lf8=lf8,
-            lf9=lf9,
-            lf10=lf10,
-            lf11=lf11,
-            lf12=lf12,
-            lf13=lf13,
-            lf14=lf14,
-            lf15=lf15,
-            user_id=userid)
+                "UPDATE traits SET lf1=:lf1, lf2=:lf2, lf3=:lf3, lf4=:lf4, lf5=:lf5, lf6=:lf6, lf7=:lf7, lf8=:lf8, lf9=:lf9, lf10=:lf10, lf11=:lf11, lf12=:lf12, lf13=:lf13, lf14=:lf14, lf15=:lf15 WHERE user_id= :user_id",
+                lf1=lf1,
+                lf2=lf2,
+                lf3=lf3,
+                lf4=lf4,
+                lf5=lf5,
+                lf6=lf6,
+                lf7=lf7,
+                lf8=lf8,
+                lf9=lf9,
+                lf10=lf10,
+                lf11=lf11,
+                lf12=lf12,
+                lf13=lf13,
+                lf14=lf14,
+                lf15=lf15,
+                user_id=userid)
     return {}, 201
 
 
@@ -261,19 +264,24 @@ def logout():
 
 
 @app.route("/api/matching", methods=["GET"])
-# @login_required
 @jwt_required()
 def matching():
+    username = username_globalzmienna[0]
+    print(username)
+    user = db.execute(
+        "SELECT * FROM users where username = :username", username=username)
+    user_id = user[0]['user_id']
+    print(user_id)
     otwartosc = db.execute("SELECT OPN FROM traits WHERE user_id=:user_id",
-                           user_id=session["user_id"])[0]['OPN']
+                           user_id=user_id)[0]['OPN']
     ugodowosc = db.execute("SELECT AGR FROM traits WHERE user_id=:user_id",
-                           user_id=session["user_id"])[0]['AGR']
+                           user_id=user_id)[0]['AGR']
     stabilnosc = db.execute("SELECT EST FROM traits WHERE user_id=:user_id",
-                            user_id=session["user_id"])[0]['EST']
+                            user_id=user_id)[0]['EST']
     swiadomosc = db.execute("SELECT CON FROM traits WHERE user_id=:user_id",
-                            user_id=session["user_id"])[0]['CON']
+                            user_id=user_id)[0]['CON']
     ekstrawersja = db.execute("SELECT EXT FROM traits WHERE user_id=:user_id",
-                              user_id=session["user_id"])[0]['EXT']
+                              user_id=user_id)[0]['EXT']
 
     otw = db.execute(
         "SELECT user_id FROM traits WHERE OPN BETWEEN :value1 AND :value2",
@@ -295,7 +303,7 @@ def matching():
         "SELECT user_id FROM traits WHERE EXT BETWEEN :value1 AND :value2",
         value1=ekstrawersja - 5,
         value2=ekstrawersja + 5)
-
+    
     for item in otw:
         lista.append(item['user_id'])
     for item in ugd:
@@ -308,35 +316,35 @@ def matching():
         lista.append(item['user_id'])
 
     lf1 = db.execute("SELECT lf1 FROM traits WHERE user_id=:user_id",
-                     user_id=session["user_id"])[0]['lf1']
+                     user_id=user_id)[0]['lf1']
     lf2 = db.execute("SELECT lf2 FROM traits WHERE user_id=:user_id",
-                     user_id=session["user_id"])[0]['lf2']
+                     user_id=user_id)[0]['lf2']
     lf3 = db.execute("SELECT lf3 FROM traits WHERE user_id=:user_id",
-                     user_id=session["user_id"])[0]['lf3']
+                     user_id=user_id)[0]['lf3']
     lf4 = db.execute("SELECT lf4 FROM traits WHERE user_id=:user_id",
-                     user_id=session["user_id"])[0]['lf4']
+                     user_id=user_id)[0]['lf4']
     lf5 = db.execute("SELECT lf5 FROM traits WHERE user_id=:user_id",
-                     user_id=session["user_id"])[0]['lf5']
+                     user_id=user_id)[0]['lf5']
     lf6 = db.execute("SELECT lf6 FROM traits WHERE user_id=:user_id",
-                     user_id=session["user_id"])[0]['lf6']
+                     user_id=user_id)[0]['lf6']
     lf7 = db.execute("SELECT lf7 FROM traits WHERE user_id=:user_id",
-                     user_id=session["user_id"])[0]['lf7']
+                     user_id=user_id)[0]['lf7']
     lf8 = db.execute("SELECT lf8 FROM traits WHERE user_id=:user_id",
-                     user_id=session["user_id"])[0]['lf8']
+                     user_id=user_id)[0]['lf8']
     lf9 = db.execute("SELECT lf9 FROM traits WHERE user_id=:user_id",
-                     user_id=session["user_id"])[0]['lf9']
+                     user_id=user_id)[0]['lf9']
     lf10 = db.execute("SELECT lf10 FROM traits WHERE user_id=:user_id",
-                      user_id=session["user_id"])[0]['lf10']
+                      user_id=user_id)[0]['lf10']
     lf11 = db.execute("SELECT lf11 FROM traits WHERE user_id=:user_id",
-                      user_id=session["user_id"])[0]['lf11']
+                      user_id=user_id)[0]['lf11']
     lf12 = db.execute("SELECT lf12 FROM traits WHERE user_id=:user_id",
-                      user_id=session["user_id"])[0]['lf12']
+                      user_id=user_id)[0]['lf12']
     lf13 = db.execute("SELECT lf13 FROM traits WHERE user_id=:user_id",
-                      user_id=session["user_id"])[0]['lf13']
+                      user_id=user_id)[0]['lf13']
     lf14 = db.execute("SELECT lf14 FROM traits WHERE user_id=:user_id",
-                      user_id=session["user_id"])[0]['lf14']
+                      user_id=user_id)[0]['lf14']
     lf15 = db.execute("SELECT lf15 FROM traits WHERE user_id=:user_id",
-                      user_id=session["user_id"])[0]['lf15']
+                      user_id=user_id)[0]['lf15']
 
     lifestyle1 = db.execute("SELECT user_id FROM traits WHERE lf1=:lf1",
                             lf1=lf1)
@@ -400,10 +408,11 @@ def matching():
     for item in lifestyle15:
         lista.append(item['user_id'])
 
-    user_id = session["user_id"]
-    nova = [x for x in lista if x != user_id]
+    user_idek = user_id
+    nova = [x for x in lista if x != user_idek]
     partner = max(set(nova), key=nova.count)
     name = db.execute(
         "SELECT username, email FROM users WHERE user_id=:user_id",
         user_id=partner)
-    return jsonify({ "msg": "Masz parę!", "name": name }), 200
+    print(name)
+    return jsonify({"msg": "Masz parę!", "name": name}), 200
