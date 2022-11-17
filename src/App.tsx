@@ -6,6 +6,31 @@ import SharedLayout from './components/layouts/SharedLayout';
 import PrivateRoute from './helpers/PrivateRoute';
 import * as Pages from './components/pages';
 import './App.css';
+import { createTheme, ThemeProvider } from '@mui/material';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    neutral: Palette['primary'];
+    secondary: Palette['secondary'];
+  }
+  interface PaletteOptions {
+    neutral?: PaletteOptions['primary'];
+    secondary?: PaletteOptions['secondary'];
+  }
+}
+
+const theme = createTheme({
+  palette: {
+    neutral: {
+      main: '#e09f3e',
+      contrastText: '#0a0a0a',
+    },
+    secondary: {
+      main: '#9e2a2b',
+      contrastText: '#fff',
+    },
+  },
+});
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -20,49 +45,51 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path='/'
-          element={<SharedLayout />}
-        >
-          <Route element={<PrivateRoute />}>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path='/'
+            element={<SharedLayout />}
+          >
+            <Route element={<PrivateRoute />}>
+              <Route
+                path='/dashboard'
+                element={<Pages.Dashboard />}
+              />
+              <Route
+                path='/personality-test'
+                element={<Pages.PersonalityTest />}
+              />
+              <Route
+                path='/lifestyle-test'
+                element={<Pages.LifestyleTest />}
+              />
+              <Route
+                path='/your-match'
+                element={<Pages.YourMatch />}
+              />
+            </Route>
             <Route
-              path='/dashboard'
-              element={<Pages.Dashboard />}
+              index
+              element={<Pages.Home />}
             />
             <Route
-              path='/personality-test'
-              element={<Pages.PersonalityTest />}
+              path='/register'
+              element={<Pages.Register />}
             />
             <Route
-              path='/lifestyle-test'
-              element={<Pages.LifestyleTest />}
-            />
-            <Route
-              path='/your-match'
-              element={<Pages.YourMatch />}
+              path='*'
+              element={<Pages.Error />}
             />
           </Route>
-          <Route
-            index
-            element={<Pages.Home />}
-          />
           <Route
             path='/login'
             element={<Pages.Login />}
           />
-          <Route
-            path='/register'
-            element={<Pages.Register />}
-          />
-          <Route
-            path='*'
-            element={<Pages.Error />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
