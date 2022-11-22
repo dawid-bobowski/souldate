@@ -42,8 +42,9 @@ function YourMatch(): JSX.Element {
       id='dashboard-container'
       className='page-container'
     >
-      <PageTitle title='Twoje dopasowanie' />
-      <h2>Witaj {username} twoje dopasowanie to: </h2>
+      <PageTitle title='Twoja bratnia dusza' />
+      <h2>Cześć {username}, Twoja bratnia dusza wskazana przez nasz algorytm to: </h2>
+      <h2>Skontaktujcie się ze sobą: MAIL/TEL/FB/INS</h2>
     </div>
   );
 }

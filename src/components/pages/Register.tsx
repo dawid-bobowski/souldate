@@ -123,7 +123,7 @@ function Register(): JSX.Element {
           <TextField
             margin='normal'
             name='confirmPassword'
-            label='Hasło'
+            label='Powtórz hasło'
             type='password'
             id='confirmPassword'
             autoComplete='current-password'

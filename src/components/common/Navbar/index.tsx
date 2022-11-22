@@ -72,7 +72,7 @@ function Navbar(): JSX.Element {
         component={Link}
         icon={
           <Tooltip
-            title='Twoje pary'
+            title='Twoje dopasowanie'
             placement='right'
             TransitionComponent={Zoom}
           >
