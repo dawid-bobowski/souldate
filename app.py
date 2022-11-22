@@ -1,28 +1,14 @@
 import json
-import os
-import smtplib
-import sys
-import urllib.parse
-from collections import Counter, defaultdict
-from functools import wraps
-from itertools import groupby
-from operator import itemgetter
+import datetime
 from tempfile import mkdtemp
-from timeit import timeit
-
 from cs50 import SQL
-from flask import (Flask, flash, jsonify, redirect, render_template, request,
-                   session)
-from flask_jwt_extended import (JWTManager, create_access_token, get_jwt,
-                                jwt_required)
+from flask import (Flask, jsonify, request, session)
+from flask_jwt_extended import (JWTManager, create_access_token, jwt_required)
 from flask_session import Session
-from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 
 lista = [0]
 username_globalzmienna = []
-
-server = smtplib.SMTP('smtp.gmail.com', 587)
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -31,7 +17,8 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["JWT_SECRET_KEY"] = "super-secret"
 app.config["SECRET_KEY"] = "pass"
-# app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1) # Change this!
+# app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(seconds=20) :) :) :) :)
+
 Session(app)
 jwt = JWTManager(app)
 
@@ -267,11 +254,9 @@ def logout():
 @jwt_required()
 def matching():
     username = username_globalzmienna[0]
-    print(username)
     user = db.execute(
         "SELECT * FROM users where username = :username", username=username)
     user_id = user[0]['user_id']
-    print(user_id)
     otwartosc = db.execute("SELECT OPN FROM traits WHERE user_id=:user_id",
                            user_id=user_id)[0]['OPN']
     ugodowosc = db.execute("SELECT AGR FROM traits WHERE user_id=:user_id",
@@ -303,7 +288,7 @@ def matching():
         "SELECT user_id FROM traits WHERE EXT BETWEEN :value1 AND :value2",
         value1=ekstrawersja - 5,
         value2=ekstrawersja + 5)
-    
+
     for item in otw:
         lista.append(item['user_id'])
     for item in ugd:
