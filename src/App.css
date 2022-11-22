@@ -11,3 +11,9 @@
   align-items: center;
   flex-direction: column;
 }
+
+.MuiTypography-root a:visited,
+.MuiTypography-root a:active,
+.MuiTypography-root a:focus {
+  color: #e09f3e;
+}

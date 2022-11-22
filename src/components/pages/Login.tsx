@@ -1,12 +1,8 @@
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  API_SERVER,
-  DEFAULT_PASSWORD,
-  DEFAULT_USER,
-} from '../../app/constants';
+import { Link, useNavigate } from 'react-router-dom';
+import { API_SERVER, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
 import { useAppDispatch } from '../../app/hooks';
 import { login } from '../../features/user/userSlice';
 import LoginImage from '../../assets/jonathan-borba-couple.jpg';
@@ -39,16 +35,10 @@ function Login(): JSX.Element {
           navigate('/dashboard');
         } else {
           console.log(
-            'Unable to login. HTTP status code: ' +
-              result.status +
-              '\nError message: ' +
-              result.data.errorMsg ?? ''
+            'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
           );
           alert(
-            'Unable to login. HTTP status code: ' +
-              result.status +
-              '\nError message: ' +
-              result.data.errorMsg ?? ''
+            'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
           );
         }
       })
@@ -75,10 +65,7 @@ function Login(): JSX.Element {
         sx={{
           backgroundImage: `url(${LoginImage})`,
           backgroundRepeat: 'no-repeat',
-          backgroundColor: (t) =>
-            t.palette.mode === 'light'
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
+          backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           clipPath: 'polygon(0% 0%, 0% 100%, 100% 100%, 85% 0%)',
@@ -90,7 +77,10 @@ function Login(): JSX.Element {
           },
         }}
       />
-      <Grid item sm={1} />
+      <Grid
+        item
+        sm={1}
+      />
       <Grid
         id='login-form-container'
         item
@@ -103,7 +93,10 @@ function Login(): JSX.Element {
           alignItems: 'space-around',
         }}
       >
-        <img src={Logo} width={250} />
+        <img
+          src={Logo}
+          width={250}
+        />
         <Box
           id='login-form'
           component='form'
@@ -144,6 +137,14 @@ function Login(): JSX.Element {
           >
             Zaloguj się
           </Button>
+        </Box>
+        <Box
+          id='back-to-register-button'
+          sx={{ display: 'flex', justifyContent: 'center' }}
+        >
+          <Typography>
+            Nie masz konta? <Link to='/register'>Zarejestruj się</Link>!
+          </Typography>
         </Box>
       </Grid>
     </Grid>
