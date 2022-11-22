@@ -1,19 +1,29 @@
+import { Grid } from '@mui/material';
 import { useAppSelector } from '../../app/hooks';
 import { PageTitle } from '../common';
-import '../../App.css';
 
 function Dashboard(): JSX.Element {
-  const username: string | null = useAppSelector((state) => state.user.username);
+  const username: string | null = useAppSelector(
+    (state) => state.user.username
+  );
 
   return (
-    <div
-      id='dashboard-container'
-      className='page-container'
-    >
+    <Grid container component='main' id='dashboard-container' sx={styles.grid}>
       <PageTitle title='Ekran główny' />
-      <h2>Witaj {username} na ekranie głównym!</h2>
-    </div>
+      <span>Witaj {username}!</span>
+    </Grid>
   );
 }
 
 export default Dashboard;
+
+const styles = {
+  grid: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'common.lightGrey',
+  },
+};
