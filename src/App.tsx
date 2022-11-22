@@ -23,20 +23,20 @@ declare module '@mui/material/styles/createPalette' {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#e09f3e',
-      contrastText: '#0a0a0a',
+      main: '#E09F3E',
+      contrastText: '#0A0A0A',
     },
     secondary: {
-      main: '#9e2a2b',
+      main: '#9E2A2B',
       contrastText: '#fff',
     },
     common: {
       primary: '#E09F3E',
-      primaryDarker: '#a57608',
+      primaryDarker: '#A57608',
       secondary: '#9E2A2B',
       white: '#FFF',
-      lightGrey: '#e4e4e4',
-      black: '#0f0f0f',
+      lightGrey: '#E4E4E4',
+      black: '#0A0A0A',
     },
   },
 });
@@ -57,21 +57,45 @@ function App(): JSX.Element {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<SharedLayout />}>
+          <Route
+            path='/'
+            element={<SharedLayout />}
+          >
             <Route element={<PrivateRoute />}>
-              <Route path='/dashboard' element={<Pages.Dashboard />} />
+              <Route
+                path='/dashboard'
+                element={<Pages.Dashboard />}
+              />
               <Route
                 path='/personality-test'
                 element={<Pages.PersonalityTest />}
               />
-              <Route path='/lifestyle-test' element={<Pages.LifestyleTest />} />
-              <Route path='/your-match' element={<Pages.YourMatch />} />
+              <Route
+                path='/lifestyle-test'
+                element={<Pages.LifestyleTest />}
+              />
+              <Route
+                path='/your-match'
+                element={<Pages.YourMatch />}
+              />
             </Route>
-            <Route index element={<Pages.Home />} />
-            <Route path='/register' element={<Pages.Register />} />
-            <Route path='*' element={<Pages.Error />} />
           </Route>
-          <Route path='/login' element={<Pages.Login />} />
+          <Route
+            index
+            element={<Pages.Home />}
+          />
+          <Route
+            path='/register'
+            element={<Pages.Register />}
+          />
+          <Route
+            path='*'
+            element={<Pages.Error />}
+          />
+          <Route
+            path='/login'
+            element={<Pages.Login />}
+          />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
