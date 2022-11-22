@@ -10,8 +10,8 @@ function Home(): JSX.Element {
       id='home-container'
       sx={styles.grid}
     >
-      <PageTitle title='Strona główna' />
-      <span>Witaj na stronie głównej!</span>
+      <PageTitle title='Strona Główna' />
+      <span>SoulDate to aplikacja internetowa stworzona dla osób poszukujących bratnich dusz. Powiedz nam coś o sobie, a nasz system znajdzie dla Ciebie idealne dopasowanie!</span>
       <Button
         to='/login'
         aria-label='login'

@@ -9,8 +9,9 @@ function Dashboard(): JSX.Element {
 
   return (
     <Grid container component='main' id='dashboard-container' sx={styles.grid}>
-      <PageTitle title='Ekran główny' />
-      <span>Witaj {username}!</span>
+      <PageTitle title='Dashboard' />
+      <span>Cześć, {username}!</span>
+      <span>Wypełnij test osobowości oraz test zainteresowań i sprawdź swoje aktualne dopasowanie.</span>
     </Grid>
   );
 }
