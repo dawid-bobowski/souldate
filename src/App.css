@@ -4,9 +4,8 @@
 }
 
 .page-container {
-  margin-top: 5rem;
   width: 100%;
-  min-height: calc(100vh - 19rem);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
