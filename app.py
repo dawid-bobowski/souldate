@@ -51,36 +51,36 @@ def register():
         info = 'Strona rejestracji'
         return jsonify(info)
     elif request.method == "POST":
-        if not request.args.get("username"):
-            return jsonify("You must provide a username.")
-        if not request.args.get("email"):
-            return jsonify("You must provide a valid email.")
-        if not request.args.get("password"):
-            return jsonify("You must provide a password.")
-        if not request.args.get("confirmation"):
-            return jsonify("You must confirm your password.")
-        if request.args.get("password") != request.args.get("confirmation"):
-            return jsonify("Your passwords don't match! Try typing again.")
+        data = json.loads(request.data.decode('utf-8'))
+        username = data['username']
+        password = data['password']
+        email = data['email']
+        if not username:
+            return jsonify({"errorMsg":"You must provide a username."}), 400
+        if not email:
+            return jsonify({"errorMsg":"You must provide a valid email."}), 400
+        if not password:
+            return jsonify({"errorMsg":"You must provide a password."}), 400
         if not db.execute(
                 "SELECT username FROM users WHERE username = :username",
-                username=request.args.get("username")):
-            hashword = generate_password_hash(request.args.get("password"))
+                username=username):
+            hashword = generate_password_hash(password)
             users = db.execute(
                 "INSERT INTO users (username, hashword, email) VALUES(:username, :hash, :email)",
-                username=request.args.get("username"),
+                username=username,
                 hash=hashword,
                 email=request.args.get("email"))
             rows = db.execute("SELECT * FROM users WHERE username = :username",
-                              username=request.args.get("username"))
+                              username=username)
             return jsonify({
                 "msg":
-                "Użytkownik " + request.args.get("username") +
+                "Użytkownik " + username +
                 " został utworzony!"
             }), 201
         elif True:
             return jsonify({
                 "errorMsg":
-                "Użytkownik o nazwie " + request.args.get("username") +
+                "Użytkownik o nazwie " + username +
                 " już istnieje!"
             }), 409
 
