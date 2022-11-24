@@ -88,24 +88,19 @@ def register():
 @app.route("/api/login", methods=["POST"])
 def login():
     if request.method == "POST":
-        if not request.args.get("username"):
-            return jsonify({"errorMsg": "Must provide username!"}), 403
-        elif not request.args.get("password"):
-            return jsonify({"errorMsg": "Must provide password!"}), 403
-        rows = db.execute("SELECT * FROM users WHERE username = :username",
-                          username=request.args.get("username"))
-        if len(rows) != 1 or not check_password_hash(
-                rows[0]["hashword"], request.args.get("password")):
-            return jsonify({"errorMsg":
-                            "Invalid username and/or password!"}), 403
+        data = json.loads(request.data.decode('utf-8'))
+        username = data['username']
+        password = data['password']
+        rows = db.execute("SELECT * FROM users WHERE username = :username", username=username)
+        if len(rows) != 1 or not check_password_hash(rows[0]["hashword"], password):
+            return jsonify({"errorMsg":"Invalid username and/or password!"}), 403
         session["user_id"] = rows[0]["user_id"]
         cos = session["user_id"]
         username_globalzmienna.clear()
-        username_globalzmienna.insert(0, request.args.get("username"))
+        username_globalzmienna.insert(0, username)
         additional_claims = {"aud": "some_audience", "foo": "bar"}
-        access_token = create_access_token(
-            cos, additional_claims=additional_claims)
-        return jsonify({"username": request.args.get("username"), "token": access_token}), 200
+        access_token = create_access_token(cos, additional_claims=additional_claims)
+        return jsonify({"username": username, "token": access_token}), 200
 
 
 @app.route("/api/personality_test", methods=["GET", "POST"])

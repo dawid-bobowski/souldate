@@ -1,6 +1,6 @@
 import { Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { PageTitle } from '../common';
+import Logo from '../../assets/souldate-logo.png';
 
 function Home(): JSX.Element {
   return (
@@ -10,7 +10,10 @@ function Home(): JSX.Element {
       id='home-container'
       sx={styles.grid}
     >
-      <PageTitle title='Strona Główna' />
+      <img
+          src={Logo}
+          width={450}
+        />
       <span>SoulDate to aplikacja internetowa stworzona dla osób poszukujących bratnich dusz. Powiedz nam coś o sobie, a nasz system znajdzie dla Ciebie idealne dopasowanie!</span>
       <Button
         to='/login'
