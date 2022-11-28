@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
 import LoginImage from '../../assets/jonathan-borba-couple.jpg';
 import Logo from '../../assets/souldate-logo.png';
@@ -16,9 +16,11 @@ function Register(): JSX.Element {
 
   async function handleRegister(): Promise<void> {
     await axios
-      .post(
-        `${API_SERVER}/register?username=${username}&email=${email}&password=${password}&confirmation=${confirmPassword}`
-      )
+      .post(`${API_SERVER}/register`, {
+        username,
+        password,
+        email,
+      })
       .then((result) => {
         if (result.status === 201) {
           setUsername('');
@@ -154,7 +156,9 @@ function Register(): JSX.Element {
           id='back-to-login-button'
           sx={{ display: 'flex', justifyContent: 'center' }}
         >
-          Masz już konto? <Link to='/login'>Zaloguj się</Link>!
+          <Typography>
+            Masz już konto? <Link to='/login'>Zaloguj się</Link>!
+          </Typography>
         </Box>
       </Grid>
     </Grid>

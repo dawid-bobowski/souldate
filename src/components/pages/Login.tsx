@@ -26,7 +26,10 @@ function Login(): JSX.Element {
     if (!username || !password) return;
 
     await axios
-      .post(`${API_SERVER}/login?username=${username}&password=${password}`)
+      .post(`${API_SERVER}/login`, {
+        username,
+        password,
+      })
       .then((result) => {
         if (result.status === 200) {
           setUsername('');
@@ -143,7 +146,7 @@ function Login(): JSX.Element {
           sx={{ display: 'flex', justifyContent: 'center' }}
         >
           <Typography>
-            Nie masz konta? <Link to='/register'>Zarejestruj się</Link>!
+            Nie masz konta? <Link to='/register'>Dołącz do nas</Link>!
           </Typography>
         </Box>
       </Grid>
