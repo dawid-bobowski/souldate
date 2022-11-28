@@ -21,6 +21,7 @@ function Form(props: FormProps): JSX.Element {
   const { type, defaultAnswers = {} } = props;
   const [questions, setQuestions] = useState<Questions>([]);
   const [answers, setAnswers] = useState<Answers>(defaultAnswers);
+  const [currentQuestion, setCurrentQuestion] = useState<Question>();
 
   const formOptions = (): string[] => {
     switch (type) {
@@ -108,19 +109,20 @@ function Form(props: FormProps): JSX.Element {
     getQuestions();
   }, []);
 
+  useEffect(() => {
+    setCurrentQuestion(questions.find((item) => item.id === 1));
+  }, [questions]);
+
   return (
     <form
       id={`${type}-form`}
       className='form'
       onSubmit={handleSubmit}
     >
-      {questions.map((question, questionIndex) => {
-        return (
-          <div
-            key={questionIndex}
-            className='form-question'
-          >
-            <h2>{question.text}:</h2>
+      {currentQuestion ? (
+        <>
+          <div className='form-question'>
+            <h2>{currentQuestion.text}:</h2>
             {formOptions().map((option, optionIndex) => {
               return (
                 <div
@@ -129,7 +131,7 @@ function Form(props: FormProps): JSX.Element {
                 >
                   <input
                     type='radio'
-                    name={question.id}
+                    name={currentQuestion.name}
                     value={optionIndex + 1}
                     onChange={handleChange}
                   />
@@ -138,9 +140,31 @@ function Form(props: FormProps): JSX.Element {
               );
             })}
           </div>
-        );
-      })}
-      <button type='submit'>Wyślij</button>
+          <>
+            <button
+              disabled={currentQuestion && currentQuestion.id <= 1}
+              onClick={(event) => {
+                event.preventDefault();
+                setCurrentQuestion(questions.find((item) => item.id === currentQuestion.id - 1));
+              }}
+            >
+              Poprzednie pytanie
+            </button>
+            <button type='submit'>Wyślij</button>
+            <button
+              disabled={currentQuestion && currentQuestion.id >= questions.length - 1}
+              onClick={(event) => {
+                event.preventDefault();
+                setCurrentQuestion(questions.find((item) => item.id === currentQuestion.id + 1));
+              }}
+            >
+              Następne pytanie
+            </button>
+          </>
+        </>
+      ) : (
+        <></>
+      )}
     </form>
   );
 }

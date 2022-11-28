@@ -7,7 +7,8 @@ interface IUser {
 type User = IUser;
 
 interface IQuestion {
-  id: string;
+  id: number;
+  name: string;
   text: string;
 }
 type Question = IQuestion;
