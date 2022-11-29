@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Tab, Tabs, Tooltip, Zoom } from '@mui/material';
-
+import { Tab, Tabs, Tooltip, Zoom} from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import QuizIcon from '@mui/icons-material/Quiz';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
-
 import LogoutButton from './LogoutButton';
 import './Navbar.css';
 
