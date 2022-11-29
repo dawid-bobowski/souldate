@@ -2,6 +2,7 @@ import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import { API_SERVER, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
 import { useAppDispatch } from '../../app/hooks';
 import { login } from '../../features/user/userSlice';
@@ -21,6 +22,7 @@ function Login(): JSX.Element {
 
   const [username, setUsername] = useState<string>(DEFAULT_USER);
   const [password, setPassword] = useState<string>(DEFAULT_PASSWORD);
+  const [cookies, setCookie] = useCookies(['token']);
 
   async function handleLogin(): Promise<void> {
     if (!username || !password) return;
@@ -32,9 +34,14 @@ function Login(): JSX.Element {
       })
       .then((result) => {
         if (result.status === 200) {
+          const data = result.data;
           setUsername('');
           setPassword('');
-          dispatch(login(result.data));
+          dispatch(login(data));
+          setCookie('token', data.token, {
+            path: '/',
+            maxAge: 600,
+          });
           navigate('/dashboard');
         } else {
           console.log(

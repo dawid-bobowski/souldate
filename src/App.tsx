@@ -50,8 +50,8 @@ function App(): JSX.Element {
     const username = localStorage.getItem('username');
 
     if (username !== null) {
-      setCookie('token', cookies.token, { path: '/', maxAge: 600 });
       dispatch(login({ username }));
+      setCookie('token', cookies.token, { path: '/', maxAge: 600 });
     }
   }, []);
 
