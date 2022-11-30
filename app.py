@@ -2,10 +2,11 @@ import json
 import datetime
 from tempfile import mkdtemp
 from cs50 import SQL
-from flask import (Flask, jsonify, request, session)
+from flask import (Flask, jsonify, request, session, flash)
 from flask_jwt_extended import (JWTManager, create_access_token, jwt_required)
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_uploads import IMAGES, UploadSet, configure_uploads
 
 lista = [0]
 username_globalzmienna = []
@@ -25,6 +26,10 @@ jwt = JWTManager(app)
 if __name__ == '__main__':
     app.run(debug=True)
 
+################# photo upload
+photos=UploadSet("photos", IMAGES)
+app.config["UPLOADED_PHOTOS_DEST"] = "src/assets/users"
+configure_uploads(app, photos)
 
 @app.after_request
 def after_request(response):
@@ -396,3 +401,11 @@ def matching():
         user_id=partner)
     print(name)
     return jsonify({"msg": "Masz parę!", "name": name}), 200
+
+################# photo upload
+@app.post("/api/upload")
+def upload():
+    if "photo" in request.files:
+        photos.save(request.files["photo"])
+        flash("Photo saved successfully.")
+        return jsonify({"msg": "dodano fotke"}), 200

@@ -17,3 +17,4 @@ marshmallow-sqlalchemy==0.28.1
 SQLAlchemy==1.4.41
 flask-jwt-extended==4.4.4
 PyJWT==2.6.0
+flask-reuploaded==1.2.0
