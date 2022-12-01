@@ -1,12 +1,29 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Navbar } from '../common';
+import { Grid, SwipeableDrawer } from '@mui/material';
+
+import { Navbar, Tabs } from '../common';
 
 function SharedLayout(): JSX.Element {
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+
   return (
-    <>
+    <Grid
+      component='div'
+      sx={{ display: 'flex', flexDirection: 'row' }}
+    >
       <Navbar />
+      <SwipeableDrawer
+        open={isOpen}
+        anchor='left'
+        onClose={() => setIsOpen(false)}
+        onOpen={() => setIsOpen(true)}
+        sx={{ display: { sm: 'none' } }}
+      >
+        <Tabs />
+      </SwipeableDrawer>
       <Outlet />
-    </>
+    </Grid>
   );
 }
 

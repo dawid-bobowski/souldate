@@ -11,9 +11,7 @@ function LogoutButton(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  async function handleLogout(
-    event: React.MouseEvent<HTMLButtonElement>
-  ): Promise<void> {
+  async function handleLogout(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
     await axios
       .get(`http://127.0.0.1:5000/api/logout`)
@@ -23,16 +21,10 @@ function LogoutButton(): JSX.Element {
           navigate('/');
         } else {
           console.log(
-            'Unable to log out. HTTP status code: ' +
-              result.status +
-              '\nError message: ' +
-              result.data.errorMsg ?? ''
+            'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
           );
           alert(
-            'Unable to log out. HTTP status code: ' +
-              result.status +
-              '\nError message: ' +
-              result.data.errorMsg ?? ''
+            'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
           );
         }
       })
@@ -48,8 +40,15 @@ function LogoutButton(): JSX.Element {
       onClick={handleLogout}
       sx={styles.logoutButton}
     >
-      <Tooltip title='Wyloguj' placement='right' TransitionComponent={Zoom}>
-        <LogoutIcon fontSize='large' sx={styles.icon} />
+      <Tooltip
+        title='Wyloguj'
+        placement='right'
+        TransitionComponent={Zoom}
+      >
+        <LogoutIcon
+          fontSize='large'
+          sx={styles.icon}
+        />
       </Tooltip>
     </IconButton>
   );
@@ -68,7 +67,7 @@ const styles = {
   },
   logoutButton: {
     position: 'absolute',
-    bottom: '20px',
+    bottom: '12px',
     left: '20px',
   },
 };
