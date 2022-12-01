@@ -5,11 +5,19 @@ import { PageTitle } from '../common';
 import { IconButton } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Avatar from '@mui/material/Avatar';
+import axios from 'axios';
+import { API_SERVER } from '../../app/constants';
 
 function Dashboard(): JSX.Element {
   const username: string | null = useAppSelector((state) => state.user.username);
   const [importedPicture, setImportedPicure] = useState<File>();
-
+  async function handlePhoto(): Promise<void> {
+    await axios
+      .post(`${API_SERVER}/upload/profile-picture`, {
+        // here i dont know what 
+      })
+    ;
+  }
   return (
     <Grid
       container
@@ -28,6 +36,7 @@ function Dashboard(): JSX.Element {
       <IconButton
         aria-label='upload picture'
         component='label'
+        onClick={handlePhoto}
       >
         <input
           hidden
