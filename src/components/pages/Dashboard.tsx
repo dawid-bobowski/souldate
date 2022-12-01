@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Grid } from '@mui/material';
 import { useAppSelector } from '../../app/hooks';
 import { PageTitle } from '../common';
@@ -11,13 +11,46 @@ import { API_SERVER } from '../../app/constants';
 function Dashboard(): JSX.Element {
   const username: string | null = useAppSelector((state) => state.user.username);
   const [importedPicture, setImportedPicure] = useState<File>();
-  async function handlePhoto(): Promise<void> {
-    await axios
-      .post(`${API_SERVER}/upload/profile-picture`, {
-        // here i dont know what 
-      })
-    ;
+
+  async function handlePhotoUpload(event: ChangeEvent<HTMLInputElement>): Promise<void> {
+    if (event.target.files) {
+      setImportedPicure(event.target.files[0]);
+      await axios
+        .post(
+          `${API_SERVER}/upload/profile-picture`,
+          { photo: importedPicture, username: localStorage.getItem('username') },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        )
+        .then((result) => {
+          if (result.status === 201) {
+            alert(result.data.msg);
+          } else {
+            console.log(
+              'Unable to upload picture. HTTP status code: ' +
+                result.status +
+                '\nError message: ' +
+                result.data.errorMsg ?? ''
+            );
+            alert(
+              'Unable to upload picture. HTTP status code: ' +
+                result.status +
+                '\nError message: ' +
+                result.data.errorMsg ?? ''
+            );
+          }
+        })
+        .catch((error) => {
+          console.log('Unable to send request. Error message: ' + error.message);
+          alert('Unable to send request. Error message: ' + error.message);
+        });
+    }
   }
+
   return (
     <Grid
       container
@@ -36,13 +69,12 @@ function Dashboard(): JSX.Element {
       <IconButton
         aria-label='upload picture'
         component='label'
-        onClick={handlePhoto}
       >
         <input
           hidden
           accept='image/*'
           type='file'
-          onChange={(event) => event.target.files && setImportedPicure(event.target.files[0])}
+          onChange={handlePhotoUpload}
         />
         <PhotoCamera />
       </IconButton>

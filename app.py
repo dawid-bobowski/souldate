@@ -431,7 +431,10 @@ def matching():
 ################# photo upload
 @app.post("/api/upload/profile-picture")
 def upload():
-    if "photo" in request.files:
-        photos.save(request.files["photo"])
+    photo = request.files['photo']
+    if photo:
+        photos.save(photo)
         flash("Photo saved successfully.")
-        return jsonify({"msg": "dodano fotke"}), 200
+        return jsonify({"msg": "Zdjęcie zostało zaktualizowane!"}), 201
+    else:
+      return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
