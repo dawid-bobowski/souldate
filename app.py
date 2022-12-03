@@ -1,4 +1,5 @@
 import json
+import os
 import datetime
 from tempfile import mkdtemp
 from cs50 import SQL
@@ -429,12 +430,24 @@ def matching():
     return jsonify({"msg": "Masz parę!", "name1": name1, "name2": name2, "name3": name3, "name4": name4, "name5": name5}), 200
 
 ################# photo upload
+################# jeszcze do poprawki ale już wrzucam z innymi zmianami
 @app.post("/api/upload/profile-picture")
 def upload():
     photo = request.files['photo']
-    if photo:
-        photos.save(photo)
-        flash("Photo saved successfully.")
-        return jsonify({"msg": "Zdjęcie zostało zaktualizowane!"}), 201
+    nazwka = username_globalzmienna[0]
+    myfile = "{}.jpg".format(nazwka)
+    if os.path.isfile(myfile):
+        os.remove(myfile)
+        if photo:
+            photos.save(photo, name=myfile)
+            flash("Photo saved successfully.")
+            return jsonify({"msg": "Zdjęcie zostało zaktualizowane!"}), 201
+        else:
+            return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
     else:
-      return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
+        if photo:
+            photos.save(photo, name=myfile)
+            flash("Photo saved successfully.")
+            return jsonify({"msg": "Zdjęcie zostało zaktualizowane!"}), 201
+        else:
+            return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
