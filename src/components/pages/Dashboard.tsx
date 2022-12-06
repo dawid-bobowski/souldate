@@ -1,10 +1,7 @@
 import { ChangeEvent, useState } from 'react';
-import { Grid } from '@mui/material';
 import { useAppSelector } from '../../app/hooks';
-import { PageTitle } from '../common';
-import { IconButton } from '@mui/material';
+import { Avatar, Box, Grid, IconButton, Typography } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
 import { API_SERVER } from '../../app/constants';
 
@@ -56,28 +53,33 @@ function Dashboard(): JSX.Element {
       container
       component='main'
       id='dashboard-container'
-      sx={styles.grid}
+      sx={styles.container}
     >
-      <Avatar
-        src={importedPicture ? URL.createObjectURL(importedPicture) : `src/assets/users/${username}.jpg`}
-        sx={{ width: 70, height: 70 }}
-      />
-      <PageTitle title='Dashboard' />
-      <span>Cześć, {username}!</span>
-      <span>Wypełnij test osobowości oraz test zainteresowań i sprawdź swoje aktualne dopasowanie.</span>
-      <span>Koniecznie wgraj lub zaktualizuj swoje zdjęcie ;)</span>
-      <IconButton
-        aria-label='upload picture'
-        component='label'
+      <Box
+        id='dashboard-profile'
+        sx={styles.profile}
       >
-        <input
-          hidden
-          accept='image/*'
-          type='file'
-          onChange={handlePhotoUpload}
+        <Avatar
+          src={importedPicture ? URL.createObjectURL(importedPicture) : `src/assets/users/${username}.jpg`}
+          sx={{ width: 140, height: 140 }}
         />
-        <PhotoCamera />
-      </IconButton>
+        <Typography variant='h5'>
+          Wypełnij test osobowości oraz test zainteresowań i sprawdź swoje aktualne dopasowanie.
+        </Typography>
+        <IconButton
+          aria-label='upload picture'
+          component='label'
+          sx={styles.uploadIcon}
+        >
+          <input
+            hidden
+            accept='image/*'
+            type='file'
+            onChange={handlePhotoUpload}
+          />
+          <PhotoCamera />
+        </IconButton>
+      </Box>
     </Grid>
   );
 }
@@ -85,12 +87,29 @@ function Dashboard(): JSX.Element {
 export default Dashboard;
 
 const styles = {
-  grid: {
+  container: {
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'common.lightGrey',
+    backgroundColor: 'rgb(224,159,62)',
+    background: 'radial-gradient(circle, rgba(224,159,62,1) 0%, rgba(158,42,43,1) 100%)',
+  },
+  profile: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '1rem',
+    backgroundColor: 'common.darkGrey',
+    color: 'common.white',
+    borderRadius: '1rem',
+    padding: '2rem',
+    fontSize: '1.5rem',
+    maxWidth: 600,
+    textAlign: 'center',
+  },
+  uploadIcon: {
+    color: 'common.white',
   },
 };

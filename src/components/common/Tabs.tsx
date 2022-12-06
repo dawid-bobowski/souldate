@@ -28,7 +28,6 @@ function Tabs(): JSX.Element {
         value={selectedTab}
         TabIndicatorProps={{ sx: { backgroundColor: 'common.primary' } }}
         onChange={(event: React.SyntheticEvent, value: number) => setSelectedTab(value)}
-        sx={{ backgroundColor: 'common.white' }}
       >
         <Tab
           to='/dashboard'
@@ -109,10 +108,10 @@ export default Tabs;
 
 const styles = {
   icon: {
-    color: 'common.primary',
+    color: 'common.white',
     transition: '0.3s ease-in-out',
     ':hover': {
-      color: 'common.primaryDarker',
+      color: 'common.primary',
       transition: '0.3s ease-in-out',
     },
   },

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useAppSelector } from '../../app/hooks';
+import { Grid } from '@mui/material';
 import { PageTitle } from '../common';
 import { API_SERVER } from '../../app/constants';
 import '../../App.css';
@@ -38,15 +39,27 @@ function YourMatch(): JSX.Element {
   }, []);
 
   return (
-    <div
+    <Grid
+      container
+      component='main'
       id='dashboard-container'
-      className='page-container'
+      sx={styles.grid}
     >
       <PageTitle title='Twoja bratnia dusza' />
       <h2>Cześć {username}, Twoja bratnia dusza wskazana przez nasz algorytm to: </h2>
       <h2>Skontaktujcie się ze sobą: MAIL/TEL/FB/INS</h2>
-    </div>
+    </Grid>
   );
 }
 
 export default YourMatch;
+
+const styles = {
+  grid: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+};

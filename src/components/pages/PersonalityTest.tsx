@@ -1,22 +1,35 @@
+import { Grid } from '@mui/material';
 import { PageTitle } from '../common';
 import Form from '../common/Form';
 
 function PersonalityTest(): JSX.Element {
   return (
-    <div
+    <Grid
+      container
+      component='main'
       id='personality-test-container'
-      className='page-container'
+      sx={styles.grid}
     >
       <PageTitle title='Test osobowości' />
       <Form
         type='personality'
         defaultAnswers={DUMMY_DATA}
       />
-    </div>
+    </Grid>
   );
 }
 
 export default PersonalityTest;
+
+const styles = {
+  grid: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+};
 
 const DUMMY_DATA: Answers = {
   EXT1: 5,

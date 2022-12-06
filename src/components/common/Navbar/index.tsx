@@ -6,7 +6,12 @@ function Navbar(): JSX.Element {
   return (
     <Grid
       component='div'
-      sx={{ display: { xs: 'none', sm: 'flex' }, flexDirection: 'column', alignItems: 'center' }}
+      sx={{
+        display: { xs: 'none', sm: 'flex' },
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: 'common.darkGrey',
+      }}
     >
       <Tabs />
     </Grid>

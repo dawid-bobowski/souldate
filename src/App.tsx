@@ -15,7 +15,9 @@ declare module '@mui/material/styles/createPalette' {
     primaryDarker: string;
     secondary: string;
     white: string;
+    grey: string;
     lightGrey: string;
+    darkGrey: string;
     black: string;
   }
 }
@@ -36,6 +38,8 @@ const theme = createTheme({
       secondary: '#9E2A2B',
       white: '#FFF',
       lightGrey: '#E4E4E4',
+      grey: '#afafaf',
+      darkGrey: '#111111',
       black: '#0A0A0A',
     },
   },
