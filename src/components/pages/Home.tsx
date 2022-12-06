@@ -14,7 +14,7 @@ function Home(): JSX.Element {
           src={Logo}
           width={450}
         />
-      <span>SoulDate to aplikacja internetowa stworzona dla osób poszukujących bratnich dusz. Powiedz nam coś o sobie, a nasz system znajdzie dla Ciebie idealne dopasowanie!</span>
+      <span>Jeśli szukasz bratniej duszy, z którą będziesz mógł dzielić swoje pasje, marzenia i emocje, to SoulDate jest dla Ciebie. Nasz algorytm dobiera pary na podstawie wspólnych zainteresowań i preferencji, dzięki czemu masz pewność, że trafisz na osobę, która naprawdę Cię rozumie. Nie czekaj, dołącz już dziś i znajdź swoją bratnią duszę!</span>
       <Button
         to='/login'
         aria-label='login'

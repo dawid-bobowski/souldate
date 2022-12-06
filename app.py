@@ -1,11 +1,13 @@
 import json
+import os
 import datetime
 from tempfile import mkdtemp
 from cs50 import SQL
-from flask import (Flask, jsonify, request, session)
+from flask import (Flask, jsonify, request, session, flash)
 from flask_jwt_extended import (JWTManager, create_access_token, jwt_required)
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_uploads import IMAGES, UploadSet, configure_uploads
 
 lista = [0]
 username_globalzmienna = []
@@ -25,6 +27,10 @@ jwt = JWTManager(app)
 if __name__ == '__main__':
     app.run(debug=True)
 
+################# photo upload
+photos=UploadSet("photos", IMAGES)
+app.config["UPLOADED_PHOTOS_DEST"] = "src/assets/users"
+configure_uploads(app, photos)
 
 @app.after_request
 def after_request(response):
@@ -389,10 +395,59 @@ def matching():
         lista.append(item['user_id'])
 
     user_idek = user_id
-    nova = [x for x in lista if x != user_idek]
-    partner = max(set(nova), key=nova.count)
-    name = db.execute(
+
+    nova1 = [x for x in lista if x != user_idek]
+    partner1 = max(set(nova1), key=nova1.count)
+    unwanted1 = {partner1}
+    nova2=[e for e in nova1 if e not in unwanted1]
+    partner2 = max(set(nova2), key=nova2.count)
+    unwanted2 = {partner2}
+    nova3=[e for e in nova2 if e not in unwanted2]
+    partner3 = max(set(nova3), key=nova3.count)
+    unwanted3 = {partner3}
+    nova4=[e for e in nova3 if e not in unwanted3]
+    partner4 = max(set(nova4), key=nova4.count)
+    unwanted4 = {partner3}
+    nova5=[e for e in nova4 if e not in unwanted4]
+    partner5 = max(set(nova5), key=nova5.count)
+
+    name1 = db.execute(
         "SELECT username, email FROM users WHERE user_id=:user_id",
-        user_id=partner)
-    print(name)
-    return jsonify({"msg": "Masz parę!", "name": name}), 200
+        user_id=partner1)
+    name2 = db.execute(
+        "SELECT username, email FROM users WHERE user_id=:user_id",
+        user_id=partner2)
+    name3 = db.execute(
+        "SELECT username, email FROM users WHERE user_id=:user_id",
+        user_id=partner3)
+    name4 = db.execute(
+        "SELECT username, email FROM users WHERE user_id=:user_id",
+        user_id=partner4)
+    name5 = db.execute(
+        "SELECT username, email FROM users WHERE user_id=:user_id",
+        user_id=partner5)
+    print(name1,name2,name3,name4,name5)
+    return jsonify({"msg": "Masz parę!", "name1": name1, "name2": name2, "name3": name3, "name4": name4, "name5": name5}), 200
+
+################# photo upload
+################# jeszcze do poprawki ale już wrzucam z innymi zmianami
+@app.post("/api/upload/profile-picture")
+def upload():
+    photo = request.files['photo']
+    nazwka = username_globalzmienna[0]
+    myfile = "{}.jpg".format(nazwka)
+    if os.path.isfile(myfile):
+        os.remove(myfile)
+        if photo:
+            photos.save(photo, name=myfile)
+            flash("Photo saved successfully.")
+            return jsonify({"msg": "Zdjęcie zostało zaktualizowane!"}), 201
+        else:
+            return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
+    else:
+        if photo:
+            photos.save(photo, name=myfile)
+            flash("Photo saved successfully.")
+            return jsonify({"msg": "Zdjęcie zostało zaktualizowane!"}), 201
+        else:
+            return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
