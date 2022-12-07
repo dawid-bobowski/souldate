@@ -45,9 +45,14 @@ function YourMatch(): JSX.Element {
       id='dashboard-container'
       sx={styles.grid}
     >
-      <PageTitle title='Twoja bratnia dusza' />
+      <PageTitle title='TWOJA BRATNIA DUSZA' />
       <h2>Cześć {username}, Twoja bratnia dusza wskazana przez nasz algorytm to: </h2>
-      <h2>Skontaktujcie się ze sobą: MAIL/TEL/FB/INS</h2>
+      <h2>NAWIĄŻ KONTAKT Z TWOJĄ BRATNIĄ DUSZĄ</h2>
+      <h2>1. Avatar + Nazwa + Email</h2>
+      <h2>2. Avatar + Nazwa + Email</h2>
+      <h2>3. Avatar + Nazwa + Email</h2>
+      <h2>4. Avatar + Nazwa + Email</h2>
+      <h2>5. Avatar + Nazwa + Email</h2>
     </Grid>
   );
 }
@@ -61,5 +66,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgb(224,159,62)',
+    background: 'radial-gradient(circle, rgba(224,159,62,1) 0%, rgba(158,42,43,1) 100%)',
   },
 };

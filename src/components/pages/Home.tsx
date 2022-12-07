@@ -44,6 +44,8 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'common.lightGrey',
+    color: 'common.white',
+    backgroundColor: 'rgb(224,159,62)',
+    background: 'radial-gradient(circle, rgba(224,159,62,1) 0%, rgba(158,42,43,1) 100%)',
   },
 };

@@ -7,6 +7,8 @@ import { useAppDispatch } from '../../app/hooks';
 import { login } from '../../features/user/userSlice';
 import LoginImage from '../../assets/jonathan-borba-couple.jpg';
 import Logo from '../../assets/souldate-logo.png';
+import Ukw from '../../assets/ukw-logo.png';
+import Blusoft from '../../assets/blusoft-logo.png';
 import './Login.css';
 
 declare module '@mui/material/Button' {
@@ -149,6 +151,14 @@ function Login(): JSX.Element {
             Nie masz konta? <Link to='/register'>Dołącz do nas</Link>!
           </Typography>
         </Box>
+        <img
+          src={Blusoft}
+          width={100}
+        />
+        <img
+          src={Ukw}
+          width={100}
+        />
       </Grid>
     </Grid>
   );
