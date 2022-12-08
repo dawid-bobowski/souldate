@@ -4,7 +4,11 @@
     align-items: center;
     width: calc(100% - 6rem);
     height: 8rem;
-    background-color: #E09F3E;
+    background-color: #76A597;
     padding: 3rem;
     color:#9E2A2B ;
+}
+
+i{
+    color: black;
 }
