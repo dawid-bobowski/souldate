@@ -38,7 +38,11 @@ function LogoutButton(): JSX.Element {
     <IconButton
       aria-label='logout'
       onClick={handleLogout}
-      sx={styles.logoutButton}
+      sx={{
+        position: 'absolute',
+        bottom: '12px',
+        left: '20px',
+      }}
     >
       <Tooltip
         title='Wyloguj'
@@ -47,7 +51,13 @@ function LogoutButton(): JSX.Element {
       >
         <LogoutIcon
           fontSize='large'
-          sx={styles.icon}
+          sx={{
+            color: 'common.secondary',
+            transition: '0.3s ease-in-out',
+            ':hover': {
+              transition: '0.3s ease-in-out',
+            },
+          }}
         />
       </Tooltip>
     </IconButton>
@@ -55,19 +65,3 @@ function LogoutButton(): JSX.Element {
 }
 
 export default LogoutButton;
-
-const styles = {
-  icon: {
-    color: 'common.primary',
-    transition: '0.3s ease-in-out',
-    ':hover': {
-      color: 'common.primaryDarker',
-      transition: '0.3s ease-in-out',
-    },
-  },
-  logoutButton: {
-    position: 'absolute',
-    bottom: '12px',
-    left: '20px',
-  },
-};

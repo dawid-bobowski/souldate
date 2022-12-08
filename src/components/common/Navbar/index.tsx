@@ -1,5 +1,4 @@
 import { Grid } from '@mui/material';
-
 import Tabs from '../Tabs';
 
 function Navbar(): JSX.Element {
@@ -10,7 +9,7 @@ function Navbar(): JSX.Element {
         display: { xs: 'none', sm: 'flex' },
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor: 'common.darkGrey',
+        backgroundColor: 'common.white',
       }}
     >
       <Tabs />

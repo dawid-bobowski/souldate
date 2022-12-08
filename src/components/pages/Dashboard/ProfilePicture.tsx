@@ -1,11 +1,11 @@
+import { useAppSelector } from '../../../app/hooks';
 import { ChangeEvent, useState } from 'react';
-import { useAppSelector } from '../../app/hooks';
-import { Avatar, Box, Grid, IconButton, Typography } from '@mui/material';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import axios from 'axios';
-import { API_SERVER } from '../../app/constants';
+import { API_SERVER } from '../../../app/constants';
+import { Avatar, Badge, IconButton } from '@mui/material';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
-function Dashboard(): JSX.Element {
+function ProfilePicture(): JSX.Element {
   const username: string | null = useAppSelector((state) => state.user.username);
   const [importedPicture, setImportedPicure] = useState<File>();
 
@@ -49,27 +49,22 @@ function Dashboard(): JSX.Element {
   }
 
   return (
-    <Grid
-      container
-      component='main'
-      id='dashboard-container'
-      sx={styles.container}
-    >
-      <Box
-        id='dashboard-profile'
-        sx={styles.profile}
-      >
-        <Avatar
-          src={importedPicture ? URL.createObjectURL(importedPicture) : `src/assets/users/${username}.jpg`}
-          sx={{ width: 140, height: 140 }}
-        />
-        <Typography variant='h5'>
-          Wypełnij test osobowości oraz test zainteresowań i sprawdź swoje aktualne dopasowanie.
-        </Typography>
+    <Badge
+      overlap='circular'
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      badgeContent={
         <IconButton
           aria-label='upload picture'
           component='label'
-          sx={styles.uploadIcon}
+          sx={{
+            color: 'common.white',
+            backgroundColor: 'common.primary',
+            transition: '0.3s ease-in-out',
+            ':hover': {
+              backgroundColor: 'common.primaryDarker',
+              transition: '0.3s ease-in-out',
+            },
+          }}
         >
           <input
             hidden
@@ -79,37 +74,14 @@ function Dashboard(): JSX.Element {
           />
           <PhotoCamera />
         </IconButton>
-      </Box>
-    </Grid>
+      }
+    >
+      <Avatar
+        src={importedPicture ? URL.createObjectURL(importedPicture) : `src/assets/users/${username}.jpg`}
+        sx={{ width: 140, height: 140 }}
+      />
+    </Badge>
   );
 }
 
-export default Dashboard;
-
-const styles = {
-  container: {
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgb(224,159,62)',
-    background: 'radial-gradient(circle, rgba(224,159,62,1) 0%, rgba(158,42,43,1) 100%)',
-  },
-  profile: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '1rem',
-    backgroundColor: 'common.darkGrey',
-    color: 'common.white',
-    borderRadius: '1rem',
-    padding: '2rem',
-    fontSize: '1.5rem',
-    maxWidth: 600,
-    textAlign: 'center',
-  },
-  uploadIcon: {
-    color: 'common.white',
-  },
-};
+export default ProfilePicture;

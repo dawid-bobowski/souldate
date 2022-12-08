@@ -1,17 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar, Box, Tab, Tabs as MuiTabs, Tooltip, Zoom } from '@mui/material';
-
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import QuizIcon from '@mui/icons-material/Quiz';
-import Diversity1Icon from '@mui/icons-material/Diversity1';
-
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import QuizRoundedIcon from '@mui/icons-material/QuizRounded';
+import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
 import { useAppSelector } from '../../app/hooks';
 import LogoutButton from './Navbar/LogoutButton';
 
 function Tabs(): JSX.Element {
   const username: string | null = useAppSelector((state) => state.user.username);
-  const [selectedTab, setSelectedTab] = useState<number>(1);
+  const [selectedTab, setSelectedTab] = useState<number>(0);
 
   return (
     <>
@@ -26,12 +24,13 @@ function Tabs(): JSX.Element {
         aria-label='navigation'
         orientation='vertical'
         value={selectedTab}
-        TabIndicatorProps={{ sx: { backgroundColor: 'common.primary' } }}
+        TabIndicatorProps={{ sx: { backgroundColor: 'common.secondary' } }}
         onChange={(event: React.SyntheticEvent, value: number) => setSelectedTab(value)}
       >
         <Tab
           to='/dashboard'
           aria-label='dashboard'
+          value={0}
           component={Link}
           icon={
             <Tooltip
@@ -39,7 +38,7 @@ function Tabs(): JSX.Element {
               placement='right'
               TransitionComponent={Zoom}
             >
-              <DashboardIcon
+              <DashboardRoundedIcon
                 fontSize='large'
                 sx={styles.icon}
               />
@@ -50,6 +49,7 @@ function Tabs(): JSX.Element {
         <Tab
           to='/personality-test'
           aria-label='personality-test'
+          value={1}
           component={Link}
           icon={
             <Tooltip
@@ -57,7 +57,7 @@ function Tabs(): JSX.Element {
               placement='right'
               TransitionComponent={Zoom}
             >
-              <QuizIcon
+              <QuizRoundedIcon
                 fontSize='large'
                 sx={styles.icon}
               />
@@ -67,6 +67,7 @@ function Tabs(): JSX.Element {
         <Tab
           to='/lifestyle-test'
           aria-label='lifestyle-test'
+          value={2}
           component={Link}
           icon={
             <Tooltip
@@ -74,7 +75,7 @@ function Tabs(): JSX.Element {
               placement='right'
               TransitionComponent={Zoom}
             >
-              <QuizIcon
+              <QuizRoundedIcon
                 fontSize='large'
                 sx={styles.icon}
               />
@@ -84,6 +85,7 @@ function Tabs(): JSX.Element {
         <Tab
           to='/your-match'
           aria-label='your-match'
+          value={3}
           component={Link}
           icon={
             <Tooltip
@@ -91,7 +93,7 @@ function Tabs(): JSX.Element {
               placement='right'
               TransitionComponent={Zoom}
             >
-              <Diversity1Icon
+              <Diversity1RoundedIcon
                 fontSize='large'
                 sx={styles.icon}
               />
@@ -108,10 +110,10 @@ export default Tabs;
 
 const styles = {
   icon: {
-    color: 'common.white',
+    color: 'common.secondary',
     transition: '0.3s ease-in-out',
     ':hover': {
-      color: 'common.primary',
+      color: 'common.secondaryDarker',
       transition: '0.3s ease-in-out',
     },
   },
