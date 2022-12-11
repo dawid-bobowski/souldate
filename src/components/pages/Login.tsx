@@ -8,7 +8,7 @@ import { login } from '../../features/user/userSlice';
 import LoginImage from '../../assets/jonathan-borba-couple.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import Ukw from '../../assets/ukw-logo.png';
-import Blusoft from '../../assets/blusoft-logo.png';
+import BluSoft from '../../assets/blusoft-logo-2.png';
 import './Login.css';
 
 declare module '@mui/material/Button' {
@@ -151,14 +151,39 @@ function Login(): JSX.Element {
             Nie masz konta? <Link to='/register'>Dołącz do nas</Link>!
           </Typography>
         </Box>
-        <img
-          src={Blusoft}
-          width={100}
-        />
-        <img
-          src={Ukw}
-          width={100}
-        />
+        <Box
+          sx={{
+            width: { xs: '90%', sm: 500 },
+            position: 'relative',
+            top: 150,
+            margin: '0 auto',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 2,
+            }}
+          >
+            <img
+              src={Ukw}
+              width={100}
+            />
+            <img
+              src={BluSoft}
+              width={90}
+            />
+          </Box>
+          <Typography
+            fontSize={12}
+            sx={{ padding: '0 1rem', marginTop: 2, textAlign: 'center' }}
+          >
+            Projekt stworzony na potrzeby przedmiotu Zespołowy projekt informatyczny na Uniwersytecie Kazimierza
+            Wielkiego ze wsparciem firmy BluSoft Sp. z o.o. Wszelkie prawa zastrzeżone.
+          </Typography>
+        </Box>
       </Grid>
     </Grid>
   );

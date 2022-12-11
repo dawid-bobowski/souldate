@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Grid, SwipeableDrawer } from '@mui/material';
 
-import { Navbar, Tabs } from '../common';
+import { MobileNavbar, Navbar, Tabs } from '../common';
 
 function SharedLayout(): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -13,6 +13,7 @@ function SharedLayout(): JSX.Element {
       sx={{ display: 'flex', flexDirection: 'row' }}
     >
       <Navbar />
+      <MobileNavbar />
       <SwipeableDrawer
         open={isOpen}
         anchor='left'

@@ -63,7 +63,12 @@ function Dashboard(): JSX.Element {
             <Avatar sx={styles.socialIcon}>
               <InstagramIcon fontSize='large' />
             </Avatar>
-            <Avatar sx={styles.socialIcon}>
+            <Avatar
+              sx={{
+                ...styles.socialIcon,
+                backgroundColor: 'common.secondary',
+              }}
+            >
               <FacebookIcon fontSize='large' />
             </Avatar>
             <Avatar sx={styles.socialIcon}>

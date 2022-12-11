@@ -13,7 +13,13 @@ function Tabs(): JSX.Element {
 
   return (
     <>
-      <Box sx={{ padding: '12px 16px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          padding: '12px 16px',
+        }}
+      >
         <Avatar
           variant='circular'
           src={`src/assets/users/${username}.jpg`}
