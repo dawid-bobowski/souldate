@@ -5,7 +5,7 @@ import { Grid, SwipeableDrawer } from '@mui/material';
 import { Navbar, Tabs } from '../common';
 
 function SharedLayout(): JSX.Element {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <Grid

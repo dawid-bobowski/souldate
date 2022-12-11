@@ -14,6 +14,7 @@ function Dashboard(): JSX.Element {
       component='main'
       id='dashboard-container'
       sx={{
+        width: '100%',
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -29,18 +30,24 @@ function Dashboard(): JSX.Element {
         sx={{
           color: 'common.white',
           fontFamily: '"Alexandria", sans-serif',
-          fontSize: '3.5rem',
+          fontSize: { xs: '2rem', sm: '3.5rem' },
           padding: '3rem 0',
         }}
       >
         Witaj na swoim profilu!
       </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row', minWidth: 600, gap: '2rem' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: { sm: '2rem' },
+          flexDirection: { xs: 'column', sm: 'row' },
+        }}
+      >
         <Box
           id='dashboard-profilePictureEdit'
           sx={{
             ...styles.profilePanel,
-            minWidth: 100,
+            marginTop: 0,
           }}
         >
           <ProfilePicture />
@@ -50,7 +57,6 @@ function Dashboard(): JSX.Element {
           sx={{
             ...styles.profilePanel,
             justifyContent: 'center',
-            minWidth: 'calc(400px - 2rem)',
           }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
@@ -68,13 +74,16 @@ function Dashboard(): JSX.Element {
       </Box>
       <Box
         id='dashboard-profileInfoEdit'
-        sx={styles.profilePanel}
+        sx={{
+          ...styles.profilePanel,
+          minWidth: { xs: 255, sm: 500 },
+        }}
       >
         <Typography
           variant='h5'
           sx={styles.text}
         >
-          Nazwa użytkownika: <span style={{ fontWeight: 400 }}>{username}</span>
+          Login: <span style={{ fontWeight: 400 }}>{username}</span>
         </Typography>
         <Typography
           variant='h5'
@@ -106,15 +115,13 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: '1rem',
+    gap: { sm: '1rem' },
     backgroundColor: 'common.white',
     color: 'common.darkGrey',
     borderRadius: '1rem',
     padding: '2rem',
     fontSize: '1.5rem',
     textAlign: 'center',
-    minWidth: 600,
-    maxWidth: '80%',
     marginTop: '2rem',
     boxShadow: '0px 0px 15px -5px rgba(10, 10, 10, 1)',
   },
