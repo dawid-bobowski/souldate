@@ -436,18 +436,22 @@ def upload():
     photo = request.files['photo']
     nazwka = username_globalzmienna[0]
     myfile = "{}.jpg".format(nazwka)
-    if os.path.isfile(myfile):
-        os.remove(myfile)
-        if photo:
-            photos.save(photo, name=myfile)
-            flash("Photo saved successfully.")
-            return jsonify({"msg": "Zdjęcie zostało zaktualizowane!"}), 201
-        else:
-            return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
+    print(myfile)
+    print("Current Working Directory " , os.getcwd())
+    directory = os.getcwd()
+    print("Current Working Directory " , os.getcwd())
+    print(os.path.isfile(myfile))
+    # Specify path
+    path = 'src/assets/users/{}.jpg'.format(nazwka)
+    # Check whether the specified
+    # path exists or not
+    isExist = os.path.exists(path)
+    print(isExist)
+    if isExist==True:
+        os.remove('src/assets/users/{}.jpg'.format(nazwka))
+    if photo:
+        photos.save(photo, name=myfile)
+        flash("Photo saved successfully.")
+        return jsonify({"msg": "Zdjęcie zostało zaktualizowane!"}), 201
     else:
-        if photo:
-            photos.save(photo, name=myfile)
-            flash("Photo saved successfully.")
-            return jsonify({"msg": "Zdjęcie zostało zaktualizowane!"}), 201
-        else:
-            return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
+        return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
