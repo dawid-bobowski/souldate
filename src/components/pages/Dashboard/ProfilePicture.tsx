@@ -15,7 +15,7 @@ function ProfilePicture(): JSX.Element {
       await axios
         .post(
           `${API_SERVER}/upload/profile-picture`,
-          { photo: importedPicture, username: localStorage.getItem('username') },
+          { photo: event.target.files[0], username: localStorage.getItem('username') },
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -77,6 +77,7 @@ function ProfilePicture(): JSX.Element {
       }
     >
       <Avatar
+        alt={`${username}'s profile picture`}
         src={importedPicture ? URL.createObjectURL(importedPicture) : `src/assets/users/${username}.jpg`}
         sx={{ width: 140, height: 140 }}
       />
