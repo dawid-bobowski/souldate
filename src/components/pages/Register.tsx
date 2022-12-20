@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
+import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER, DEFAULT_INSTALINK, DEFAULT_FBLINK, DEFAULT_TWITTERLINK } from '../../app/constants';
 import LoginImage from '../../assets/jonathan-borba-couple.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import './Register.css';
@@ -13,6 +13,9 @@ function Register(): JSX.Element {
   const [password, setPassword] = useState<string>(DEFAULT_PASSWORD);
   const [confirmPassword, setConfirmPassword] = useState<string>(DEFAULT_PASSWORD);
   const [email, setEmail] = useState<string>(DEFAULT_EMAIL);
+  const [iglink, setIglink] = useState<string>(DEFAULT_INSTALINK);
+  const [fblink, setFblink] = useState<string>(DEFAULT_FBLINK);
+  const [ttlink, setTtlink] = useState<string>(DEFAULT_TWITTERLINK);
 
   async function handleRegister(): Promise<void> {
     await axios
@@ -20,6 +23,9 @@ function Register(): JSX.Element {
         username,
         password,
         email,
+        iglink,
+        fblink,
+        ttlink,
       })
       .then((result) => {
         if (result.status === 201) {
@@ -140,6 +146,33 @@ function Register(): JSX.Element {
             autoComplete='email'
             value={email}
             onChange={(event) => setEmail(event.target.value)}
+          />
+          <TextField
+            margin='normal'
+            name='instagram'
+            label='Instagram Link'
+            id='instalink'
+            autoComplete='iglink'
+            value={iglink}
+            onChange={(event) => setIglink(event.target.value)}
+          />
+          <TextField
+            margin='normal'
+            name='facebook'
+            label='Facebook Link'
+            id='fblink'
+            autoComplete='fblink'
+            value={fblink}
+            onChange={(event) => setFblink(event.target.value)}
+          />
+          <TextField
+            margin='normal'
+            name='twitter'
+            label='Twitter Link'
+            id='ttlink'
+            autoComplete='ttlink'
+            value={ttlink}
+            onChange={(event) => setTtlink(event.target.value)}
           />
           <Button
             type='button'
