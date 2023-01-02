@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER, DEFAULT_INSTALINK, DEFAULT_FBLINK, DEFAULT_TWITTERLINK, DEFAULT_CITY } from '../../app/constants';
+import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER, DEFAULT_INSTALINK, DEFAULT_FBLINK, DEFAULT_TWITTERLINK, DEFAULT_CITY, DEFAULT_BDAY } from '../../app/constants';
 import LoginImage from '../../assets/jonathan-borba-couple.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import './Register.css';
@@ -17,6 +17,7 @@ function Register(): JSX.Element {
   const [fblink, setFblink] = useState<string>(DEFAULT_FBLINK);
   const [ttlink, setTtlink] = useState<string>(DEFAULT_TWITTERLINK);
   const [city, setCity] = useState<string>(DEFAULT_CITY);
+  const [bday, setBday] = useState<string>(DEFAULT_BDAY);
 
   async function handleRegister(): Promise<void> {
     await axios
@@ -28,6 +29,7 @@ function Register(): JSX.Element {
         fblink,
         ttlink,
         city,
+        bday,
       })
       .then((result) => {
         if (result.status === 201) {
@@ -98,7 +100,7 @@ function Register(): JSX.Element {
       >
         <img
           src={Logo}
-          width={250}
+          width={200}
         />
         <Box
           id='registration-form'
@@ -184,6 +186,15 @@ function Register(): JSX.Element {
             autoComplete='city'
             value={city}
             onChange={(event) => setCity(event.target.value)}
+          />
+          <TextField
+            margin='normal'
+            name='bday'
+            label='Data urodzenia(r-m-d)'
+            id='bday'
+            autoComplete='bday'
+            value={bday}
+            onChange={(event) => setBday(event.target.value)}
           />
           <Button
             type='button'
