@@ -64,6 +64,7 @@ def register():
         instagram = data['iglink']
         facebook = data['fblink']
         twitter = data['ttlink']
+        city = data['city']
         if not username:
             return jsonify({"errorMsg":"You must provide a username."}), 400
         if not email:
@@ -75,13 +76,14 @@ def register():
                 username=username):
             hashword = generate_password_hash(password)
             users = db.execute(
-                "INSERT INTO users (username, hashword, email, instalink, fblink, twitterlink) VALUES(:username, :hash, :email, :instagram, :facebook, :twitter)",
+                "INSERT INTO users (username, hashword, email, instalink, fblink, twitterlink, city) VALUES(:username, :hash, :email, :instagram, :facebook, :twitter, :city)",
                 username=username,
                 hash=hashword,
                 instagram=instagram,
                 facebook=facebook,
                 twitter=twitter,
-                email=email)
+                email=email,
+                city=city)
             rows = db.execute("SELECT * FROM users WHERE username = :username",
                               username=username)
             return jsonify({

@@ -5,3 +5,4 @@ export const DEFAULT_EMAIL: string = 'user@souldate.pl';
 export const DEFAULT_INSTALINK: string = 'https://www.instagram.com/instagram/';
 export const DEFAULT_FBLINK: string = 'https://www.facebook.com/facebook';
 export const DEFAULT_TWITTERLINK: string = 'https://twitter.com/twitter';
+export const DEFAULT_CITY: string = 'Bydgoszcz';

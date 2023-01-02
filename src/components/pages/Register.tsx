@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER, DEFAULT_INSTALINK, DEFAULT_FBLINK, DEFAULT_TWITTERLINK } from '../../app/constants';
+import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER, DEFAULT_INSTALINK, DEFAULT_FBLINK, DEFAULT_TWITTERLINK, DEFAULT_CITY } from '../../app/constants';
 import LoginImage from '../../assets/jonathan-borba-couple.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import './Register.css';
@@ -16,6 +16,7 @@ function Register(): JSX.Element {
   const [iglink, setIglink] = useState<string>(DEFAULT_INSTALINK);
   const [fblink, setFblink] = useState<string>(DEFAULT_FBLINK);
   const [ttlink, setTtlink] = useState<string>(DEFAULT_TWITTERLINK);
+  const [city, setCity] = useState<string>(DEFAULT_CITY);
 
   async function handleRegister(): Promise<void> {
     await axios
@@ -26,6 +27,7 @@ function Register(): JSX.Element {
         iglink,
         fblink,
         ttlink,
+        city,
       })
       .then((result) => {
         if (result.status === 201) {
@@ -173,6 +175,15 @@ function Register(): JSX.Element {
             autoComplete='ttlink'
             value={ttlink}
             onChange={(event) => setTtlink(event.target.value)}
+          />
+          <TextField
+            margin='normal'
+            name='city'
+            label='Miasto'
+            id='city'
+            autoComplete='city'
+            value={city}
+            onChange={(event) => setCity(event.target.value)}
           />
           <Button
             type='button'
