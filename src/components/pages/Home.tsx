@@ -137,9 +137,115 @@ function Home(): JSX.Element {
             duszę!
           </Typography>
         </Grid>
+        <Grid
+          item
+          width={1000}
+          sx={{
+            color: 'common.black',
+            backgroundColor: 'common.white',
+            position: 'relative',
+            left: 100,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            paddingTop: '5rem',
+          }}
+        >
+          <Typography variant='h2'>Nasz zespół</Typography>
+          <Grid
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              gap: '1rem',
+              padding: '3rem 0',
+            }}
+          >
+            <Box sx={styles.teamBox}>
+              <Avatar
+                alt='członek zespołu 1'
+                src=''
+                sx={styles.teamAvatar}
+              />
+              <Typography
+                variant='caption'
+                sx={styles.teamTypography}
+              >
+                Dawid Bobowski
+              </Typography>
+            </Box>
+            <Box sx={styles.teamBox}>
+              <Avatar
+                alt='członek zespołu 2'
+                src=''
+                sx={styles.teamAvatar}
+              />
+              <Typography
+                variant='caption'
+                sx={styles.teamTypography}
+              >
+                Igor Olszewski
+              </Typography>
+            </Box>
+            <Box sx={styles.teamBox}>
+              <Avatar
+                alt='członek zespołu 3'
+                src=''
+                sx={styles.teamAvatar}
+              />
+              <Typography
+                variant='caption'
+                sx={styles.teamTypography}
+              >
+                Kinga Śmiałek
+              </Typography>
+            </Box>
+            <Box sx={styles.teamBox}>
+              <Avatar
+                alt='członek zespołu 4'
+                src=''
+                sx={styles.teamAvatar}
+              />
+              <Typography
+                variant='caption'
+                sx={styles.teamTypography}
+              >
+                Edyta Górka
+              </Typography>
+            </Box>
+            <Box sx={styles.teamBox}>
+              <Avatar
+                alt='członek zespołu 5'
+                src=''
+                sx={styles.teamAvatar}
+              />
+              <Typography
+                variant='caption'
+                sx={styles.teamTypography}
+              >
+                Karolina Wiśniewska
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
 }
 
 export default Home;
+
+const styles = {
+  teamBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  teamAvatar: {
+    width: 140,
+    height: 140,
+  },
+  teamTypography: {
+    marginTop: '1rem',
+  },
+};
