@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { PageTitle } from '../common';
 import Form from '../common/Form';
 
@@ -10,11 +10,19 @@ function LifestyleTest(): JSX.Element {
       id='lifestyle-test-container'
       sx={styles.grid}
     >
-      <PageTitle title='Test zainteresowań' />
-      <Form
-        type='lifestyle'
-        defaultAnswers={DUMMY_DATA}
-      />
+      <Box
+          id='soulmate-frame'
+          sx={{
+            ...styles.frame,
+            justifyContent: 'center',
+          }}
+      >
+        <PageTitle title='Test zainteresowań' />
+        <Form
+          type='lifestyle'
+          defaultAnswers={DUMMY_DATA}
+        />
+      </Box>
     </Grid>
   );
 }
@@ -30,6 +38,20 @@ const styles = {
     alignItems: 'center',
     backgroundColor: 'rgb(224,159,62)',
     background: 'radial-gradient(circle, rgba(224,159,62,1) 0%, rgba(158,42,43,1) 100%)'
+  },
+  frame: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'left',
+    gap: { sm: '1rem' },
+    backgroundColor: 'common.white',
+    color: 'common.darkGrey',
+    borderRadius: '1rem',
+    padding: '2rem',
+    fontSize: '0.8rem',
+    textAlign: 'left',
+    marginTop: '2rem',
+    boxShadow: '0px 0px 15px -5px rgba(10, 10, 10, 1)',
   },
 };
 

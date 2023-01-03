@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useAppSelector } from '../../app/hooks';
-import { Box,Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { PageTitle } from '../common';
 import { API_SERVER } from '../../app/constants';
 import '../../App.css';
