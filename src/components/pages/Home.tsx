@@ -132,8 +132,8 @@ function Home(): JSX.Element {
             sx={{ maxWidth: 1000 }}
           >
             Jeśli szukasz bratniej duszy, z którą będziesz mógł dzielić swoje pasje, marzenia i emocje, to SoulDate jest
-            dla Ciebie. Nasz algorytm dobiera pary na podstawie wspólnych zainteresowań i preferencji, dzięki czemu masz
-            pewność, że trafisz na osobę, która naprawdę Cię rozumie. Nie czekaj, dołącz już dziś i znajdź swoją bratnią
+            dla Ciebie. Nasz algorytm znajdzie osobę najbardziej podobną do Ciebie na podstawie wspólnych zainteresowań i preferencji,
+            dzięki czemu masz pewność, że trafisz na osobę, która naprawdę Cię rozumie. Nie czekaj, dołącz już dziś i znajdź swoją bratnią
             duszę!
           </Typography>
         </Grid>
