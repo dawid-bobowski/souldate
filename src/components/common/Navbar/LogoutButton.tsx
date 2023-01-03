@@ -6,6 +6,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { useAppDispatch } from '../../../app/hooks';
 import { logout } from '../../../features/user/userSlice';
+import { toggleMenu } from '../../../features/app/appSlice';
 
 function LogoutButton(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ function LogoutButton(): JSX.Element {
       .get(`http://127.0.0.1:5000/api/logout`)
       .then((result) => {
         if (result.status === 204) {
+          dispatch(toggleMenu());
           dispatch(logout());
           navigate('/');
         } else {

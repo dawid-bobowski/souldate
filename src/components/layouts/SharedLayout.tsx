@@ -9,7 +9,7 @@ function SharedLayout(): JSX.Element {
   const isMenuOpen: boolean = useAppSelector((state) => state.app.isMenuOpen);
 
   function handleSwipe(): void {
-    dispatch(toggleMenu({ isMenuOpen: !isMenuOpen }));
+    dispatch(toggleMenu());
   }
 
   return (

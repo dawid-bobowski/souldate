@@ -1,8 +1,8 @@
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/souldate-logo.png';
 import MainImage from '../../assets/jonathan-borba-couple2.jpg';
 
+// desktop UI to be reworked
 function Home(): JSX.Element {
   return (
     <Grid
@@ -10,7 +10,7 @@ function Home(): JSX.Element {
       component='main'
       id='home-container'
       sx={{
-        height: '100vh',
+        minHeight: '100vh',
         color: 'common.white',
         backgroundColor: 'rgb(224,159,62)',
         background: 'radial-gradient(circle, rgba(224,159,62,1) 0%, rgba(158,42,43,1) 100%)',
@@ -32,20 +32,25 @@ function Home(): JSX.Element {
           item
           sm={8}
         >
-          <img
+          <Box
+            component='img'
             src={MainImage}
-            width={1400}
+            sx={{
+              width: { sm: 1400 },
+              height: '100vh',
+              overflow: 'hidden',
+            }}
           />
         </Grid>
         <Grid
           item
           sm={1}
         />
-        <Box sx={{ position: 'absolute', top: 450, left: 200 }}>
+        <Box sx={{ position: 'absolute', top: { xs: 150, sm: 300 }, left: { xs: 25, sm: 200 } }}>
           <Typography
             variant='h1'
             sx={{
-              fontSize: '6.rem',
+              fontSize: { xs: '3rem', sm: '6rem' },
               fontFamily: '"Yeseva One", cursive',
               textShadow: '5px 5px rgba(18, 18, 18, 1)',
             }}
@@ -57,7 +62,8 @@ function Home(): JSX.Element {
             sx={{
               position: 'relative',
               left: 50,
-              fontSize: '3.5rem',
+              fontSize: { xs: '1.75rem', sm: '3.5rem' },
+              maxWidth: '80%',
               fontFamily: '"Yeseva One", cursive',
               textShadow: '3px 3px rgba(18, 18, 18, 1)',
             }}
@@ -65,7 +71,18 @@ function Home(): JSX.Element {
             Na wyciągnięcie ręki
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: '1rem', position: 'absolute', top: 800, right: 400 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: '1rem',
+            position: 'absolute',
+            top: { sm: 550 },
+            right: { sm: 200 },
+            bottom: { xs: 100, sm: 'unset' },
+            margin: { xs: '0 auto', sm: 'unset' },
+          }}
+        >
           <Button
             to='/login'
             aria-label='login'
@@ -132,9 +149,9 @@ function Home(): JSX.Element {
             sx={{ maxWidth: 1000 }}
           >
             Jeśli szukasz bratniej duszy, z którą będziesz mógł dzielić swoje pasje, marzenia i emocje, to SoulDate jest
-            dla Ciebie. Nasz algorytm znajdzie osobę najbardziej podobną do Ciebie na podstawie wspólnych zainteresowań i preferencji,
-            dzięki czemu masz pewność, że trafisz na osobę, która naprawdę Cię rozumie. Nie czekaj, dołącz już dziś i znajdź swoją bratnią
-            duszę!
+            dla Ciebie. Nasz algorytm znajdzie osobę najbardziej podobną do Ciebie na podstawie wspólnych zainteresowań
+            i preferencji, dzięki czemu masz pewność, że trafisz na osobę, która naprawdę Cię rozumie. Nie czekaj,
+            dołącz już dziś i znajdź swoją bratnią duszę!
           </Typography>
         </Grid>
         <Grid
@@ -155,7 +172,7 @@ function Home(): JSX.Element {
           <Grid
             sx={{
               display: 'flex',
-              flexDirection: 'row',
+              flexDirection: { xs: 'column', sm: 'row' },
               justifyContent: 'center',
               gap: '1rem',
               padding: '3rem 0',
