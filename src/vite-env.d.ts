@@ -6,6 +6,11 @@ interface IUser {
 }
 type User = IUser;
 
+interface IAppState {
+  isMenuOpen: boolean;
+}
+type AppState = IAppState;
+
 interface IQuestion {
   id: number;
   name: string;

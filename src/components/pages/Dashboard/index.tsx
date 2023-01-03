@@ -14,27 +14,44 @@ function Dashboard(): JSX.Element {
       component='main'
       id='dashboard-container'
       sx={{
-        width: '100%',
-        height: '100vh',
+        width: { xs: '100vw', sm: '100%' },
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgb(224,159,62)',
         background: 'radial-gradient(circle, rgba(224,159,62,1) 0%, rgba(158,42,43,1) 100%)',
+        paddingTop: { xs: '5rem', sm: '0' },
+        paddingBottom: { xs: '5rem', sm: '0' },
       }}
     >
       <Typography
         id='dashboard-mainText'
-        variant='h1'
+        variant='h2'
         sx={{
+          display: { xs: 'none', sm: 'block' },
           color: 'common.white',
           fontFamily: '"Alexandria", sans-serif',
           fontSize: { xs: '2rem', sm: '3.5rem' },
-          padding: '3rem 0',
+          marginTop: { xs: '2rem' },
+          marginBottom: '2rem',
         }}
       >
-        Witaj na swoim profilu!
+        Konto użytkownika
+      </Typography>
+      <Typography
+        variant='h2'
+        sx={{
+          display: { sm: 'none' },
+          color: 'common.white',
+          fontFamily: '"Alexandria", sans-serif',
+          fontSize: { xs: '2rem', sm: '3.5rem' },
+          marginTop: { xs: '2rem' },
+          marginBottom: '2rem',
+        }}
+      >
+        Zdjęcie profilowe
       </Typography>
       <Box
         sx={{
@@ -52,6 +69,18 @@ function Dashboard(): JSX.Element {
         >
           <ProfilePicture />
         </Box>
+        <Typography
+          variant='h2'
+          sx={{
+            display: { sm: 'none' },
+            color: 'common.white',
+            fontFamily: '"Alexandria", sans-serif',
+            fontSize: { xs: '2rem', sm: '3.5rem' },
+            marginTop: '2rem',
+          }}
+        >
+          Profile społecznościowe
+        </Typography>
         <Box
           id='dashboard-credentialsEdit'
           sx={{
@@ -77,6 +106,18 @@ function Dashboard(): JSX.Element {
           </Box>
         </Box>
       </Box>
+      <Typography
+        variant='h2'
+        sx={{
+          display: { sm: 'none' },
+          color: 'common.white',
+          fontFamily: '"Alexandria", sans-serif',
+          fontSize: { xs: '2rem', sm: '3.5rem' },
+          marginTop: '2rem',
+        }}
+      >
+        Dane konta
+      </Typography>
       <Box
         id='dashboard-profileInfoEdit'
         sx={{

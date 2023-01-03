@@ -2,7 +2,17 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER, DEFAULT_INSTALINK, DEFAULT_FBLINK, DEFAULT_TWITTERLINK, DEFAULT_CITY, DEFAULT_BDAY } from '../../app/constants';
+import {
+  API_SERVER,
+  DEFAULT_EMAIL,
+  DEFAULT_PASSWORD,
+  DEFAULT_USER,
+  DEFAULT_INSTALINK,
+  DEFAULT_FBLINK,
+  DEFAULT_TWITTERLINK,
+  DEFAULT_CITY,
+  DEFAULT_BDAY,
+} from '../../app/constants';
 import LoginImage from '../../assets/jonathan-borba-couple.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import './Register.css';
@@ -101,6 +111,7 @@ function Register(): JSX.Element {
         <img
           src={Logo}
           width={200}
+          style={{ paddingTop: '2rem' }}
         />
         <Box
           id='registration-form'
@@ -211,7 +222,7 @@ function Register(): JSX.Element {
           id='back-to-login-button'
           sx={{ display: 'flex', justifyContent: 'center' }}
         >
-          <Typography>
+          <Typography sx={{ paddingBottom: '2rem' }}>
             Masz już konto? <Link to='/login'>Zaloguj się</Link>!
           </Typography>
         </Box>

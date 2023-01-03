@@ -100,7 +100,7 @@ function Login(): JSX.Element {
       >
         <img
           src={Logo}
-          width={250}
+          width={200}
         />
         <Box
           id='login-form'
@@ -153,10 +153,9 @@ function Login(): JSX.Element {
         </Box>
         <Box
           sx={{
-            width: { xs: '90%', sm: 500 },
-            position: 'relative',
-            top: 150,
+            width: { xs: '90%', sm: 'auto' },
             margin: '0 auto',
+            padding: '3rem 0',
           }}
         >
           <Box
@@ -178,7 +177,7 @@ function Login(): JSX.Element {
           </Box>
           <Typography
             fontSize={12}
-            sx={{ padding: '0 1rem', marginTop: 2, textAlign: 'center' }}
+            sx={{ marginTop: 2, textAlign: 'center', maxWidth: 500 }}
           >
             Projekt stworzony na potrzeby przedmiotu Zespołowy projekt informatyczny na Uniwersytecie Kazimierza
             Wielkiego ze wsparciem firmy BluSoft Sp. z o.o. Wszelkie prawa zastrzeżone.

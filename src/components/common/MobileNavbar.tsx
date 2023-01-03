@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { toggleMenu } from '../../features/app/appSlice';
 import { Box } from '@mui/material';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import Logo from '../../assets/souldate-logo.png';
 
 function MobileNavbar(): JSX.Element {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const isMenuOpen: boolean = useAppSelector((state) => state.app.isMenuOpen);
 
   function handleMenuClick(): void {
-    setIsOpen(!isOpen);
+    dispatch(toggleMenu({ isMenuOpen: !isMenuOpen }));
   }
 
   return (
@@ -21,6 +23,8 @@ function MobileNavbar(): JSX.Element {
         position: 'fixed',
         top: 0,
         backgroundColor: 'common.white',
+        zIndex: 100,
+        boxShadow: '0px 0px 15px -5px rgba(10, 10, 10, 1)',
       }}
     >
       <MenuOpenIcon

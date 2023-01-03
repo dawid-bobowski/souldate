@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { toggleMenu } from '../../features/app/appSlice';
 import { Outlet } from 'react-router-dom';
 import { Grid, SwipeableDrawer } from '@mui/material';
-
 import { MobileNavbar, Navbar, Tabs } from '../common';
 
 function SharedLayout(): JSX.Element {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const isMenuOpen: boolean = useAppSelector((state) => state.app.isMenuOpen);
+
+  function handleSwipe(): void {
+    dispatch(toggleMenu({ isMenuOpen: !isMenuOpen }));
+  }
 
   return (
     <Grid
@@ -15,10 +20,10 @@ function SharedLayout(): JSX.Element {
       <Navbar />
       <MobileNavbar />
       <SwipeableDrawer
-        open={isOpen}
+        open={isMenuOpen}
         anchor='left'
-        onClose={() => setIsOpen(false)}
-        onOpen={() => setIsOpen(true)}
+        onClose={handleSwipe}
+        onOpen={handleSwipe}
         sx={{ display: { sm: 'none' } }}
       >
         <Tabs />
