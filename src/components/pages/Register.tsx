@@ -2,32 +2,18 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import {
-  API_SERVER,
-  DEFAULT_EMAIL,
-  DEFAULT_PASSWORD,
-  DEFAULT_USER,
-  DEFAULT_INSTALINK,
-  DEFAULT_FBLINK,
-  DEFAULT_TWITTERLINK,
-  DEFAULT_CITY,
-  DEFAULT_BDAY,
-} from '../../app/constants';
-import LoginImage from '../../assets/jonathan-borba-couple.jpg';
+import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
+import LoginImage from '../../assets/sparks.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import './Register.css';
 
+// we'll ask user after login to update email, city, etc
 function Register(): JSX.Element {
   const navigate = useNavigate();
+  const [email, setEmail] = useState<string>(DEFAULT_EMAIL);
   const [username, setUsername] = useState<string>(DEFAULT_USER);
   const [password, setPassword] = useState<string>(DEFAULT_PASSWORD);
   const [confirmPassword, setConfirmPassword] = useState<string>(DEFAULT_PASSWORD);
-  const [email, setEmail] = useState<string>(DEFAULT_EMAIL);
-  const [iglink, setIglink] = useState<string>(DEFAULT_INSTALINK);
-  const [fblink, setFblink] = useState<string>(DEFAULT_FBLINK);
-  const [ttlink, setTtlink] = useState<string>(DEFAULT_TWITTERLINK);
-  const [city, setCity] = useState<string>(DEFAULT_CITY);
-  const [bday, setBday] = useState<string>(DEFAULT_BDAY);
 
   async function handleRegister(): Promise<void> {
     await axios
@@ -35,11 +21,6 @@ function Register(): JSX.Element {
         username,
         password,
         email,
-        iglink,
-        fblink,
-        ttlink,
-        city,
-        bday,
       })
       .then((result) => {
         if (result.status === 201) {
@@ -108,10 +89,16 @@ function Register(): JSX.Element {
           alignItems: 'space-around',
         }}
       >
-        <img
+        <Box
+          component='img'
           src={Logo}
           width={200}
-          style={{ paddingTop: '2rem' }}
+          onClick={() => navigate('/')}
+          sx={{
+            ':hover': {
+              cursor: 'pointer',
+            },
+          }}
         />
         <Box
           id='registration-form'
@@ -135,6 +122,15 @@ function Register(): JSX.Element {
           />
           <TextField
             margin='normal'
+            name='email'
+            label='Email'
+            id='email'
+            autoComplete='email'
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+          <TextField
+            margin='normal'
             name='password'
             label='Hasło'
             type='password'
@@ -152,60 +148,6 @@ function Register(): JSX.Element {
             autoComplete='current-password'
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
-          />
-          <TextField
-            margin='normal'
-            name='email'
-            label='Email'
-            id='email'
-            autoComplete='email'
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <TextField
-            margin='normal'
-            name='instagram'
-            label='Instagram Link'
-            id='instalink'
-            autoComplete='iglink'
-            value={iglink}
-            onChange={(event) => setIglink(event.target.value)}
-          />
-          <TextField
-            margin='normal'
-            name='facebook'
-            label='Facebook Link'
-            id='fblink'
-            autoComplete='fblink'
-            value={fblink}
-            onChange={(event) => setFblink(event.target.value)}
-          />
-          <TextField
-            margin='normal'
-            name='twitter'
-            label='Twitter Link'
-            id='ttlink'
-            autoComplete='ttlink'
-            value={ttlink}
-            onChange={(event) => setTtlink(event.target.value)}
-          />
-          <TextField
-            margin='normal'
-            name='city'
-            label='Miasto'
-            id='city'
-            autoComplete='city'
-            value={city}
-            onChange={(event) => setCity(event.target.value)}
-          />
-          <TextField
-            margin='normal'
-            name='bday'
-            label='Data urodzenia(r-m-d)'
-            id='bday'
-            autoComplete='bday'
-            value={bday}
-            onChange={(event) => setBday(event.target.value)}
           />
           <Button
             type='button'

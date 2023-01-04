@@ -1,5 +1,6 @@
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+
 import MainImage from '../../assets/sparks.jpg';
 import Heart from '../../assets/heart.png';
 import Dev1 from '../../assets/authors/dev1.png';
@@ -8,7 +9,6 @@ import Dev3 from '../../assets/authors/dev3.png';
 import Dev4 from '../../assets/authors/dev4.png';
 import Dev5 from '../../assets/authors/dev5.png';
 
-// desktop UI to be reworked
 function Home(): JSX.Element {
   return (
     <Grid
@@ -28,7 +28,7 @@ function Home(): JSX.Element {
       }}
     >
       <Grid
-        id='home-container'
+        id='home-main-image'
         container
         sx={{
           display: 'flex',
@@ -48,7 +48,12 @@ function Home(): JSX.Element {
         >
           <Box
             id='main-page-slogan'
-            sx={{ position: 'absolute', top: 600, left: { xs: 30, sm: 100 } }}
+            sx={{
+              position: 'absolute',
+              top: { xs: 'unset', sm: 500, md: 400 },
+              left: { xs: 30, sm: 100 },
+              bottom: { xs: 250, sm: 'unset' },
+            }}
           >
             <Typography
               variant='h1'
@@ -77,12 +82,11 @@ function Home(): JSX.Element {
             id='main-page-buttons'
             sx={{
               display: 'flex',
-              flexDirection: 'row',
               gap: '1rem',
               position: 'absolute',
               bottom: 50,
               right: { xs: 'unset', sm: 200 },
-              left: { xs: 'calc((100% - 25rem) / 2)', lg: 'unset' },
+              left: { xs: 'calc((100% - 21rem) / 2)', lg: 'unset' },
             }}
           >
             <Button
@@ -93,9 +97,8 @@ function Home(): JSX.Element {
               sx={{
                 background: 'linear-gradient(#6d1416 0%, #B24C32 30%, #B24C32 70%, #6d1416 100%)',
                 color: 'common.white',
-                width: '12rem',
+                width: { xs: '10rem', sm: '12rem' },
                 fontSize: '1.5rem',
-                fontFamily: 'Poppins, sans-serif',
                 textShadow: '2px 2px rgba(18, 18, 18, 1)',
                 textTransform: 'capitalize',
                 ':hover': {
@@ -114,9 +117,8 @@ function Home(): JSX.Element {
               sx={{
                 background: 'linear-gradient(#6d1416 0%, #B24C32 30%, #B24C32 70%, #6d1416 100%)',
                 color: 'common.white',
-                width: '12rem',
+                width: { xs: '10rem', sm: '12rem' },
                 fontSize: '1.5rem',
-                fontFamily: 'Poppins, sans-serif',
                 textTransform: 'capitalize',
                 textShadow: '2px 2px rgba(18, 18, 18, 1)',
                 ':hover': {
@@ -142,26 +144,50 @@ function Home(): JSX.Element {
             color: 'common.black',
             backgroundColor: 'common.white',
             width: '100%',
-            boxShadow: '0px 0px 15px -5px rgba(10, 10, 10, 1)',
             position: 'relative',
-            marginTop: '5rem',
           }}
         >
-          <Typography
-            variant='h5'
-            sx={{ padding: { xs: '5rem', md: '5rem 10rem' }, maxWidth: 1000, margin: '0 auto' }}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              paddingTop: '5rem',
+              overflow: 'hidden',
+            }}
           >
-            Jeśli szukasz bratniej duszy, z którą chciał_byś dzielić swoje pasje, marzenia i emocje, to <b>SoulDate</b>{' '}
-            jest dla Ciebie. Nasz algorytm znajdzie osobę najbardziej podobną do Ciebie na podstawie wspólnych
-            zainteresowań i preferencji, dzięki czemu masz pewność, że trafisz na osobę, która naprawdę Cię rozumie.{' '}
-            <b>Nie czekaj</b>, dołącz już dziś i znajdź swoją bratnią duszę!
+            <Typography
+              variant='h2'
+              sx={{ fontFamily: '"Archivo Black", sans-serif', fontSize: { xs: '2.5rem', sm: '3rem' } }}
+            >
+              O projekcie
+            </Typography>
+            <Typography
+              component='span'
+              sx={{
+                fontSize: { xs: '1rem', sm: '1.5rem' },
+                textAlign: 'justify',
+                padding: { xs: '2.5rem', md: '5rem 5rem 0 5rem' },
+                maxWidth: 1000,
+                margin: '0 auto',
+              }}
+            >
+              Jeśli szukasz bratniej duszy, z którą chciał_byś dzielić swoje pasje, marzenia i emocje, to{' '}
+              <b>SoulDate</b> jest dla Ciebie. Nasz algorytm znajdzie osobę najbardziej podobną do Ciebie na podstawie
+              wspólnych zainteresowań i preferencji, dzięki czemu masz pewność, że trafisz na osobę, która naprawdę Cię
+              rozumie. <b>Nie czekaj</b>, dołącz już dziś i znajdź swoją bratnią duszę!
+            </Typography>
             <Box
               component='img'
               src={Heart}
               width={300}
-              sx={{ float: 'right', margin: { xs: '3rem -2rem 5rem 0', md: '3rem -6rem 5rem 0' } }}
+              sx={{
+                margin: { xs: '0 -2rem 5rem 0', md: '3rem 10rem 5rem 0' },
+                alignSelf: 'flex-end',
+              }}
             />
-          </Typography>
+            <Box sx={{ maxWidth: 1000, width: '100%', borderBottom: '1px grey solid' }}></Box>
+          </Box>
         </Grid>
         <Grid
           item
@@ -171,13 +197,18 @@ function Home(): JSX.Element {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            marginTop: '5rem',
             width: '100%',
-            padding: { xs: '5rem', sm: '5rem 10rem' },
+            padding: { xs: '2.5rem', sm: '5rem 10rem' },
             boxShadow: '0px 0px 15px -5px rgba(10, 10, 10, 1)',
+            borderRadius: '0 0 2rem 2rem',
           }}
         >
-          <Typography variant='h2'>Nasz zespół</Typography>
+          <Typography
+            variant='h2'
+            sx={{ fontFamily: '"Archivo Black", sans-serif', fontSize: { xs: '2.5rem', sm: '3rem' } }}
+          >
+            Nasz zespół
+          </Typography>
           <Grid
             sx={{
               display: 'flex',
@@ -257,7 +288,7 @@ function Home(): JSX.Element {
         <Box sx={{ margin: '4rem 0', width: '100%', textAlign: 'center' }}>
           <Typography
             variant='h3'
-            sx={{ fontSize: '1.5rem', fontFamily: 'Poppins, sans-serif' }}
+            sx={{ fontSize: '1.5rem' }}
           >
             SoulDate &copy; 2023
           </Typography>

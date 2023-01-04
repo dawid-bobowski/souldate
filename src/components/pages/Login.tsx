@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { API_SERVER, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
 import { useAppDispatch } from '../../app/hooks';
 import { login } from '../../features/user/userSlice';
-import LoginImage from '../../assets/jonathan-borba-couple.jpg';
+import LoginImage from '../../assets/sparks.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import Ukw from '../../assets/ukw-logo.png';
 import BluSoft from '../../assets/blusoft-logo-2.png';
@@ -98,9 +98,16 @@ function Login(): JSX.Element {
           alignItems: 'space-around',
         }}
       >
-        <img
+        <Box
+          component='img'
           src={Logo}
           width={200}
+          onClick={() => navigate('/')}
+          sx={{
+            ':hover': {
+              cursor: 'pointer',
+            },
+          }}
         />
         <Box
           id='login-form'
