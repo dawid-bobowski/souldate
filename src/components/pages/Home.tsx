@@ -1,6 +1,7 @@
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import LogoWhite from '../../assets/souldate-logo-white.png';
 import MainImage from '../../assets/sparks.jpg';
 import Heart from '../../assets/heart.png';
 import Dev1 from '../../assets/authors/dev1.png';
@@ -29,109 +30,115 @@ function Home(): JSX.Element {
     >
       <Grid
         id='home-main-image'
-        container
         sx={{
           display: 'flex',
-          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          justifyContent: { xs: 'center', sm: 'flex-end' },
           overflow: 'hidden',
           width: '100%',
           height: '100vh',
+          background: `url(${MainImage})`,
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          padding: { xs: '0 5%', sm: '0 10%' },
         }}
       >
         <Box
+          component='img'
+          src={LogoWhite}
           sx={{
-            width: '100%',
-            background: `url(${MainImage})`,
-            backgroundPosition: 'center',
             position: 'relative',
+            left: { sm: -20 },
+            height: { xs: 100, md: 175, lg: 200 },
+            margin: { xs: '0 auto', sm: 'unset' },
+          }}
+        />
+        <Box
+          id='home-slogan'
+          sx={{ width: '100%' }}
+        >
+          <Typography
+            variant='h1'
+            sx={{
+              fontSize: { xs: '2.5rem', md: '4rem', lg: '5rem' },
+              fontFamily: '"Archivo Black", sans-serif',
+              textShadow: '5px 5px rgba(18, 18, 18, 1)',
+              textAlign: { xs: 'center', sm: 'unset' },
+              margin: { xs: '20% auto 0 auto0', md: 'unset' },
+            }}
+          >
+            Twoja bratnia dusza
+          </Typography>
+          <Typography
+            variant='h1'
+            sx={{
+              position: 'relative',
+              left: { xs: 'unset', sm: 50 },
+              fontSize: { xs: '1.25rem', sm: '1.75rem', md: '2.5rem', lg: '3.5rem' },
+              fontFamily: '"Archivo Black", sans-serif',
+              textShadow: '3px 3px rgba(18, 18, 18, 1)',
+              textAlign: { xs: 'center', sm: 'unset' },
+            }}
+          >
+            na wyciągnięcie ręki
+          </Typography>
+        </Box>
+        <Box
+          id='home-buttons'
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: '1rem',
+            margin: { xs: '20% 0 0 0', sm: '4rem 0 2rem 0' },
+            alignSelf: { xs: 'center', sm: 'flex-end' },
           }}
         >
-          <Box
-            id='main-page-slogan'
+          <Button
+            id='home-login-button'
+            to='/login'
+            aria-label='login'
+            variant='contained'
+            component={Link}
             sx={{
-              position: 'absolute',
-              top: { xs: 'unset', sm: 500, md: 400 },
-              left: { xs: 30, sm: 100 },
-              bottom: { xs: 250, sm: 'unset' },
+              background: 'linear-gradient(#6d1416 0%, #B24C32 30%, #B24C32 70%, #6d1416 100%)',
+              color: 'common.white',
+              width: { xs: '10rem', sm: '12rem' },
+              fontSize: { xs: '1.25rem', sm: '1.5rem' },
+              textShadow: '2px 2px rgba(18, 18, 18, 1)',
+              textTransform: 'capitalize',
+              ':hover': {
+                color: 'common.white',
+                background: 'linear-gradient(#500d0e 0%, #8a2022 30%, #8a2022 70%, #500d0e 100%)',
+              },
             }}
           >
-            <Typography
-              variant='h1'
-              sx={{
-                fontSize: { xs: '3rem', md: '4.5rem', lg: '6rem' },
-                fontFamily: '"Yeseva One", cursive',
-                textShadow: '5px 5px rgba(18, 18, 18, 1)',
-              }}
-            >
-              Twoja bratnia dusza
-            </Typography>
-            <Typography
-              variant='h1'
-              sx={{
-                position: 'relative',
-                left: 50,
-                fontSize: { xs: '1.75rem', md: '2.25rem', lg: '3.5rem' },
-                fontFamily: '"Yeseva One", cursive',
-                textShadow: '3px 3px rgba(18, 18, 18, 1)',
-              }}
-            >
-              Na wyciągnięcie ręki
-            </Typography>
-          </Box>
-          <Box
-            id='main-page-buttons'
+            Logowanie
+          </Button>
+          <Button
+            id='home-register-button'
+            to='/register'
+            aria-label='register'
+            variant='contained'
+            component={Link}
             sx={{
-              display: 'flex',
-              gap: '1rem',
-              position: 'absolute',
-              bottom: 50,
-              right: { xs: 'unset', sm: 200 },
-              left: { xs: 'calc((100% - 21rem) / 2)', lg: 'unset' },
+              background: 'linear-gradient(#6d1416 0%, #B24C32 30%, #B24C32 70%, #6d1416 100%)',
+              color: 'common.white',
+              width: { xs: '10rem', sm: '12rem' },
+              fontSize: { xs: '1.25rem', sm: '1.5rem' },
+              textTransform: 'capitalize',
+              textShadow: '2px 2px rgba(18, 18, 18, 1)',
+              ':hover': {
+                background: 'linear-gradient(#500d0e 0%, #8a2022 30%, #8a2022 70%, #500d0e 100%)',
+              },
             }}
           >
-            <Button
-              to='/login'
-              aria-label='login'
-              variant='contained'
-              component={Link}
-              sx={{
-                background: 'linear-gradient(#6d1416 0%, #B24C32 30%, #B24C32 70%, #6d1416 100%)',
-                color: 'common.white',
-                width: { xs: '10rem', sm: '12rem' },
-                fontSize: '1.5rem',
-                textShadow: '2px 2px rgba(18, 18, 18, 1)',
-                textTransform: 'capitalize',
-                ':hover': {
-                  color: 'common.white',
-                  background: 'linear-gradient(#500d0e 0%, #8a2022 30%, #8a2022 70%, #500d0e 100%)',
-                },
-              }}
-            >
-              Logowanie
-            </Button>
-            <Button
-              to='/register'
-              aria-label='register'
-              variant='contained'
-              component={Link}
-              sx={{
-                background: 'linear-gradient(#6d1416 0%, #B24C32 30%, #B24C32 70%, #6d1416 100%)',
-                color: 'common.white',
-                width: { xs: '10rem', sm: '12rem' },
-                fontSize: '1.5rem',
-                textTransform: 'capitalize',
-                textShadow: '2px 2px rgba(18, 18, 18, 1)',
-                ':hover': {
-                  background: 'linear-gradient(#500d0e 0%, #8a2022 30%, #8a2022 70%, #500d0e 100%)',
-                },
-              }}
-            >
-              Rejestracja
-            </Button>
-          </Box>
+            Rejestracja
+          </Button>
         </Box>
       </Grid>
       <Grid
+        id='home-main-description'
         container
         sx={{
           display: 'flex',
@@ -139,6 +146,7 @@ function Home(): JSX.Element {
         }}
       >
         <Grid
+          id='home-project-info'
           item
           sx={{
             color: 'common.black',
@@ -157,12 +165,14 @@ function Home(): JSX.Element {
             }}
           >
             <Typography
+              className='home-section-title'
               variant='h2'
               sx={{ fontFamily: '"Archivo Black", sans-serif', fontSize: { xs: '2.5rem', sm: '3rem' } }}
             >
               O projekcie
             </Typography>
             <Typography
+              className='home-section-description'
               component='span'
               sx={{
                 fontSize: { xs: '1rem', sm: '1.5rem' },
@@ -186,7 +196,10 @@ function Home(): JSX.Element {
                 alignSelf: 'flex-end',
               }}
             />
-            <Box sx={{ maxWidth: 1000, width: '100%', borderBottom: '1px grey solid' }}></Box>
+            <Box
+              className='home-section-separator'
+              sx={{ maxWidth: 1000, width: '100%', borderBottom: '1px grey solid' }}
+            ></Box>
           </Box>
         </Grid>
         <Grid
@@ -198,27 +211,33 @@ function Home(): JSX.Element {
             flexDirection: 'column',
             alignItems: 'center',
             width: '100%',
-            padding: { xs: '2.5rem', sm: '5rem 10rem' },
+            padding: { xs: '2.5rem', sm: '5rem 2.5rem' },
             boxShadow: '0px 0px 15px -5px rgba(10, 10, 10, 1)',
             borderRadius: '0 0 2rem 2rem',
           }}
         >
           <Typography
+            className='home-section-title'
             variant='h2'
             sx={{ fontFamily: '"Archivo Black", sans-serif', fontSize: { xs: '2.5rem', sm: '3rem' } }}
           >
             Nasz zespół
           </Typography>
           <Grid
+            id='home-team-members'
+            className='home-section-description'
             sx={{
               display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
+              flexDirection: { xs: 'column', md: 'row' },
               justifyContent: 'center',
               gap: '1rem',
               padding: '3rem 0',
             }}
           >
-            <Box sx={styles.teamBox}>
+            <Box
+              className='home-team-member'
+              sx={styles.teamBox}
+            >
               <Avatar
                 alt='członek zespołu 1'
                 src={Dev1}
@@ -231,7 +250,10 @@ function Home(): JSX.Element {
                 Dawid Bobowski
               </Typography>
             </Box>
-            <Box sx={styles.teamBox}>
+            <Box
+              className='home-team-member'
+              sx={styles.teamBox}
+            >
               <Avatar
                 alt='członek zespołu 4'
                 src={Dev4}
@@ -244,7 +266,10 @@ function Home(): JSX.Element {
                 Edyta Górka
               </Typography>
             </Box>
-            <Box sx={styles.teamBox}>
+            <Box
+              className='home-team-member'
+              sx={styles.teamBox}
+            >
               <Avatar
                 alt='członek zespołu 2'
                 src={Dev2}
@@ -257,7 +282,10 @@ function Home(): JSX.Element {
                 Igor Olszewski
               </Typography>
             </Box>
-            <Box sx={styles.teamBox}>
+            <Box
+              className='home-team-member'
+              sx={styles.teamBox}
+            >
               <Avatar
                 alt='członek zespołu 3'
                 src={Dev3}
@@ -270,7 +298,10 @@ function Home(): JSX.Element {
                 Kinga Śmiałek
               </Typography>
             </Box>
-            <Box sx={styles.teamBox}>
+            <Box
+              className='home-team-member'
+              sx={styles.teamBox}
+            >
               <Avatar
                 alt='członek zespołu 5'
                 src={Dev5}
@@ -285,7 +316,10 @@ function Home(): JSX.Element {
             </Box>
           </Grid>
         </Grid>
-        <Box sx={{ margin: '4rem 0', width: '100%', textAlign: 'center' }}>
+        <Box
+          id='home-footer'
+          sx={{ margin: '4rem 0', width: '100%', textAlign: 'center' }}
+        >
           <Typography
             variant='h3'
             sx={{ fontSize: '1.5rem' }}

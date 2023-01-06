@@ -8,7 +8,7 @@ import { login } from '../../features/user/userSlice';
 import LoginImage from '../../assets/sparks.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import Ukw from '../../assets/ukw-logo.png';
-import BluSoft from '../../assets/blusoft-logo-2.png';
+import BluSoft from '../../assets/blusoft-logo.png';
 import './Login.css';
 
 declare module '@mui/material/Button' {
