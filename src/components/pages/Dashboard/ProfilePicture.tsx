@@ -78,7 +78,7 @@ function ProfilePicture(): JSX.Element {
     >
       <Avatar
         alt={`${username}'s profile picture`}
-        src={importedPicture ? URL.createObjectURL(importedPicture) : `src/assets/users/${username}.jpg`}
+        src={importedPicture ? URL.createObjectURL(importedPicture) : `users/${username}.jpg`}
         sx={{ width: 140, height: 140 }}
       />
     </Badge>

@@ -452,13 +452,13 @@ def upload():
     print("Current Working Directory " , os.getcwd())
     print(os.path.isfile(myfile))
     # Specify path
-    path = 'src/assets/users/{}.jpg'.format(nazwka)
+    path = 'public/users/{}.jpg'.format(nazwka)
     # Check whether the specified
     # path exists or not
     isExist = os.path.exists(path)
     print(isExist)
     if isExist==True:
-        os.remove('src/assets/users/{}.jpg'.format(nazwka))
+        os.remove('public/users/{}.jpg'.format(nazwka))
     if photo:
         photos.save(photo, name=myfile)
         flash("Photo saved successfully.")
