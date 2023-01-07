@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import { toggleMenu } from '../../features/app/appSlice';
 import { Box } from '@mui/material';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
@@ -6,7 +6,6 @@ import Logo from '../../assets/souldate-logo.png';
 
 function MobileNavbar(): JSX.Element {
   const dispatch = useAppDispatch();
-  const isMenuOpen: boolean = useAppSelector((state) => state.app.isMenuOpen);
 
   function handleMenuClick(): void {
     dispatch(toggleMenu());

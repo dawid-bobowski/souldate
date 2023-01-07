@@ -7,6 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useAppDispatch } from '../../../app/hooks';
 import { logout } from '../../../features/user/userSlice';
 import { toggleMenu } from '../../../features/app/appSlice';
+import { API_SERVER } from '../../../app/constants';
 
 function LogoutButton(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -15,7 +16,7 @@ function LogoutButton(): JSX.Element {
   async function handleLogout(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
     await axios
-      .get(`http://127.0.0.1:5000/api/logout`)
+      .get(`${API_SERVER}/logout`)
       .then((result) => {
         if (result.status === 204) {
           dispatch(toggleMenu());
