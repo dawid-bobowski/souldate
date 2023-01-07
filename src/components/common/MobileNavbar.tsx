@@ -9,7 +9,7 @@ function MobileNavbar(): JSX.Element {
   const isMenuOpen: boolean = useAppSelector((state) => state.app.isMenuOpen);
 
   function handleMenuClick(): void {
-    dispatch(toggleMenu({ isMenuOpen: !isMenuOpen }));
+    dispatch(toggleMenu());
   }
 
   return (
