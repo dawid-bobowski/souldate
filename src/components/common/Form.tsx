@@ -1,15 +1,18 @@
+import { Box, Button, Typography, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import axios from 'axios';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { API_SERVER } from '../../app/constants';
 import './Form.css';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 enum PersonalityFormOption {
-  DEFINITELY_DISAGREE = 'Stanowczo nie zgadzam się z tym stwierdzeniem',
-  DISAGREE = 'Nie zgadzam się z tym stwierdzeniem',
-  NEUTRAL = 'Nie potrafię tego określić',
-  AGREE = 'Zgadzam się z tym stwierdzeniem',
   DEFINITELY_AGREE = 'Zdecydowanie zgadzam się z tym stwierdzeniem',
+  AGREE = 'Zgadzam się z tym stwierdzeniem',
+  NEUTRAL = 'Nie potrafię tego określić',
+  DISAGREE = 'Nie zgadzam się z tym stwierdzeniem',
+  DEFINITELY_DISAGREE = 'Stanowczo nie zgadzam się z tym stwierdzeniem',
 }
 
 enum LifestyleFormOption {
@@ -114,58 +117,124 @@ function Form(props: FormProps): JSX.Element {
   }, [questions]);
 
   return (
-    <form
+    <Box
       id={`${type}-form`}
-      className='form'
+      component='form'
       onSubmit={handleSubmit}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+      }}
     >
       {currentQuestion ? (
         <>
-          <div className='form-question'>
-            <h2>{currentQuestion.text}:</h2>
-            {formOptions().map((option, optionIndex) => {
-              return (
-                <div
-                  key={optionIndex}
-                  className='form-option'
-                >
-                  <input
-                    type='radio'
-                    name={currentQuestion.name}
-                    value={optionIndex + 1}
-                    onChange={handleChange}
-                  />
-                  <label>{option}</label>
-                </div>
-              );
-            })}
-          </div>
-          <>
-            <button
+          <Box
+            className='form-question'
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
+            <Typography
+              variant='h2'
+              sx={{
+                color: 'common.white',
+                fontFamily: '"Archivo Black",sans-serif',
+                padding: '0 5%',
+                textAlign: 'center',
+                fontSize: '3rem',
+              }}
+            >
+              {currentQuestion.text}:
+            </Typography>
+            <FormControl
+              className='form-option'
+              sx={{ marginTop: '2rem' }}
+            >
+              <RadioGroup
+                onChange={handleChange}
+                sx={{
+                  gap: '1rem',
+                }}
+              >
+                {formOptions().map((option, optionIndex) => {
+                  return (
+                    <FormControlLabel
+                      key={optionIndex}
+                      value={optionIndex + 1}
+                      control={<Radio />}
+                      label={option}
+                      sx={{
+                        backgroundColor: 'common.white',
+                        padding: '1rem 2rem',
+                        borderRadius: '3rem',
+                        '& .MuiSvgIcon-root': {
+                          fontSize: 28,
+                        },
+                        '& .MuiFormControlLabel-label': {
+                          fontSize: '1.25rem',
+                        },
+                      }}
+                    />
+                  );
+                })}
+              </RadioGroup>
+            </FormControl>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+            <Button
               disabled={currentQuestion && currentQuestion.id <= 1}
               onClick={(event) => {
                 event.preventDefault();
                 setCurrentQuestion(questions.find((item) => item.id === currentQuestion.id - 1));
               }}
+              sx={{ color: 'common.white', fontSize: '1.25rem' }}
             >
-              Poprzednie pytanie
-            </button>
-            <button type='submit'>Wyślij</button>
-            <button
+              <KeyboardArrowLeftIcon sx={{ fontSize: '3rem' }} />
+            </Button>
+            <Typography sx={{ display: 'flex', alignItems: 'center', color: 'common.white', fontSize: '1.25rem' }}>
+              {currentQuestion.id} z 50
+            </Typography>
+            <Button
               disabled={currentQuestion && currentQuestion.id >= questions.length - 1}
               onClick={(event) => {
                 event.preventDefault();
                 setCurrentQuestion(questions.find((item) => item.id === currentQuestion.id + 1));
               }}
+              sx={{ color: 'common.white', fontSize: '1.25rem' }}
             >
-              Następne pytanie
-            </button>
-          </>
+              <KeyboardArrowRightIcon sx={{ fontSize: '3rem' }} />
+            </Button>
+          </Box>
+          <Button
+            type='submit'
+            sx={{
+              color: 'common.white',
+              fontSize: '1rem',
+              borderRadius: '3rem',
+              border: '2px solid',
+              padding: '1rem 2rem',
+              borderColor: 'common.white',
+              marginTop: '1rem',
+              ':hover': {
+                color: 'common.black',
+                backgroundColor: 'common.white',
+              },
+            }}
+          >
+            Wyślij
+          </Button>
         </>
       ) : (
         <></>
       )}
-    </form>
+    </Box>
   );
 }
 
