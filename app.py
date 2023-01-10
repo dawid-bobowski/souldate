@@ -28,9 +28,10 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 ################# photo upload
-photos=UploadSet("photos", IMAGES)
+photos = UploadSet("photos", IMAGES)
 app.config["UPLOADED_PHOTOS_DEST"] = "src/assets/users"
 configure_uploads(app, photos)
+
 
 @app.after_request
 def after_request(response):
@@ -46,136 +47,140 @@ def after_request(response):
 db = SQL("sqlite:///database.db")
 
 
-@app.route('/api/index')
-def index():
-    return jsonify(komunikat="hejka", czy_dziala="tak")
-
-
-@app.route("/api/register", methods=["GET", "POST"])
+@app.route("/api/register", methods=["POST"])
 def register():
-    if request.method == "GET":
-        info = 'Strona rejestracji'
-        return jsonify(info)
-    elif request.method == "POST":
-        data = json.loads(request.data.decode('utf-8'))
-        username = data['username']
-        password = data['password']
-        email = data['email']
-        instagram = data['iglink']
-        facebook = data['fblink']
-        twitter = data['ttlink']
-        city = data['city']
-        bday = data['bday']
-        if not username:
-            return jsonify({"errorMsg":"You must provide a username."}), 400
-        if not email:
-            return jsonify({"errorMsg":"You must provide a valid email."}), 400
-        if not password:
-            return jsonify({"errorMsg":"You must provide a password."}), 400
-        if not db.execute(
-                "SELECT username FROM users WHERE username = :username",
-                username=username):
-            hashword = generate_password_hash(password)
-            users = db.execute(
-                "INSERT INTO users (username, hashword, email, instalink, fblink, twitterlink, city, bday) VALUES(:username, :hash, :email, :instagram, :facebook, :twitter, :city, :bday)",
-                username=username,
-                hash=hashword,
-                instagram=instagram,
-                facebook=facebook,
-                twitter=twitter,
-                email=email,
-                city=city,
-                bday=bday)
-            rows = db.execute("SELECT * FROM users WHERE username = :username",
-                              username=username)
-            return jsonify({
-                "msg":
-                "Użytkownik " + username +
-                " został utworzony!"
-            }), 201
-        elif True:
-            return jsonify({
-                "errorMsg":
-                "Użytkownik o nazwie " + username +
-                " już istnieje!"
-            }), 409
+    data = json.loads(request.data.decode('utf-8'))
+    username = data['username']
+    password = data['password']
+    email = data['email']
+    #instagram = data['iglink']
+    #facebook = data['fblink']
+    #twitter = data['ttlink']
+    #city = data['city']
+    #bday = data['bday']
+    if not username:
+        return jsonify({"errorMsg": "You must provide a username."}), 400
+    if not email:
+        return jsonify({"errorMsg": "You must provide a valid email."}), 400
+    if not password:
+        return jsonify({"errorMsg": "You must provide a password."}), 400
+    if not db.execute("SELECT username FROM users WHERE username = :username",
+                      username=username):
+        hashword = generate_password_hash(password)
+       # users = db.execute("INSERT INTO users (username, hashword, email, instalink, fblink, twitterlink, city, bday) VALUES(:username, :hash, :email, :instagram, :facebook, :twitter, :city, :bday)",
+        users = db.execute("INSERT INTO users (username, hashword, email) VALUES(:username, :hash, :email)",
+            username=username,
+            hash=hashword,
+            #instagram=instagram,
+            #facebook=facebook,
+            #twitter=twitter,
+            email=email
+            #city=city,
+            #bday=bday
+            )
+        rows = db.execute("SELECT * FROM users WHERE username = :username",
+                          username=username)
+        return jsonify(
+            {"msg": "Użytkownik " + username + " został utworzony!"}), 201
+    elif True:
+        return jsonify(
+            {"errorMsg":
+             "Użytkownik o nazwie " + username + " już istnieje!"}), 409
 
 
 @app.route("/api/login", methods=["POST"])
 def login():
-    if request.method == "POST":
-        data = json.loads(request.data.decode('utf-8'))
-        username = data['username']
-        password = data['password']
-        rows = db.execute("SELECT * FROM users WHERE username = :username", username=username)
-        if len(rows) != 1 or not check_password_hash(rows[0]["hashword"], password):
-            return jsonify({"errorMsg":"Invalid username and/or password!"}), 403
-        session["user_id"] = rows[0]["user_id"]
-        cos = session["user_id"]
-        username_globalzmienna.clear()
-        username_globalzmienna.insert(0, username)
-        additional_claims = {"aud": "some_audience", "foo": "bar"}
-        access_token = create_access_token(cos, additional_claims=additional_claims)
-        return jsonify({"username": username, "token": access_token}), 200
+    data = json.loads(request.data.decode('utf-8'))
+    username = data['username']
+    password = data['password']
+    rows = db.execute("SELECT * FROM users WHERE username = :username",
+                      username=username)
+    if len(rows) != 1 or not check_password_hash(rows[0]["hashword"],
+                                                 password):
+        return jsonify({"errorMsg": "Invalid username and/or password!"}), 403
+    session["user_id"] = rows[0]["user_id"]
+    cos = session["user_id"]
+    username_globalzmienna.clear()
+    username_globalzmienna.insert(0, username)
+    additional_claims = {"aud": "some_audience", "foo": "bar"}
+    access_token = create_access_token(cos,
+                                       additional_claims=additional_claims)
+    return jsonify({"username": username, "token": access_token}), 200
 
 
-@app.route("/api/personality_test", methods=["GET", "POST"])
+@app.route("/api/personality_test", methods=["POST"])
 @jwt_required()
 def personalityTest():
-    if request.method == "GET":
-        session["user_id"]
-        return jsonify("Strona z testem osobowości")
-    if request.method == "POST":
-        data = json.loads(request.data.decode('utf-8'))
-        answers = data['answers']
-        username = data['username']
+    data = json.loads(request.data.decode('utf-8'))
+    answers = data['answers']
+    username = data['username']
 
-        ekstrawersja = (answers["EXT1"] + answers["EXT3"] + answers["EXT5"] + answers["EXT7"] + answers["EXT9"]
-                        - answers["EXT2"] - answers["EXT4"] - answers["EXT6"] - answers["EXT8"] - answers["EXT10"])
-        ugodowosc = (answers["AGR2"] + answers["AGR4"] + answers["AGR6"] + answers["AGR8"] + answers["AGR9"] +
-                     answers["AGR10"] - answers["AGR1"] - answers["AGR3"] - answers["AGR5"] - answers["AGR7"])
-        swiadomosc = (answers["CSN1"] + answers["CSN3"] + answers["CSN5"] + answers["CSN7"] + answers["CSN9"] +
-                      answers["CSN10"] - answers["CSN2"] - answers["CSN4"] - answers["CSN6"] - answers["CSN8"])
-        stabilnosc = (answers["EST2"] + answers["EST4"] - answers["EST1"] - answers["EST3"] - answers["EST5"] -
-                      answers["EST6"] - answers["EST7"] - answers["EST8"] - answers["EST9"] - answers["EST10"])
-        otwartosc = (answers["OPN1"] + answers["OPN3"] + answers["OPN5"] + answers["OPN7"] + answers["OPN8"] +
-                     answers["OPN9"] + answers["OPN10"] - answers["OPN2"] - answers["OPN4"] - answers["OPN6"])
+    ekstrawersja = (answers["EXT1"] + answers["EXT3"] + answers["EXT5"] +
+                    answers["EXT7"] + answers["EXT9"] - answers["EXT2"] -
+                    answers["EXT4"] - answers["EXT6"] - answers["EXT8"] -
+                    answers["EXT10"])
+    ugodowosc = (answers["AGR2"] + answers["AGR4"] + answers["AGR6"] +
+                 answers["AGR8"] + answers["AGR9"] + answers["AGR10"] -
+                 answers["AGR1"] - answers["AGR3"] - answers["AGR5"] -
+                 answers["AGR7"])
+    swiadomosc = (answers["CSN1"] + answers["CSN3"] + answers["CSN5"] +
+                  answers["CSN7"] + answers["CSN9"] + answers["CSN10"] -
+                  answers["CSN2"] - answers["CSN4"] - answers["CSN6"] -
+                  answers["CSN8"])
+    stabilnosc = (answers["EST2"] + answers["EST4"] - answers["EST1"] -
+                  answers["EST3"] - answers["EST5"] - answers["EST6"] -
+                  answers["EST7"] - answers["EST8"] - answers["EST9"] -
+                  answers["EST10"])
+    otwartosc = (answers["OPN1"] + answers["OPN3"] + answers["OPN5"] +
+                 answers["OPN7"] + answers["OPN8"] + answers["OPN9"] +
+                 answers["OPN10"] - answers["OPN2"] - answers["OPN4"] -
+                 answers["OPN6"])
 
-        user = db.execute(
-            "SELECT * FROM users where username = :username", username=username)
+    user = db.execute("SELECT * FROM users where username = :username",
+                      username=username)
 
-        userid = user[0]['user_id']
+    userid = user[0]['user_id']
 
-        traits_user = db.execute(
-            "SELECT user_id FROM traits where user_id = :user_id", user_id=userid)
-        print(ekstrawersja, ugodowosc, swiadomosc, stabilnosc, otwartosc)
-        if not traits_user:
-            db.execute("INSERT INTO traits (EXT, AGR, CON, EST, OPN, user_id) VALUES (:EXT, :AGR, :CON, :EST, :OPN, :user_id)",
-                       EXT=ekstrawersja, AGR=ugodowosc, CON=swiadomosc, EST=stabilnosc, OPN=otwartosc, user_id=userid)
-        else:
-            db.execute("UPDATE traits SET EXT=:EXT, AGR=:AGR, CON=:CON, EST=:EST, OPN=:OPN WHERE user_id= :user_id",
-                       EXT=ekstrawersja, AGR=ugodowosc, CON=swiadomosc, EST=stabilnosc, OPN=otwartosc, user_id=userid)
-        return jsonify({
-            "ekstrawersja": ekstrawersja,
-            "ugodowosc": ugodowosc,
-            "swiadomosc": swiadomosc,
-            "stabilnosc": stabilnosc,
-            "otwartosc": otwartosc
-        }), 201
+    traits_user = db.execute(
+        "SELECT user_id FROM traits where user_id = :user_id", user_id=userid)
+    print(ekstrawersja, ugodowosc, swiadomosc, stabilnosc, otwartosc)
+    if not traits_user:
+        db.execute(
+            "INSERT INTO traits (EXT, AGR, CON, EST, OPN, user_id) VALUES (:EXT, :AGR, :CON, :EST, :OPN, :user_id)",
+            EXT=ekstrawersja,
+            AGR=ugodowosc,
+            CON=swiadomosc,
+            EST=stabilnosc,
+            OPN=otwartosc,
+            user_id=userid)
+    else:
+        db.execute(
+            "UPDATE traits SET EXT=:EXT, AGR=:AGR, CON=:CON, EST=:EST, OPN=:OPN WHERE user_id= :user_id",
+            EXT=ekstrawersja,
+            AGR=ugodowosc,
+            CON=swiadomosc,
+            EST=stabilnosc,
+            OPN=otwartosc,
+            user_id=userid)
+    return jsonify({
+        "ekstrawersja": ekstrawersja,
+        "ugodowosc": ugodowosc,
+        "swiadomosc": swiadomosc,
+        "stabilnosc": stabilnosc,
+        "otwartosc": otwartosc
+    }), 201
 
 
 @app.route("/api/personality_questions", methods=["GET"])
 def personalityQuestions():
-    if request.method == "GET":
-        questions = db.execute('SELECT * FROM "personality-questions"')
-        return jsonify({"questions": questions}), 200
+    questions = db.execute('SELECT * FROM "personality-questions"')
+    return jsonify({"questions": questions}), 200
 
 
 @app.route("/api/lifestyle_questions", methods=["GET"])
 def lifestyleQuestions():
-    if request.method == "GET":
-        questions = db.execute('SELECT * FROM "lifestyle-questions"')
-        return jsonify({"questions": questions}), 200
+    questions = db.execute('SELECT * FROM "lifestyle-questions"')
+    return jsonify({"questions": questions}), 200
 
 
 @app.route("/api/lifestyle_test", methods=["GET", "POST"])
@@ -190,13 +195,14 @@ def lifestyle():
         answers = data['answers']
         username = data['username']
 
-        user = db.execute(
-            "SELECT * FROM users where username = :username", username=username)
+        user = db.execute("SELECT * FROM users where username = :username",
+                          username=username)
 
         userid = user[0]['user_id']
 
         traits_user = db.execute(
-            "SELECT user_id FROM traits where user_id = :user_id", user_id=userid)
+            "SELECT user_id FROM traits where user_id = :user_id",
+            user_id=userid)
 
         lf1 = answers['lf1']
         lf2 = answers['lf2']
@@ -265,8 +271,8 @@ def logout():
 @jwt_required()
 def matching():
     username = username_globalzmienna[0]
-    user = db.execute(
-        "SELECT * FROM users where username = :username", username=username)
+    user = db.execute("SELECT * FROM users where username = :username",
+                      username=username)
     user_id = user[0]['user_id']
     otwartosc = db.execute("SELECT OPN FROM traits WHERE user_id=:user_id",
                            user_id=user_id)[0]['OPN']
@@ -409,16 +415,16 @@ def matching():
     nova1 = [x for x in lista if x != user_idek]
     partner1 = max(set(nova1), key=nova1.count)
     unwanted1 = {partner1}
-    nova2=[e for e in nova1 if e not in unwanted1]
+    nova2 = [e for e in nova1 if e not in unwanted1]
     partner2 = max(set(nova2), key=nova2.count)
     unwanted2 = {partner2}
-    nova3=[e for e in nova2 if e not in unwanted2]
+    nova3 = [e for e in nova2 if e not in unwanted2]
     partner3 = max(set(nova3), key=nova3.count)
     unwanted3 = {partner3}
-    nova4=[e for e in nova3 if e not in unwanted3]
+    nova4 = [e for e in nova3 if e not in unwanted3]
     partner4 = max(set(nova4), key=nova4.count)
     unwanted4 = {partner3}
-    nova5=[e for e in nova4 if e not in unwanted4]
+    nova5 = [e for e in nova4 if e not in unwanted4]
     partner5 = max(set(nova5), key=nova5.count)
 
     name1 = db.execute(
@@ -436,8 +442,16 @@ def matching():
     name5 = db.execute(
         "SELECT username, email FROM users WHERE user_id=:user_id",
         user_id=partner5)
-    print(name1,name2,name3,name4,name5)
-    return jsonify({"msg": "Masz parę!", "name1": name1, "name2": name2, "name3": name3, "name4": name4, "name5": name5}), 200
+    print(name1, name2, name3, name4, name5)
+    return jsonify({
+        "msg": "Masz parę!",
+        "name1": name1,
+        "name2": name2,
+        "name3": name3,
+        "name4": name4,
+        "name5": name5
+    }), 200
+
 
 ################# photo upload
 ################# jeszcze do poprawki ale już wrzucam z innymi zmianami
@@ -447,9 +461,9 @@ def upload():
     nazwka = username_globalzmienna[0]
     myfile = "{}.jpg".format(nazwka)
     print(myfile)
-    print("Current Working Directory " , os.getcwd())
+    print("Current Working Directory ", os.getcwd())
     directory = os.getcwd()
-    print("Current Working Directory " , os.getcwd())
+    print("Current Working Directory ", os.getcwd())
     print(os.path.isfile(myfile))
     # Specify path
     path = 'public/users/{}.jpg'.format(nazwka)
@@ -457,7 +471,7 @@ def upload():
     # path exists or not
     isExist = os.path.exists(path)
     print(isExist)
-    if isExist==True:
+    if isExist == True:
         os.remove('public/users/{}.jpg'.format(nazwka))
     if photo:
         photos.save(photo, name=myfile)
