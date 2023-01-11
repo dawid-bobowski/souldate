@@ -16,8 +16,8 @@ enum PersonalityFormOption {
 }
 
 enum LifestyleFormOption {
-  YES = 'Tak',
   NO = 'Nie',
+  YES = 'Tak',
 }
 
 function Form(props: FormProps): JSX.Element {
@@ -25,6 +25,7 @@ function Form(props: FormProps): JSX.Element {
   const [questions, setQuestions] = useState<Questions>([]);
   const [answers, setAnswers] = useState<Answers>(defaultAnswers);
   const [currentQuestion, setCurrentQuestion] = useState<Question>();
+  const isPersonality: number = type === 'personality' ? 1 : 0;
 
   const formOptions = (): string[] => {
     switch (type) {
@@ -171,16 +172,18 @@ function Form(props: FormProps): JSX.Element {
                 sx={{
                   gap: '1rem',
                   padding: { xs: '0 5%', md: 'unset' },
+                  display: 'flex',
+                  flexDirection: type === 'personality' ? 'column' : 'row',
                 }}
               >
                 {formOptions().map((option, optionIndex) => {
                   return (
                     <FormControlLabel
                       key={optionIndex}
-                      value={optionIndex + 1}
+                      value={optionIndex + isPersonality}
                       control={<Radio />}
                       label={option}
-                      checked={answers[currentQuestion.name] === optionIndex + 1}
+                      checked={answers[currentQuestion.name] === optionIndex + isPersonality}
                       sx={{
                         backgroundColor: 'common.white',
                         padding: { xs: '0.5rem', md: '1rem 2rem' },
@@ -199,7 +202,7 @@ function Form(props: FormProps): JSX.Element {
               </RadioGroup>
             </FormControl>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}>
             <Button
               disabled={currentQuestion && currentQuestion.id <= 1}
               onClick={(event) => {
@@ -210,18 +213,11 @@ function Form(props: FormProps): JSX.Element {
             >
               <KeyboardArrowLeftIcon sx={{ fontSize: '3rem' }} />
             </Button>
-            <Typography
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                color: 'common.white',
-                fontSize: { xs: '1rem', md: '1.25rem' },
-              }}
-            >
-              {currentQuestion.id} z 50
+            <Typography sx={{ display: 'flex', alignItems: 'center', color: 'common.white', fontSize: '1.25rem' }}>
+              {currentQuestion.id} z {questions.length}
             </Typography>
             <Button
-              disabled={currentQuestion && currentQuestion.id >= questions.length - 1}
+              disabled={currentQuestion && currentQuestion.id >= questions.length}
               onClick={handleNextQuestion}
               sx={{ color: 'common.white', fontSize: '1.25rem' }}
             >

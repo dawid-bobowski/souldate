@@ -1,5 +1,5 @@
-import { Box, Grid } from '@mui/material';
-import { PageTitle } from '../common';
+import { Grid } from '@mui/material';
+import _ from 'lodash';
 import Form from '../common/Form';
 
 function LifestyleTest(): JSX.Element {
@@ -8,67 +8,41 @@ function LifestyleTest(): JSX.Element {
       container
       component='main'
       id='lifestyle-test-container'
-      sx={styles.grid}
+      sx={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: { xs: 'flex-start', md: 'center' },
+        alignItems: 'center',
+        backgroundColor: 'rgb(224,159,62)',
+        background: 'radial-gradient(circle, rgba(224,159,62,1) 0%, rgba(158,42,43,1) 100%)',
+        marginTop: { xs: '5rem', sm: 'unset' },
+      }}
     >
-      <Box
-          id='soulmate-frame'
-          sx={{
-            ...styles.frame,
-            justifyContent: 'center',
-          }}
-      >
-        <PageTitle title='Test zainteresowań' />
-        <Form
-          type='lifestyle'
-          defaultAnswers={DUMMY_DATA}
-        />
-      </Box>
+      <Form
+        type='lifestyle'
+        defaultAnswers={DUMMY_DATA}
+      />
     </Grid>
   );
 }
 
 export default LifestyleTest;
 
-const styles = {
-  grid: {
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgb(224,159,62)',
-    background: 'radial-gradient(circle, rgba(224,159,62,1) 0%, rgba(158,42,43,1) 100%)'
-  },
-  frame: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'left',
-    gap: { sm: '1rem' },
-    backgroundColor: 'common.white',
-    color: 'common.darkGrey',
-    borderRadius: '1rem',
-    padding: '2rem',
-    fontSize: '0.8rem',
-    textAlign: 'left',
-    marginTop: '2rem',
-    boxShadow: '0px 0px 15px -5px rgba(10, 10, 10, 1)',
-  },
-};
-
 const DUMMY_DATA: Answers = {
-  lf1: 0,
-  lf2: 1,
-  lf3: 1,
-  lf4: 1,
-  lf5: 0,
-  lf6: 1,
-  lf7: 0,
-  lf8: 0,
-  lf9: 1,
-  lf10: 0,
-  lf11: 0,
-  lf12: 0,
-  lf13: 1,
-  lf14: 1,
-  lf15: 0,
+  lf1: _.random(0, 1),
+  lf2: _.random(0, 1),
+  lf3: _.random(0, 1),
+  lf4: _.random(0, 1),
+  lf5: _.random(0, 1),
+  lf6: _.random(0, 1),
+  lf7: _.random(0, 1),
+  lf8: _.random(0, 1),
+  lf9: _.random(0, 1),
+  lf10: _.random(0, 1),
+  lf11: _.random(0, 1),
+  lf12: _.random(0, 1),
+  lf13: _.random(0, 1),
+  lf14: _.random(0, 1),
+  lf15: _.random(0, 1),
 };
