@@ -15,7 +15,8 @@ function SharedLayout(): JSX.Element {
   return (
     <Grid
       component='div'
-      sx={{ display: 'flex', flexDirection: 'row' }}
+      className='shared-layout'
+      sx={{ display: 'flex', flexDirection: 'row', minHeight: '100vh' }}
     >
       <Navbar />
       <MobileNavbar />

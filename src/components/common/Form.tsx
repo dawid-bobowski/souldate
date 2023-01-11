@@ -1,7 +1,7 @@
 import { Box, Button, Typography, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import axios from 'axios';
 import _ from 'lodash';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { API_SERVER } from '../../app/constants';
 import './Form.css';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -37,6 +37,12 @@ function Form(props: FormProps): JSX.Element {
     }
   };
 
+  function handleNextQuestion(): void {
+    if (currentQuestion) {
+      setCurrentQuestion(questions.find((item) => item.id === currentQuestion.id + 1));
+    }
+  }
+
   function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const { value, name } = event.target;
 
@@ -46,6 +52,7 @@ function Form(props: FormProps): JSX.Element {
       newAnswers[name] = parseInt(value);
       return newAnswers;
     });
+    handleNextQuestion();
   }
 
   async function getQuestions(): Promise<void> {
@@ -127,6 +134,7 @@ function Form(props: FormProps): JSX.Element {
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
+        paddingTop: { xs: '2rem', md: 'unset' },
       }}
     >
       {currentQuestion ? (
@@ -148,7 +156,7 @@ function Form(props: FormProps): JSX.Element {
                 fontFamily: '"Archivo Black",sans-serif',
                 padding: '0 5%',
                 textAlign: 'center',
-                fontSize: '3rem',
+                fontSize: { xs: '1.8rem', sm: '3rem' },
               }}
             >
               {currentQuestion.text}:
@@ -158,9 +166,11 @@ function Form(props: FormProps): JSX.Element {
               sx={{ marginTop: '2rem' }}
             >
               <RadioGroup
+                className='form-radiogroup'
                 onChange={handleChange}
                 sx={{
                   gap: '1rem',
+                  padding: { xs: '0 5%', md: 'unset' },
                 }}
               >
                 {formOptions().map((option, optionIndex) => {
@@ -170,15 +180,17 @@ function Form(props: FormProps): JSX.Element {
                       value={optionIndex + 1}
                       control={<Radio />}
                       label={option}
+                      checked={answers[currentQuestion.name] === optionIndex + 1}
                       sx={{
                         backgroundColor: 'common.white',
-                        padding: '1rem 2rem',
+                        padding: { xs: '0.5rem', md: '1rem 2rem' },
+                        margin: 0,
                         borderRadius: '3rem',
                         '& .MuiSvgIcon-root': {
-                          fontSize: 28,
+                          fontSize: { xs: 20, md: 28 },
                         },
                         '& .MuiFormControlLabel-label': {
-                          fontSize: '1.25rem',
+                          fontSize: { xs: '0.85rem', md: '1.25rem' },
                         },
                       }}
                     />
@@ -198,15 +210,19 @@ function Form(props: FormProps): JSX.Element {
             >
               <KeyboardArrowLeftIcon sx={{ fontSize: '3rem' }} />
             </Button>
-            <Typography sx={{ display: 'flex', alignItems: 'center', color: 'common.white', fontSize: '1.25rem' }}>
+            <Typography
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                color: 'common.white',
+                fontSize: { xs: '1rem', md: '1.25rem' },
+              }}
+            >
               {currentQuestion.id} z 50
             </Typography>
             <Button
               disabled={currentQuestion && currentQuestion.id >= questions.length - 1}
-              onClick={(event) => {
-                event.preventDefault();
-                setCurrentQuestion(questions.find((item) => item.id === currentQuestion.id + 1));
-              }}
+              onClick={handleNextQuestion}
               sx={{ color: 'common.white', fontSize: '1.25rem' }}
             >
               <KeyboardArrowRightIcon sx={{ fontSize: '3rem' }} />
@@ -216,10 +232,10 @@ function Form(props: FormProps): JSX.Element {
             type='submit'
             sx={{
               color: 'common.white',
-              fontSize: '1rem',
+              fontSize: { xs: '0.85rem', md: '1rem' },
               borderRadius: '3rem',
               border: '2px solid',
-              padding: '1rem 2rem',
+              padding: { xs: '0.5rem 1rem', md: '1rem 2rem' },
               borderColor: 'common.white',
               marginTop: '1rem',
               ':hover': {

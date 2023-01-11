@@ -34,14 +34,11 @@ function MobileNavbar(): JSX.Element {
           color: 'common.secondary',
         }}
       />
-      <img
+      <Box
+        component='img'
         src={Logo}
         width={150}
-        style={{
-          position: 'relative',
-          top: '0.25rem',
-          overflow: 'hidden',
-        }}
+        sx={{ marginRight: '1rem' }}
       />
     </Box>
   );
