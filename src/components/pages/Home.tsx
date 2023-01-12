@@ -182,7 +182,7 @@ function Home(): JSX.Element {
                 margin: '0 auto',
               }}
             >
-              Jeśli szukasz bratniej duszy, z którą chciał_byś dzielić swoje pasje, marzenia i emocje, to{' '}
+              Jeśli szukasz bratniej duszy, z którą chcesz dzielić swoje pasje, marzenia i emocje, to{' '}
               <b>SoulDate</b> jest dla Ciebie. Nasz algorytm znajdzie osobę najbardziej podobną do Ciebie na podstawie
               wspólnych zainteresowań i preferencji, dzięki czemu masz pewność, że trafisz na osobę, która naprawdę Cię
               rozumie. <b>Nie czekaj</b>, dołącz już dziś i znajdź swoją bratnią duszę!

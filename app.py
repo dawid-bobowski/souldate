@@ -53,11 +53,6 @@ def register():
     username = data['username']
     password = data['password']
     email = data['email']
-    #instagram = data['iglink']
-    #facebook = data['fblink']
-    #twitter = data['ttlink']
-    #city = data['city']
-    #bday = data['bday']
     if not username:
         return jsonify({"errorMsg": "You must provide a username."}), 400
     if not email:
@@ -67,17 +62,12 @@ def register():
     if not db.execute("SELECT username FROM users WHERE username = :username",
                       username=username):
         hashword = generate_password_hash(password)
-       # users = db.execute("INSERT INTO users (username, hashword, email, instalink, fblink, twitterlink, city, bday) VALUES(:username, :hash, :email, :instagram, :facebook, :twitter, :city, :bday)",
-        users = db.execute("INSERT INTO users (username, hashword, email) VALUES(:username, :hash, :email)",
+        users = db.execute(
+            "INSERT INTO users (username, hashword, email) VALUES(:username, :hash, :email)",
             username=username,
             hash=hashword,
-            #instagram=instagram,
-            #facebook=facebook,
-            #twitter=twitter,
             email=email
-            #city=city,
-            #bday=bday
-            )
+        )
         rows = db.execute("SELECT * FROM users WHERE username = :username",
                           username=username)
         return jsonify(
@@ -86,6 +76,34 @@ def register():
         return jsonify(
             {"errorMsg":
              "Użytkownik o nazwie " + username + " już istnieje!"}), 409
+
+
+@app.route("/api/registerCopy", methods=["PATCH"])
+def registerCopy():
+    data = json.loads(request.data.decode('utf-8'))
+    username = data['username']
+    instagram = data['iglink']
+    facebook = data['fblink']
+    twitter = data['ttlink']
+    city = data['city']
+    bday = data['bday']
+    if db.execute("SELECT username FROM users WHERE username = :username",username=username):
+        users = db.execute(
+            "UPDATE users SET instalink=:instagram, fblink=:facebook, twitterlink=:twitter, city=:city, bday=:bday WHERE username=:username",
+            username=username,
+            instagram=instagram,
+            facebook=facebook,
+            twitter=twitter,
+            city=city,
+            bday=bday
+        )
+        rows = db.execute("SELECT * FROM users WHERE username = :username",username=username)
+        return jsonify(
+            {"msg": "Udało się przeprowadzić aktualizację"}), 201
+    elif True:
+        return jsonify(
+            {"errorMsg":
+             "Nie udało się!"}), 409
 
 
 @app.route("/api/login", methods=["POST"])
