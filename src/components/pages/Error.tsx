@@ -1,4 +1,3 @@
-import { PageTitle } from '../common';
 import '../../App.css';
 
 function Error(): JSX.Element {
@@ -7,7 +6,7 @@ function Error(): JSX.Element {
       id='error-container'
       className='page-container'
     >
-      <PageTitle title='Nie ma takiej strony...' />
+      <h1>Nie ma takiej strony...</h1>
       <h2>Error 404: Page Not Found</h2>
     </div>
   );

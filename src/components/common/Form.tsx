@@ -39,7 +39,7 @@ function Form(props: FormProps): JSX.Element {
   };
 
   function handleNextQuestion(): void {
-    if (currentQuestion) {
+    if (currentQuestion && currentQuestion.id !== questions.length) {
       setCurrentQuestion(questions.find((item) => item.id === currentQuestion.id + 1));
     }
   }
@@ -205,9 +205,10 @@ function Form(props: FormProps): JSX.Element {
           <Box sx={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}>
             <Button
               disabled={currentQuestion && currentQuestion.id <= 1}
-              onClick={(event) => {
-                event.preventDefault();
-                setCurrentQuestion(questions.find((item) => item.id === currentQuestion.id - 1));
+              onClick={() => {
+                if (currentQuestion && currentQuestion.id > 1) {
+                  setCurrentQuestion(questions.find((item) => item.id === currentQuestion.id - 1));
+                }
               }}
               sx={{ color: 'common.white', fontSize: '1.25rem' }}
             >
@@ -226,6 +227,7 @@ function Form(props: FormProps): JSX.Element {
           </Box>
           <Button
             type='submit'
+            disabled={type === 'personality' ? answers.length === 50 : answers.length === 15}
             sx={{
               color: 'common.white',
               fontSize: { xs: '0.85rem', md: '1rem' },

@@ -11,7 +11,7 @@ import { API_SERVER } from '../../../app/constants';
 
 function Dashboard(): JSX.Element {
   const username: string | null = useAppSelector((state) => state.user.username);
-  const [user, setUser] = useState<{ bday: string; city: string; fb: string; ig: string; tt: string }>({
+  const [user, setUser] = useState<UserInfo>({
     bday: '',
     city: '',
     fb: '',

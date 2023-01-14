@@ -24,17 +24,27 @@ interface IAnswers {
 }
 type Answers = IAnswers;
 
+interface IMatch {
+  username: string;
+  email: string;
+}
+type Match = IMatch;
+
+interface IUserInfo {
+  bday: string;
+  city: string;
+  fb: string;
+  ig: string;
+  tt: string;
+}
+type UserInfo = IUserInfo;
+
 /* Component Props */
 
 interface IPrivateRouteProps {
   redirectPath?: string;
 }
 type PrivateRouteProps = IPrivateRouteProps;
-
-interface IPageTitleProps {
-  title: string;
-}
-type PageTitleProps = IPageTitleProps;
 
 interface TextInputProps {
   type: string;
