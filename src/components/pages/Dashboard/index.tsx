@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect } from 'react';
 import { useState } from "react";
 import { useAppSelector } from "../../../app/hooks";
 import {
@@ -15,7 +16,6 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import {
   API_SERVER,
-  DEFAULT_USER,
   DEFAULT_INSTALINK,
   DEFAULT_FBLINK,
   DEFAULT_TWITTERLINK,
@@ -27,7 +27,6 @@ function Dashboard(): JSX.Element {
   const username: string | null = useAppSelector(
     (state) => state.user.username
   );
-  const [username1, setUsername] = useState<string>(DEFAULT_USER);
   const [iglink, setIglink] = useState<string>(DEFAULT_INSTALINK);
   const [fblink, setFblink] = useState<string>(DEFAULT_FBLINK);
   const [ttlink, setTtlink] = useState<string>(DEFAULT_TWITTERLINK);
@@ -46,9 +45,7 @@ function Dashboard(): JSX.Element {
       })
       .then((result) => {
         if (result.status === 201) {
-          console.log(
-            "graty"
-          );
+          console.log("graty");
         } else {
           console.log(
             "Unable to register. HTTP status code: " +
@@ -69,6 +66,35 @@ function Dashboard(): JSX.Element {
         alert("Unable to send request. Error message: " + error.message);
       });
   }
+
+  async function getData(): Promise<void> {
+    await axios
+      .get(`${API_SERVER}/userdata`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then((result) => {
+        if (result.status === 200) {
+          console.log(result.data);
+        } else {
+          console.log(
+            'Unable to get data. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+          );
+          alert(
+            'Unable to get data. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+          );
+        }
+      })
+      .catch((error) => {
+        console.log('Unable to send request. Error message: ' + error.message);
+        alert('Unable to send request. Error message: ' + error.message);
+      });
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <Grid
@@ -222,32 +248,32 @@ function Dashboard(): JSX.Element {
           Email: <span style={{ fontWeight: 400 }}>{username}</span>
         </Typography>
         <TextField
-            margin='normal'
-            name='city'
-            label='Miasto'
-            id='city'
-            autoComplete='city'
-            value={city}
-            onChange={(event) => setCity(event.target.value)}
-          />
+          margin="normal"
+          name="city"
+          label="Miasto"
+          id="city"
+          autoComplete="city"
+          value={city}
+          onChange={(event) => setCity(event.target.value)}
+        />
         <TextField
-            margin='normal'
-            name='bday'
-            label='Data urodzenia(r-m-d)'
-            id='bday'
-            autoComplete='bday'
-            value={bday}
-            onChange={(event) => setBday(event.target.value)}
-          />
-          <Button
-            type='button'
-            variant='contained'
-            color='primary'
-            onClick={handleUploadData}
-            sx={{ mt: 3, mb: 2 }}
-          >
-            ZAKTUALIZUJ ZMIANY
-          </Button>
+          margin="normal"
+          name="bday"
+          label="Data urodzenia(r-m-d)"
+          id="bday"
+          autoComplete="bday"
+          value={bday}
+          onChange={(event) => setBday(event.target.value)}
+        />
+        <Button
+          type="button"
+          variant="contained"
+          color="primary"
+          onClick={handleUploadData}
+          sx={{ mt: 3, mb: 2 }}
+        >
+          ZAKTUALIZUJ ZMIANY
+        </Button>
       </Box>
     </Grid>
   );
