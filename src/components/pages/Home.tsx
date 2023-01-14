@@ -182,10 +182,10 @@ function Home(): JSX.Element {
                 margin: '0 auto',
               }}
             >
-              Jeśli szukasz bratniej duszy, z którą chcesz dzielić swoje pasje, marzenia i emocje, to{' '}
-              <b>SoulDate</b> jest dla Ciebie. Nasz algorytm znajdzie osobę najbardziej podobną do Ciebie na podstawie
-              wspólnych zainteresowań i preferencji, dzięki czemu masz pewność, że trafisz na osobę, która naprawdę Cię
-              rozumie. <b>Nie czekaj</b>, dołącz już dziś i znajdź swoją bratnią duszę!
+              Jeśli szukasz bratniej duszy, z którą chcesz dzielić swoje pasje, marzenia i emocje, to <b>SoulDate</b>{' '}
+              jest dla Ciebie. Nasz algorytm znajdzie osobę najbardziej podobną do Ciebie na podstawie wspólnych
+              zainteresowań i preferencji, dzięki czemu masz pewność, że trafisz na osobę, która naprawdę Cię rozumie.{' '}
+              <b>Nie czekaj</b>, dołącz już dziś i znajdź swoją bratnią duszę!
             </Typography>
             <Box
               component='img'
@@ -198,7 +198,7 @@ function Home(): JSX.Element {
             />
             <Box
               className='home-section-separator'
-              sx={{ maxWidth: 1000, width: '100%', borderBottom: '1px grey solid' }}
+              sx={{ maxWidth: 1000, width: '100%', borderBottom: '1px #e0e0e0 solid' }}
             ></Box>
           </Box>
         </Grid>

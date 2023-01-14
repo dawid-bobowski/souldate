@@ -8,6 +8,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { API_SERVER } from '../../../app/constants';
+import _ from 'lodash';
 
 function Dashboard(): JSX.Element {
   const username: string | null = useAppSelector((state) => state.user.username);
@@ -18,6 +19,7 @@ function Dashboard(): JSX.Element {
     ig: '',
     tt: '',
   });
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   async function handleUploadData(): Promise<void> {
     await axios
@@ -31,6 +33,7 @@ function Dashboard(): JSX.Element {
       })
       .then((result) => {
         if (result.status === 201) {
+          setIsEditing(false);
           console.log('Profil zaktualizowany!');
         } else {
           console.log(
@@ -47,7 +50,7 @@ function Dashboard(): JSX.Element {
       });
   }
 
-  async function getData(): Promise<void> {
+  async function getUser(): Promise<void> {
     await axios
       .get(`${API_SERVER}/user`, {
         headers: {
@@ -73,7 +76,7 @@ function Dashboard(): JSX.Element {
   }
 
   useEffect(() => {
-    getData();
+    getUser();
   }, []);
 
   return (
@@ -94,171 +97,169 @@ function Dashboard(): JSX.Element {
         paddingBottom: { xs: '5rem', sm: '0' },
       }}
     >
-      <Typography
-        id='dashboard-mainText'
-        variant='h2'
-        sx={{
-          display: { xs: 'none', sm: 'block' },
-          color: 'common.white',
-          fontFamily: '"Alexandria", sans-serif',
-          fontSize: { xs: '2rem', sm: '3.5rem' },
-          marginTop: { xs: '2rem' },
-          marginBottom: '2rem',
-        }}
-      >
-        Konto użytkownika
-      </Typography>
-      <Typography
-        variant='h2'
-        sx={{
-          display: { sm: 'none' },
-          color: 'common.white',
-          fontFamily: '"Alexandria", sans-serif',
-          fontSize: { xs: '2rem', sm: '3.5rem' },
-          marginTop: { xs: '2rem' },
-          marginBottom: '2rem',
-        }}
-      >
-        Zdjęcie profilowe
-      </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          gap: { sm: '2rem' },
-          flexDirection: { xs: 'column', sm: 'row' },
-        }}
-      >
+      <Box sx={styles.profilePanel}>
         <Box
           id='dashboard-profilePictureEdit'
           sx={{
-            ...styles.profilePanel,
-            marginTop: 0,
+            ...styles.sectionWrapper,
+            flexDirection: 'column',
           }}
         >
+          <Typography
+            variant='h2'
+            sx={styles.sectionTitle}
+          >
+            Zdjęcie profilowe
+          </Typography>
           <ProfilePicture />
         </Box>
+        <Box
+          className='section-separator'
+          sx={styles.sectionSeparator}
+        />
         <Typography
           variant='h2'
-          sx={{
-            display: { sm: 'none' },
-            color: 'common.white',
-            fontFamily: '"Alexandria", sans-serif',
-            fontSize: { xs: '2rem', sm: '3.5rem' },
-            marginTop: '2rem',
-          }}
+          sx={styles.sectionTitle}
         >
           Profile społecznościowe
         </Typography>
         <Box
-          id='dashboard-credentialsEdit'
-          sx={{
-            ...styles.profilePanel,
-            justifyContent: 'center',
-          }}
+          id='dashboard-socialEdit'
+          sx={styles.sectionWrapper}
         >
-          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
-            <Avatar sx={styles.socialIcon}>
-              <InstagramIcon fontSize='large' />
-            </Avatar>
-            <TextField
-              margin='normal'
-              name='instagram'
-              label='Instagram Link'
-              id='instalink'
-              autoComplete='iglink'
-              value={user.ig}
-              onChange={(event) => setUser({ ...user, ig: event.target.value })}
-            />
-            <Avatar
-              sx={{
-                ...styles.socialIcon,
-                backgroundColor: 'common.secondary',
-              }}
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: '1rem' }}>
+            <Box
+              className='social-box'
+              sx={styles.socialWrapper}
             >
-              <FacebookIcon fontSize='large' />
-            </Avatar>
-            <TextField
-              margin='normal'
-              name='facebook'
-              label='Facebook Link'
-              id='fblink'
-              autoComplete='fblink'
-              value={user.fb}
-              onChange={(event) => setUser({ ...user, fb: event.target.value })}
-            />
-            <Avatar sx={styles.socialIcon}>
-              <TwitterIcon fontSize='large' />
-            </Avatar>
-            <TextField
-              margin='normal'
-              name='twitter'
-              label='Twitter Link'
-              id='ttlink'
-              autoComplete='ttlink'
-              value={user.tt}
-              onChange={(event) => setUser({ ...user, tt: event.target.value })}
-            />
+              <Avatar sx={styles.socialIcon}>
+                <InstagramIcon fontSize='large' />
+              </Avatar>
+              <TextField
+                margin='normal'
+                name='instagram'
+                label='Instagram Link'
+                id='instalink'
+                autoComplete='iglink'
+                value={user.ig}
+                onChange={(event) => setUser({ ...user, ig: event.target.value })}
+                sx={styles.socialInput}
+              />
+            </Box>
+            <Box
+              className='social-box'
+              sx={styles.socialWrapper}
+            >
+              <Avatar
+                sx={{
+                  ...styles.socialIcon,
+                  backgroundColor: 'common.secondary',
+                }}
+              >
+                <FacebookIcon fontSize='large' />
+              </Avatar>
+              <TextField
+                margin='normal'
+                name='facebook'
+                label='Facebook Link'
+                id='fblink'
+                autoComplete='fblink'
+                value={user.fb}
+                onChange={(event) => setUser({ ...user, fb: event.target.value })}
+                sx={styles.socialInput}
+              />
+            </Box>
+            <Box
+              className='social-box'
+              sx={styles.socialWrapper}
+            >
+              <Avatar sx={styles.socialIcon}>
+                <TwitterIcon fontSize='large' />
+              </Avatar>
+              <TextField
+                margin='normal'
+                name='twitter'
+                label='Twitter Link'
+                id='ttlink'
+                autoComplete='ttlink'
+                value={user.tt}
+                onChange={(event) => setUser({ ...user, tt: event.target.value })}
+                sx={styles.socialInput}
+              />
+            </Box>
           </Box>
         </Box>
-      </Box>
-      <Typography
-        variant='h2'
-        sx={{
-          display: { sm: 'none' },
-          color: 'common.white',
-          fontFamily: '"Alexandria", sans-serif',
-          fontSize: { xs: '2rem', sm: '3.5rem' },
-          marginTop: '2rem',
-        }}
-      >
-        Dane konta
-      </Typography>
-      <Box
-        id='dashboard-profileInfoEdit'
-        sx={{
-          ...styles.profilePanel,
-          minWidth: { xs: 255, sm: 500 },
-        }}
-      >
-        <Typography
-          variant='h5'
-          sx={styles.text}
-        >
-          Login: <span style={{ fontWeight: 400 }}>{username}</span>
-        </Typography>
-        <Typography
-          variant='h5'
-          sx={styles.text}
-        >
-          Email: <span style={{ fontWeight: 400 }}>{username}</span>
-        </Typography>
-        <TextField
-          margin='normal'
-          name='city'
-          label='Miasto'
-          id='city'
-          autoComplete='city'
-          value={user.city}
-          onChange={(event) => setUser({ ...user, city: event.target.value })}
+        <Box
+          className='section-separator'
+          sx={styles.sectionSeparator}
         />
-        <TextField
-          margin='normal'
-          name='bday'
-          label='Data urodzenia(r-m-d)'
-          id='bday'
-          autoComplete='bday'
-          value={user.bday}
-          onChange={(event) => setUser({ ...user, bday: event.target.value })}
-        />
-        <Button
-          type='button'
-          variant='contained'
-          color='primary'
-          onClick={handleUploadData}
-          sx={{ mt: 3, mb: 2 }}
+        <Typography
+          variant='h2'
+          sx={styles.sectionTitle}
         >
-          ZAKTUALIZUJ ZMIANY
-        </Button>
+          Dane konta
+        </Typography>
+        <Box id='dashboard-userInfoEdit'>
+          <Typography
+            variant='inherit'
+            sx={styles.text}
+          >
+            Login: <span style={{ fontWeight: 400 }}>{username}</span>
+          </Typography>
+          <Typography
+            variant='inherit'
+            sx={styles.text}
+          >
+            Email: <span style={{ fontWeight: 400 }}>{username}</span>
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {isEditing ? (
+              <TextField
+                margin='normal'
+                name='city'
+                label='Miasto'
+                id='city'
+                autoComplete='city'
+                value={user.city}
+                onChange={(event) => setUser({ ...user, city: event.target.value })}
+              />
+            ) : (
+              <Typography
+                variant='inherit'
+                sx={styles.text}
+              >
+                Miasto: <span style={{ fontWeight: 400 }}>{_.isEmpty(user.city) ? '-' : user.city}</span>
+              </Typography>
+            )}
+            {isEditing ? (
+              <TextField
+                margin='normal'
+                name='bday'
+                label='Data urodzenia(r-m-d)'
+                id='bday'
+                autoComplete='bday'
+                value={user.bday}
+                onChange={(event) => setUser({ ...user, bday: event.target.value })}
+              />
+            ) : (
+              <Typography
+                variant='inherit'
+                sx={styles.text}
+              >
+                Data urodzenia: <span style={{ fontWeight: 400 }}>{_.isEmpty(user.bday) ? '-' : user.bday}</span>
+              </Typography>
+            )}
+          </Box>
+          <Button
+            type='button'
+            variant='contained'
+            color='primary'
+            onClick={isEditing ? handleUploadData : () => setIsEditing(true)}
+            sx={{ mt: 3, mb: 2, color: 'common.white', textTransform: 'none' }}
+          >
+            {isEditing ? 'Zaktualizuj zmiany' : 'Edytuj'}
+          </Button>
+        </Box>
       </Box>
     </Grid>
   );
@@ -273,21 +274,49 @@ const styles = {
     alignItems: 'center',
     gap: { sm: '1rem' },
     backgroundColor: 'common.white',
-    color: 'common.darkGrey',
+    color: 'common.black',
     borderRadius: '1rem',
     padding: '2rem',
-    fontSize: '1.5rem',
     textAlign: 'center',
     marginTop: '2rem',
     boxShadow: '0px 0px 15px -5px rgba(10, 10, 10, 1)',
+    width: { xs: '80%', lg: '900px' },
+  },
+  sectionWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '1rem',
+  },
+  sectionTitle: {
+    color: 'common.black',
+    fontFamily: '"Alexandria", sans-serif',
+    fontSize: { xs: '1.5rem' },
+    margin: '1rem 0',
+  },
+  socialWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '1rem',
   },
   socialIcon: {
     backgroundColor: 'common.primary',
-    width: 75,
-    height: 75,
+    width: { xs: 50, md: 75 },
+    height: { xs: 50, md: 75 },
+  },
+  socialInput: {
+    margin: 0,
   },
   text: {
     fontFamily: 'Alexandria, sans-serif',
     fontWeight: 300,
+    fontSize: '1.25rem',
+  },
+  sectionSeparator: {
+    maxWidth: 1000,
+    width: '100%',
+    borderBottom: '1px #e0e0e0 solid',
+    marginTop: '1rem',
   },
 };

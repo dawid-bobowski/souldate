@@ -164,7 +164,7 @@ function Form(props: FormProps): JSX.Element {
             </Typography>
             <FormControl
               className='form-option'
-              sx={{ marginTop: '2rem' }}
+              sx={{ display: 'flex', alignItems: 'center', marginTop: '2rem', width: { xs: '90%', sm: 'unset' } }}
             >
               <RadioGroup
                 className='form-radiogroup'
@@ -186,7 +186,7 @@ function Form(props: FormProps): JSX.Element {
                       checked={answers[currentQuestion.name] === optionIndex + isPersonality}
                       sx={{
                         backgroundColor: 'common.white',
-                        padding: { xs: '0.5rem', md: '1rem 2rem' },
+                        padding: { xs: '0.5rem 1rem', md: '1rem 2rem' },
                         margin: 0,
                         borderRadius: '3rem',
                         '& .MuiSvgIcon-root': {
