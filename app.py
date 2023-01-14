@@ -498,16 +498,16 @@ def upload():
     else:
         return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
 
-@app.route("/api/userdata", methods=["GET"])
+@app.route("/api/user", methods=["GET"])
 @jwt_required()
 def userData():
     username = username_globalzmienna[0]
     user = db.execute("SELECT * FROM users where username = :username", username=username)
     user_id = user[0]['user_id']
-    instagram = db.execute("SELECT instalink FROM users WHERE user_id=:user_id", user_id=user_id)
-    facebook = db.execute("SELECT fblink FROM users WHERE user_id=:user_id", user_id=user_id)
-    twitter = db.execute("SELECT twitterlink FROM users WHERE user_id=:user_id", user_id=user_id)
-    miasto = db.execute("SELECT city FROM users WHERE user_id=:user_id", user_id=user_id)
-    data_urodzenia = db.execute("SELECT bday FROM users WHERE user_id=:user_id", user_id=user_id)
+    instagram = db.execute("SELECT instalink FROM users WHERE user_id=:user_id", user_id=user_id)[0]['instalink']
+    facebook = db.execute("SELECT fblink FROM users WHERE user_id=:user_id", user_id=user_id)[0]['fblink']
+    twitter = db.execute("SELECT twitterlink FROM users WHERE user_id=:user_id", user_id=user_id)[0]['twitterlink']
+    miasto = db.execute("SELECT city FROM users WHERE user_id=:user_id", user_id=user_id)[0]['city']
+    data_urodzenia = db.execute("SELECT bday FROM users WHERE user_id=:user_id", user_id=user_id)[0]['bday']
     print(instagram, facebook, twitter, miasto, data_urodzenia)
     return jsonify({"ig": instagram, "fb": facebook, "tt": twitter, "city": miasto, "bday":  data_urodzenia}), 200
