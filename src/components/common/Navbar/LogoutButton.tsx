@@ -20,8 +20,8 @@ function LogoutButton(): JSX.Element {
       .then((result) => {
         if (result.status === 204) {
           dispatch(toggleMenu());
-          dispatch(logout());
           navigate('/');
+          dispatch(logout());
         } else {
           console.log(
             'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''

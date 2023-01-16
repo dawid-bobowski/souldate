@@ -36,6 +36,8 @@ interface IMatch {
 type Match = IMatch;
 
 interface IUserInfo {
+  username: string | null;
+  email: string;
   bday: string;
   city: string;
   fb: string;

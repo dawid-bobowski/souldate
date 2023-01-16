@@ -1,14 +1,16 @@
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { API_SERVER, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
 import { useAppDispatch } from '../../app/hooks';
 import { login } from '../../features/user/userSlice';
+
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import LoginImage from '../../assets/sparks.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import Ukw from '../../assets/ukw-logo.png';
 import BluSoft from '../../assets/blusoft-logo.png';
+
+import { API_SERVER, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
 import './Login.css';
 
 declare module '@mui/material/Button' {
@@ -52,6 +54,15 @@ function Login(): JSX.Element {
         alert('Unable to send request. Error message: ' + error.message);
       });
   }
+
+  useEffect(() => {
+    const username = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
+
+    if (token !== null && username !== null) {
+      navigate('/dashboard');
+    }
+  }, []);
 
   return (
     <Grid

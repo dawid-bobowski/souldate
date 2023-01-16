@@ -65,9 +65,18 @@ function App(): JSX.Element {
         <Routes>
           <Route
             path='/'
-            element={<SharedLayout />}
-          >
-            <Route element={<PrivateRoute />}>
+            element={<Pages.Home />}
+          />
+          <Route
+            path='/login'
+            element={<Pages.Login />}
+          />
+          <Route
+            path='/register'
+            element={<Pages.Register />}
+          />
+          <Route element={<PrivateRoute />}>
+            <Route element={<SharedLayout />}>
               <Route
                 path='/dashboard'
                 element={<Pages.Dashboard />}
@@ -87,20 +96,8 @@ function App(): JSX.Element {
             </Route>
           </Route>
           <Route
-            index
-            element={<Pages.Home />}
-          />
-          <Route
-            path='/register'
-            element={<Pages.Register />}
-          />
-          <Route
             path='*'
             element={<Pages.Error />}
-          />
-          <Route
-            path='/login'
-            element={<Pages.Login />}
           />
         </Routes>
       </BrowserRouter>

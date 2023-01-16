@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import LogoWhite from '../../assets/souldate-logo-white.png';
 import MainImage from '../../assets/sparks.jpg';
@@ -11,6 +12,17 @@ import Dev4 from '../../assets/authors/dev4.png';
 import Dev5 from '../../assets/authors/dev5.png';
 
 function Home(): JSX.Element {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const username = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
+
+    if (token !== null && username !== null) {
+      navigate('/dashboard');
+    }
+  }, []);
+
   return (
     <Grid
       container

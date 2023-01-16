@@ -1,18 +1,25 @@
 import axios from 'axios';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import _ from 'lodash';
 import { useAppSelector } from '../../../app/hooks';
+
 import { Avatar, Box, Grid, Typography, Button, TextField } from '@mui/material';
 import ProfilePicture from './ProfilePicture';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
+
 import { API_SERVER } from '../../../app/constants';
-import _ from 'lodash';
+
+/**
+ * handleUploadUser should send PATCH request on /user endpoint
+ * getUser should receive username and email too
+ */
 
 function Dashboard(): JSX.Element {
-  const username: string | null = useAppSelector((state) => state.user.username);
   const [user, setUser] = useState<UserInfo>({
+    username: useAppSelector((state) => state.user.username),
+    email: '',
     bday: '',
     city: '',
     fb: '',
@@ -21,10 +28,11 @@ function Dashboard(): JSX.Element {
   });
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  async function handleUploadData(): Promise<void> {
+  async function handleUploadUser(): Promise<void> {
     await axios
       .patch(`${API_SERVER}/registerCopy`, {
-        username,
+        username: user.username,
+        email: user.email,
         iglink: user.ig,
         fblink: user.fb,
         ttlink: user.tt,
@@ -204,13 +212,13 @@ function Dashboard(): JSX.Element {
             variant='inherit'
             sx={styles.text}
           >
-            Login: <span style={{ fontWeight: 400 }}>{username}</span>
+            Login: <span style={{ fontWeight: 400 }}>{user.username}</span>
           </Typography>
           <Typography
             variant='inherit'
             sx={styles.text}
           >
-            Email: <span style={{ fontWeight: 400 }}>{username}</span>
+            Email: <span style={{ fontWeight: 400 }}>{user.username}</span>
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {isEditing ? (
@@ -254,7 +262,7 @@ function Dashboard(): JSX.Element {
             type='button'
             variant='contained'
             color='primary'
-            onClick={isEditing ? handleUploadData : () => setIsEditing(true)}
+            onClick={isEditing ? handleUploadUser : () => setIsEditing(true)}
             sx={{ mt: 3, mb: 2, color: 'common.white', textTransform: 'none' }}
           >
             {isEditing ? 'Zaktualizuj zmiany' : 'Edytuj'}

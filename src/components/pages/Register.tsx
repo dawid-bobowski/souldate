@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
@@ -7,7 +7,6 @@ import LoginImage from '../../assets/sparks.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import './Register.css';
 
-// we'll ask user after login to update email, city, etc
 function Register(): JSX.Element {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>(DEFAULT_EMAIL);
@@ -43,6 +42,15 @@ function Register(): JSX.Element {
         alert('Unable to send request. Error message: ' + error.message);
       });
   }
+
+  useEffect(() => {
+    const username = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
+
+    if (token !== null && username !== null) {
+      navigate('/dashboard');
+    }
+  }, []);
 
   return (
     <Grid

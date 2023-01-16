@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { hideMenu } from '../../features/app/appSlice';
+
 import { Avatar, Box, Tab, Tabs as MuiTabs, Tooltip, Zoom } from '@mui/material';
+import LogoutButton from './Navbar/LogoutButton';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import QuizRoundedIcon from '@mui/icons-material/QuizRounded';
 import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
-import { useAppSelector } from '../../app/hooks';
-import LogoutButton from './Navbar/LogoutButton';
 
 function Tabs(): JSX.Element {
+  const dispatch = useAppDispatch();
   const username: string | null = useAppSelector((state) => state.user.username);
   const [selectedTab, setSelectedTab] = useState<number>(0);
+
+  function handleTabChange(event: React.SyntheticEvent, value: number): void {
+    setSelectedTab(value);
+    dispatch(hideMenu());
+  }
 
   return (
     <>
@@ -31,7 +39,7 @@ function Tabs(): JSX.Element {
         orientation='vertical'
         value={selectedTab}
         TabIndicatorProps={{ sx: { backgroundColor: 'common.secondary' } }}
-        onChange={(event: React.SyntheticEvent, value: number) => setSelectedTab(value)}
+        onChange={handleTabChange}
       >
         <Tab
           to='/dashboard'
