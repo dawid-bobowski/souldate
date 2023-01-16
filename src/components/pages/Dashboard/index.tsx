@@ -1,13 +1,15 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import _ from 'lodash';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../app/hooks';
+import { startLoading, stopLoading } from '../../../features/app/appSlice';
 
 import { Avatar, Box, Grid, Typography, Button, TextField } from '@mui/material';
-import ProfilePicture from './ProfilePicture';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import ProfilePicture from './ProfilePicture';
 
 import { API_SERVER } from '../../../app/constants';
 
@@ -17,6 +19,8 @@ import { API_SERVER } from '../../../app/constants';
  */
 
 function Dashboard(): JSX.Element {
+  const dispatch = useDispatch();
+
   const [user, setUser] = useState<UserInfo>({
     username: useAppSelector((state) => state.user.username),
     email: '',
@@ -29,6 +33,7 @@ function Dashboard(): JSX.Element {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   async function handleUploadUser(): Promise<void> {
+    dispatch(startLoading());
     await axios
       .patch(`${API_SERVER}/registerCopy`, {
         username: user.username,
@@ -41,9 +46,11 @@ function Dashboard(): JSX.Element {
       })
       .then((result) => {
         if (result.status === 201) {
+          dispatch(stopLoading());
           setIsEditing(false);
           console.log('Profil zaktualizowany!');
         } else {
+          dispatch(stopLoading());
           console.log(
             'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
           );
@@ -53,12 +60,14 @@ function Dashboard(): JSX.Element {
         }
       })
       .catch((error) => {
+        dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
         alert('Unable to send request. Error message: ' + error.message);
       });
   }
 
   async function getUser(): Promise<void> {
+    dispatch(startLoading());
     await axios
       .get(`${API_SERVER}/user`, {
         headers: {
@@ -68,7 +77,9 @@ function Dashboard(): JSX.Element {
       .then((result) => {
         if (result.status === 200) {
           setUser(result.data);
+          dispatch(stopLoading());
         } else {
+          dispatch(stopLoading());
           console.log(
             'Unable to get data. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
           );
@@ -78,6 +89,7 @@ function Dashboard(): JSX.Element {
         }
       })
       .catch((error) => {
+        dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
         alert('Unable to send request. Error message: ' + error.message);
       });

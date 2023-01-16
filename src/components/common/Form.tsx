@@ -1,11 +1,16 @@
-import { Box, Button, Typography, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
-import React, { useEffect, useState } from 'react';
+
+import { startLoading, stopLoading } from '../../features/app/appSlice';
+import { useAppDispatch } from '../../app/hooks';
+
+import { Box, Button, Typography, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+
 import { API_SERVER } from '../../app/constants';
 import './Form.css';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 enum PersonalityFormOption {
   DEFINITELY_AGREE = 'Zdecydowanie zgadzam się z tym stwierdzeniem',
@@ -22,6 +27,7 @@ enum LifestyleFormOption {
 
 function Form(props: FormProps): JSX.Element {
   const { type, defaultAnswers = {} } = props;
+  const dispatch = useAppDispatch();
   const [questions, setQuestions] = useState<Questions>([]);
   const [answers, setAnswers] = useState<Answers>(defaultAnswers);
   const [currentQuestion, setCurrentQuestion] = useState<Question>();
@@ -57,12 +63,15 @@ function Form(props: FormProps): JSX.Element {
   }
 
   async function getQuestions(): Promise<void> {
+    dispatch(startLoading());
     await axios
       .get(`${API_SERVER}/${type}_questions`)
       .then((result) => {
         if (result.status === 200) {
           setQuestions(result.data.questions);
+          dispatch(stopLoading());
         } else {
+          dispatch(stopLoading());
           console.log(
             'Unable to get questions. HTTP status code: ' +
               result.status +
@@ -78,6 +87,7 @@ function Form(props: FormProps): JSX.Element {
         }
       })
       .catch((error) => {
+        dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
         alert('Unable to send request. Error message: ' + error.message);
       });
@@ -85,6 +95,7 @@ function Form(props: FormProps): JSX.Element {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
+    dispatch(startLoading());
     await axios
       .post(
         `${API_SERVER}/${type}_test`,
@@ -97,9 +108,11 @@ function Form(props: FormProps): JSX.Element {
       )
       .then((result) => {
         if (result.status === 201) {
+          dispatch(stopLoading());
           console.log(result.data);
           alert('Data received.');
         } else {
+          dispatch(stopLoading());
           console.log(
             'Unable to post answers. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ??
               ''
@@ -111,6 +124,7 @@ function Form(props: FormProps): JSX.Element {
         }
       })
       .catch((error) => {
+        dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
         alert('Unable to send request. Error message: ' + error.message);
       });

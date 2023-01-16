@@ -1,16 +1,19 @@
-import { useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import { API_SERVER } from '../../../app/constants';
 import { Avatar, Badge, IconButton } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { startLoading, stopLoading } from '../../../features/app/appSlice';
 
 function ProfilePicture(): JSX.Element {
+  const dispatch = useAppDispatch();
   const username: string | null = useAppSelector((state) => state.user.username);
   const [importedPicture, setImportedPicure] = useState<File>();
 
   async function handlePhotoUpload(event: ChangeEvent<HTMLInputElement>): Promise<void> {
     if (event.target.files) {
+      dispatch(startLoading());
       setImportedPicure(event.target.files[0]);
       await axios
         .post(
@@ -25,8 +28,10 @@ function ProfilePicture(): JSX.Element {
         )
         .then((result) => {
           if (result.status === 201) {
+            dispatch(stopLoading());
             alert(result.data.msg);
           } else {
+            dispatch(stopLoading());
             console.log(
               'Unable to upload picture. HTTP status code: ' +
                 result.status +
@@ -42,6 +47,7 @@ function ProfilePicture(): JSX.Element {
           }
         })
         .catch((error) => {
+          dispatch(stopLoading());
           console.log('Unable to send request. Error message: ' + error.message);
           alert('Unable to send request. Error message: ' + error.message);
         });

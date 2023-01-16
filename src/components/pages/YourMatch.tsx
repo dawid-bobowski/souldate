@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 
+import { startLoading, stopLoading } from '../../features/app/appSlice';
+import { useAppDispatch } from '../../app/hooks';
+
 import { Avatar, Box, Grid, Tooltip, Typography, Zoom } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -11,6 +14,7 @@ import { API_SERVER } from '../../app/constants';
 import '../../App.css';
 
 function YourMatch(): JSX.Element {
+  const dispatch = useAppDispatch();
   const [match, setMatch] = useState<Match>({
     username: '',
     email: '',
@@ -22,6 +26,7 @@ function YourMatch(): JSX.Element {
   });
 
   async function getMatch(): Promise<void> {
+    dispatch(startLoading());
     await axios
       .get(`${API_SERVER}/matching`, {
         headers: {
@@ -40,7 +45,9 @@ function YourMatch(): JSX.Element {
             ig: _.isNull(ig) ? '' : ig,
             tt: _.isNull(tt) ? '' : tt,
           });
+          dispatch(stopLoading());
         } else {
+          dispatch(stopLoading());
           console.log(
             'Unable to get match. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
           );
@@ -50,6 +57,7 @@ function YourMatch(): JSX.Element {
         }
       })
       .catch((error) => {
+        dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
         alert('Unable to send request. Error message: ' + error.message);
       });

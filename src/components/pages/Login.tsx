@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
+import { startLoading, stopLoading } from '../../features/app/appSlice';
 import { login } from '../../features/user/userSlice';
 
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
@@ -29,6 +30,7 @@ function Login(): JSX.Element {
   async function handleLogin(): Promise<void> {
     if (!username || !password) return;
 
+    dispatch(startLoading());
     await axios
       .post(`${API_SERVER}/login`, {
         username,
@@ -39,8 +41,10 @@ function Login(): JSX.Element {
           setUsername('');
           setPassword('');
           dispatch(login(result.data));
+          dispatch(stopLoading());
           navigate('/dashboard');
         } else {
+          dispatch(stopLoading());
           console.log(
             'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
           );
@@ -50,6 +54,7 @@ function Login(): JSX.Element {
         }
       })
       .catch((error) => {
+        dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
         alert('Unable to send request. Error message: ' + error.message);
       });

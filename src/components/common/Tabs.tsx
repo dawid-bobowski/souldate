@@ -1,18 +1,20 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { hideMenu } from '../../features/app/appSlice';
 
 import { Avatar, Box, Tab, Tabs as MuiTabs, Tooltip, Zoom } from '@mui/material';
-import LogoutButton from './Navbar/LogoutButton';
+import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import QuizRoundedIcon from '@mui/icons-material/QuizRounded';
-import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
+import LogoutButton from './Navbar/LogoutButton';
 
 function Tabs(): JSX.Element {
   const dispatch = useAppDispatch();
-  const username: string | null = useAppSelector((state) => state.user.username);
   const [selectedTab, setSelectedTab] = useState<number>(0);
+  const username: string | null = useAppSelector((state) => state.user.username);
+  const isLoading: boolean = useAppSelector((state) => state.app.isLoading);
 
   function handleTabChange(event: React.SyntheticEvent, value: number): void {
     setSelectedTab(value);
@@ -46,6 +48,7 @@ function Tabs(): JSX.Element {
           aria-label='dashboard'
           value={0}
           component={Link}
+          disabled={isLoading}
           icon={
             <Tooltip
               title='Strona główna'
@@ -65,6 +68,7 @@ function Tabs(): JSX.Element {
           aria-label='personality-test'
           value={1}
           component={Link}
+          disabled={isLoading}
           icon={
             <Tooltip
               title='Test osobowości'
@@ -83,6 +87,7 @@ function Tabs(): JSX.Element {
           aria-label='lifestyle-test'
           value={2}
           component={Link}
+          disabled={isLoading}
           icon={
             <Tooltip
               title='Test zainteresowań'
@@ -101,6 +106,7 @@ function Tabs(): JSX.Element {
           aria-label='your-match'
           value={3}
           component={Link}
+          disabled={isLoading}
           icon={
             <Tooltip
               title='Twoje dopasowanie'

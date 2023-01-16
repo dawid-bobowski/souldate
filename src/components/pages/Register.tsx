@@ -6,8 +6,11 @@ import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER } from '../..
 import LoginImage from '../../assets/sparks.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import './Register.css';
+import { useAppDispatch } from '../../app/hooks';
+import { startLoading, stopLoading } from '../../features/app/appSlice';
 
 function Register(): JSX.Element {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>(DEFAULT_EMAIL);
   const [username, setUsername] = useState<string>(DEFAULT_USER);
@@ -15,6 +18,7 @@ function Register(): JSX.Element {
   const [confirmPassword, setConfirmPassword] = useState<string>(DEFAULT_PASSWORD);
 
   async function handleRegister(): Promise<void> {
+    dispatch(startLoading());
     await axios
       .post(`${API_SERVER}/register`, {
         username,
@@ -27,8 +31,10 @@ function Register(): JSX.Element {
           setPassword('');
           setConfirmPassword('');
           setEmail('');
+          dispatch(stopLoading());
           navigate('/login');
         } else {
+          dispatch(stopLoading());
           console.log(
             'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
           );
@@ -38,6 +44,7 @@ function Register(): JSX.Element {
         }
       })
       .catch((error) => {
+        dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
         alert('Unable to send request. Error message: ' + error.message);
       });

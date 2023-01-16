@@ -8,6 +8,7 @@ type User = IUser;
 
 interface IAppState {
   isMenuOpen: boolean;
+  isLoading: boolean;
 }
 type AppState = IAppState;
 

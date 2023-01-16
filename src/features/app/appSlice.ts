@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: AppState = {
   isMenuOpen: false,
+  isLoading: false,
 };
 
 const appSlice = createSlice({
@@ -14,8 +15,14 @@ const appSlice = createSlice({
     toggleMenu(state) {
       state.isMenuOpen = !state.isMenuOpen;
     },
+    startLoading(state) {
+      state.isLoading = true;
+    },
+    stopLoading(state) {
+      state.isLoading = false;
+    },
   },
 });
 
-export const { hideMenu, toggleMenu } = appSlice.actions;
+export const { hideMenu, toggleMenu, startLoading, stopLoading } = appSlice.actions;
 export default appSlice.reducer;
