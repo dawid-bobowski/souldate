@@ -136,8 +136,6 @@ function YourMatch(): JSX.Element {
         >
           Miasto: <span style={{ fontWeight: 400 }}>{_.isEmpty(match.city) ? '-' : match.city}</span>
         </Typography>
-        <Typography variant='overline'>{match.bday}</Typography>
-        <Typography variant='overline'>{match.city}</Typography>
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: '1rem' }}>
           {match.ig !== '' && (
             <Box
