@@ -7,7 +7,15 @@ import '../../App.css';
 
 function YourMatch(): JSX.Element {
   const username: string | null = useAppSelector((state) => state.user.username);
-  const [match, setMatch] = useState<Match>();
+  const [match, setMatch] = useState<Match>({
+    username: '',
+    email: '',
+    bday: '',
+    city: '',
+    fb: '',
+    ig: '',
+    tt: '',
+  });
 
   async function getMatch(): Promise<void> {
     await axios
@@ -18,7 +26,8 @@ function YourMatch(): JSX.Element {
       })
       .then((result) => {
         if (result.status === 200) {
-          setMatch(result.data.name1[0]);
+          setMatch(result.data);
+          console.log(result.data)
         } else {
           console.log(
             'Unable to get match. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
@@ -87,11 +96,13 @@ function YourMatch(): JSX.Element {
           justifyContent: 'center',
         }}
       >
-        <Typography variant='overline'>{match?.username}</Typography>
-        <Typography variant='overline'>x lat</Typography>
-        <Typography variant='overline'>miasto</Typography>
-        <Typography variant='overline'>{match?.email}</Typography>
-        <Typography variant='overline'>social media</Typography>
+        <Typography variant='overline'>{match.username}</Typography>
+        <Typography variant='overline'>{match.email}</Typography>
+        <Typography variant='overline'>{match.bday}</Typography>
+        <Typography variant='overline'>{match.city}</Typography>
+        <Typography variant='overline'>{match.fb}</Typography>
+        <Typography variant='overline'>{match.tt}</Typography>
+        <Typography variant='overline'>{match.ig}</Typography>
       </Box>
     </Grid>
   );

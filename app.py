@@ -66,8 +66,7 @@ def register():
             "INSERT INTO users (username, hashword, email) VALUES(:username, :hash, :email)",
             username=username,
             hash=hashword,
-            email=email
-        )
+            email=email)
         rows = db.execute("SELECT * FROM users WHERE username = :username",
                           username=username)
         return jsonify(
@@ -87,7 +86,8 @@ def registerCopy():
     twitter = data['ttlink']
     city = data['city']
     bday = data['bday']
-    if db.execute("SELECT username FROM users WHERE username = :username",username=username):
+    if db.execute("SELECT username FROM users WHERE username = :username",
+                  username=username):
         users = db.execute(
             "UPDATE users SET instalink=:instagram, fblink=:facebook, twitterlink=:twitter, city=:city, bday=:bday WHERE username=:username",
             username=username,
@@ -95,15 +95,12 @@ def registerCopy():
             facebook=facebook,
             twitter=twitter,
             city=city,
-            bday=bday
-        )
-        rows = db.execute("SELECT * FROM users WHERE username = :username",username=username)
-        return jsonify(
-            {"msg": "Udało się przeprowadzić aktualizację"}), 201
+            bday=bday)
+        rows = db.execute("SELECT * FROM users WHERE username = :username",
+                          username=username)
+        return jsonify({"msg": "Udało się przeprowadzić aktualizację"}), 201
     elif True:
-        return jsonify(
-            {"errorMsg":
-             "Nie udało się!"}), 409
+        return jsonify({"errorMsg": "Nie udało się!"}), 409
 
 
 @app.route("/api/login", methods=["POST"])
@@ -432,42 +429,58 @@ def matching():
 
     nova1 = [x for x in lista if x != user_idek]
     partner1 = max(set(nova1), key=nova1.count)
-    unwanted1 = {partner1}
-    nova2 = [e for e in nova1 if e not in unwanted1]
-    partner2 = max(set(nova2), key=nova2.count)
-    unwanted2 = {partner2}
-    nova3 = [e for e in nova2 if e not in unwanted2]
-    partner3 = max(set(nova3), key=nova3.count)
-    unwanted3 = {partner3}
-    nova4 = [e for e in nova3 if e not in unwanted3]
-    partner4 = max(set(nova4), key=nova4.count)
-    unwanted4 = {partner3}
-    nova5 = [e for e in nova4 if e not in unwanted4]
-    partner5 = max(set(nova5), key=nova5.count)
+    # unwanted1 = {partner1}
+    # nova2 = [e for e in nova1 if e not in unwanted1]
+    # partner2 = max(set(nova2), key=nova2.count)
+    # unwanted2 = {partner2}
+    # nova3 = [e for e in nova2 if e not in unwanted2]
+    # partner3 = max(set(nova3), key=nova3.count)
+    # unwanted3 = {partner3}
+    # nova4 = [e for e in nova3 if e not in unwanted3]
+    # partner4 = max(set(nova4), key=nova4.count)
+    # unwanted4 = {partner3}
+    # nova5 = [e for e in nova4 if e not in unwanted4]
+    # partner5 = max(set(nova5), key=nova5.count)
 
-    name1 = db.execute(
-        "SELECT username, email FROM users WHERE user_id=:user_id",
-        user_id=partner1)
-    name2 = db.execute(
-        "SELECT username, email FROM users WHERE user_id=:user_id",
-        user_id=partner2)
-    name3 = db.execute(
-        "SELECT username, email FROM users WHERE user_id=:user_id",
-        user_id=partner3)
-    name4 = db.execute(
-        "SELECT username, email FROM users WHERE user_id=:user_id",
-        user_id=partner4)
-    name5 = db.execute(
-        "SELECT username, email FROM users WHERE user_id=:user_id",
-        user_id=partner5)
-    print(name1, name2, name3, name4, name5)
+    # name1 = db.execute(
+    #     "SELECT username, email, instalink, fblink, twitterlink, bday FROM users WHERE user_id=:user_id",
+    #     user_id=partner1)
+    # name2 = db.execute(
+    #     "SELECT username, email FROM users WHERE user_id=:user_id",
+    #     user_id=partner2)
+    # name3 = db.execute(
+    #     "SELECT username, email FROM users WHERE user_id=:user_id",
+    #     user_id=partner3)
+    # name4 = db.execute(
+    #     "SELECT username, email FROM users WHERE user_id=:user_id",
+    #     user_id=partner4)
+    # name5 = db.execute(
+    #     "SELECT username, email FROM users WHERE user_id=:user_id",
+    #     user_id=partner5)
+    userek_name = db.execute(
+        "SELECT username FROM users WHERE user_id=:user_id",
+        user_id=partner1)[0]['username']
+    instagram = db.execute(
+        "SELECT instalink FROM users WHERE user_id=:user_id",
+        user_id=partner1)[0]['instalink']
+    facebook = db.execute("SELECT fblink FROM users WHERE user_id=:user_id",
+                          user_id=user_id)[0]['fblink']
+    twitter = db.execute(
+        "SELECT twitterlink FROM users WHERE user_id=:user_id",
+        user_id=partner1)[0]['twitterlink']
+    miasto = db.execute("SELECT city FROM users WHERE user_id=:user_id",
+                        user_id=partner1)[0]['city']
+    data_urodzenia = db.execute(
+        "SELECT bday FROM users WHERE user_id=:user_id",
+        user_id=partner1)[0]['bday']
+    print(userek_name,instagram, facebook, twitter, miasto, data_urodzenia)
     return jsonify({
-        "msg": "Masz parę!",
-        "name1": name1,
-        "name2": name2,
-        "name3": name3,
-        "name4": name4,
-        "name5": name5
+        "username": userek_name,
+        "ig": instagram,
+        "fb": facebook,
+        "tt": twitter,
+        "city": miasto,
+        "bday": data_urodzenia
     }), 200
 
 
@@ -498,16 +511,32 @@ def upload():
     else:
         return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
 
+
 @app.route("/api/user", methods=["GET"])
 @jwt_required()
 def userData():
     username = username_globalzmienna[0]
-    user = db.execute("SELECT * FROM users where username = :username", username=username)
+    user = db.execute("SELECT * FROM users where username = :username",
+                      username=username)
     user_id = user[0]['user_id']
-    instagram = db.execute("SELECT instalink FROM users WHERE user_id=:user_id", user_id=user_id)[0]['instalink']
-    facebook = db.execute("SELECT fblink FROM users WHERE user_id=:user_id", user_id=user_id)[0]['fblink']
-    twitter = db.execute("SELECT twitterlink FROM users WHERE user_id=:user_id", user_id=user_id)[0]['twitterlink']
-    miasto = db.execute("SELECT city FROM users WHERE user_id=:user_id", user_id=user_id)[0]['city']
-    data_urodzenia = db.execute("SELECT bday FROM users WHERE user_id=:user_id", user_id=user_id)[0]['bday']
+    instagram = db.execute(
+        "SELECT instalink FROM users WHERE user_id=:user_id",
+        user_id=user_id)[0]['instalink']
+    facebook = db.execute("SELECT fblink FROM users WHERE user_id=:user_id",
+                          user_id=user_id)[0]['fblink']
+    twitter = db.execute(
+        "SELECT twitterlink FROM users WHERE user_id=:user_id",
+        user_id=user_id)[0]['twitterlink']
+    miasto = db.execute("SELECT city FROM users WHERE user_id=:user_id",
+                        user_id=user_id)[0]['city']
+    data_urodzenia = db.execute(
+        "SELECT bday FROM users WHERE user_id=:user_id",
+        user_id=user_id)[0]['bday']
     print(instagram, facebook, twitter, miasto, data_urodzenia)
-    return jsonify({"ig": instagram, "fb": facebook, "tt": twitter, "city": miasto, "bday":  data_urodzenia}), 200
+    return jsonify({
+        "ig": instagram,
+        "fb": facebook,
+        "tt": twitter,
+        "city": miasto,
+        "bday": data_urodzenia
+    }), 200

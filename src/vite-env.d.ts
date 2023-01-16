@@ -27,6 +27,11 @@ type Answers = IAnswers;
 interface IMatch {
   username: string;
   email: string;
+  bday: string;
+  city: string;
+  fb: string;
+  ig: string;
+  tt: string;
 }
 type Match = IMatch;
 
