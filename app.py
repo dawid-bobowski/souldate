@@ -519,6 +519,12 @@ def userData():
     user = db.execute("SELECT * FROM users where username = :username",
                       username=username)
     user_id = user[0]['user_id']
+    name = db.execute(
+        "SELECT username FROM users WHERE user_id=:user_id",
+        user_id=user_id)[0]['username']
+    email = db.execute(
+        "SELECT email FROM users WHERE user_id=:user_id",
+        user_id=user_id)[0]['email']
     instagram = db.execute(
         "SELECT instalink FROM users WHERE user_id=:user_id",
         user_id=user_id)[0]['instalink']
@@ -532,8 +538,10 @@ def userData():
     data_urodzenia = db.execute(
         "SELECT bday FROM users WHERE user_id=:user_id",
         user_id=user_id)[0]['bday']
-    print(instagram, facebook, twitter, miasto, data_urodzenia)
+    #print(instagram, facebook, twitter, miasto, data_urodzenia)
     return jsonify({
+        "username": name,
+        "email": email,
         "ig": instagram,
         "fb": facebook,
         "tt": twitter,

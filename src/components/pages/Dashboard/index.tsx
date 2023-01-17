@@ -15,14 +15,14 @@ import { API_SERVER } from '../../../app/constants';
 
 /**
  * handleUploadUser should send PATCH request on /user endpoint
- * getUser should receive username and email too
+
  */
 
 function Dashboard(): JSX.Element {
   const dispatch = useDispatch();
 
   const [user, setUser] = useState<UserInfo>({
-    username: useAppSelector((state) => state.user.username),
+    username: '',
     email: '',
     bday: '',
     city: '',
@@ -230,7 +230,7 @@ function Dashboard(): JSX.Element {
             variant='inherit'
             sx={styles.text}
           >
-            Email: <span style={{ fontWeight: 400 }}>{user.username}</span>
+            Email: <span style={{ fontWeight: 400 }}>{user.email}</span>
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {isEditing ? (
