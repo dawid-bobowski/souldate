@@ -11,6 +11,9 @@ function ProfilePicture(): JSX.Element {
   const username: string | null = useAppSelector((state) => state.user.username);
   const [importedPicture, setImportedPicure] = useState<File>();
 
+  function refreshPage(): void {
+    window.location.reload();
+  }
   async function handlePhotoUpload(event: ChangeEvent<HTMLInputElement>): Promise<void> {
     if (event.target.files) {
       dispatch(startLoading());
@@ -30,6 +33,7 @@ function ProfilePicture(): JSX.Element {
           if (result.status === 201) {
             dispatch(stopLoading());
             alert(result.data.msg);
+            refreshPage();
           } else {
             dispatch(stopLoading());
             console.log(
