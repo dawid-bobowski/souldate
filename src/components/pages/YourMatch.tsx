@@ -128,7 +128,7 @@ function YourMatch(): JSX.Element {
           variant='inherit'
           sx={styles.text}
         >
-          Wiek: <span style={{ fontWeight: 400 }}>{_.isEmpty(match.bday) ? '-' : match.bday}</span>
+          Data urodzenia: <span style={{ fontWeight: 400 }}>{_.isEmpty(match.bday) ? '-' : match.bday}</span>
         </Typography>
         <Typography
           variant='inherit'

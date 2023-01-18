@@ -429,42 +429,17 @@ def matching():
 
     nova1 = [x for x in lista if x != user_idek]
     partner1 = max(set(nova1), key=nova1.count)
-    # unwanted1 = {partner1}
-    # nova2 = [e for e in nova1 if e not in unwanted1]
-    # partner2 = max(set(nova2), key=nova2.count)
-    # unwanted2 = {partner2}
-    # nova3 = [e for e in nova2 if e not in unwanted2]
-    # partner3 = max(set(nova3), key=nova3.count)
-    # unwanted3 = {partner3}
-    # nova4 = [e for e in nova3 if e not in unwanted3]
-    # partner4 = max(set(nova4), key=nova4.count)
-    # unwanted4 = {partner3}
-    # nova5 = [e for e in nova4 if e not in unwanted4]
-    # partner5 = max(set(nova5), key=nova5.count)
-
-    # name1 = db.execute(
-    #     "SELECT username, email, instalink, fblink, twitterlink, bday FROM users WHERE user_id=:user_id",
-    #     user_id=partner1)
-    # name2 = db.execute(
-    #     "SELECT username, email FROM users WHERE user_id=:user_id",
-    #     user_id=partner2)
-    # name3 = db.execute(
-    #     "SELECT username, email FROM users WHERE user_id=:user_id",
-    #     user_id=partner3)
-    # name4 = db.execute(
-    #     "SELECT username, email FROM users WHERE user_id=:user_id",
-    #     user_id=partner4)
-    # name5 = db.execute(
-    #     "SELECT username, email FROM users WHERE user_id=:user_id",
-    #     user_id=partner5)
+  
     userek_name = db.execute(
         "SELECT username FROM users WHERE user_id=:user_id",
         user_id=partner1)[0]['username']
+    adres_em = db.execute("SELECT email FROM users WHERE user_id=:user_id",
+                          user_id=partner1)[0]['email']
     instagram = db.execute(
         "SELECT instalink FROM users WHERE user_id=:user_id",
         user_id=partner1)[0]['instalink']
     facebook = db.execute("SELECT fblink FROM users WHERE user_id=:user_id",
-                          user_id=user_id)[0]['fblink']
+                          user_id=partner1)[0]['fblink']
     twitter = db.execute(
         "SELECT twitterlink FROM users WHERE user_id=:user_id",
         user_id=partner1)[0]['twitterlink']
@@ -473,9 +448,10 @@ def matching():
     data_urodzenia = db.execute(
         "SELECT bday FROM users WHERE user_id=:user_id",
         user_id=partner1)[0]['bday']
-    print(userek_name,instagram, facebook, twitter, miasto, data_urodzenia)
+    print(userek_name,instagram, facebook, twitter, miasto, data_urodzenia, adres_em)
     return jsonify({
         "username": userek_name,
+        "email": adres_em,
         "ig": instagram,
         "fb": facebook,
         "tt": twitter,
