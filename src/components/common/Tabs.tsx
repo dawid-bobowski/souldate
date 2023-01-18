@@ -1,23 +1,23 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { hideMenu } from '../../features/app/appSlice';
+import { hideMenu, setTab } from '../../features/app/appSlice';
 
 import { Avatar, Box, Tab, Tabs as MuiTabs, Tooltip, Zoom } from '@mui/material';
+import WorkspacePremiumRoundedIcon from '@mui/icons-material/WorkspacePremiumRounded';
+import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
 import Diversity1RoundedIcon from '@mui/icons-material/Diversity1Rounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
-import QuizRoundedIcon from '@mui/icons-material/QuizRounded';
 import LogoutButton from './Navbar/LogoutButton';
 
 function Tabs(): JSX.Element {
   const dispatch = useAppDispatch();
-  const [selectedTab, setSelectedTab] = useState<number>(0);
-  const username: string | null = useAppSelector((state) => state.user.username);
-  const isLoading: boolean = useAppSelector((state) => state.app.isLoading);
+
+  const username = useAppSelector((state) => state.user.username);
+  const { isLoading, currentTab } = useAppSelector((state) => state.app);
 
   function handleTabChange(event: React.SyntheticEvent, value: number): void {
-    setSelectedTab(value);
+    dispatch(setTab({ newTab: value }));
     dispatch(hideMenu());
   }
 
@@ -39,7 +39,7 @@ function Tabs(): JSX.Element {
       <MuiTabs
         aria-label='navigation'
         orientation='vertical'
-        value={selectedTab}
+        value={currentTab}
         TabIndicatorProps={{ sx: { backgroundColor: 'common.secondary' } }}
         onChange={handleTabChange}
       >
@@ -75,26 +75,7 @@ function Tabs(): JSX.Element {
               placement='right'
               TransitionComponent={Zoom}
             >
-              <QuizRoundedIcon
-                fontSize='large'
-                sx={styles.icon}
-              />
-            </Tooltip>
-          }
-        />
-        <Tab
-          to='/lifestyle-test'
-          aria-label='lifestyle-test'
-          value={2}
-          component={Link}
-          disabled={isLoading}
-          icon={
-            <Tooltip
-              title='Test zainteresowań'
-              placement='right'
-              TransitionComponent={Zoom}
-            >
-              <QuizRoundedIcon
+              <QuestionAnswerRoundedIcon
                 fontSize='large'
                 sx={styles.icon}
               />
@@ -104,7 +85,7 @@ function Tabs(): JSX.Element {
         <Tab
           to='/your-match'
           aria-label='your-match'
-          value={3}
+          value={2}
           component={Link}
           disabled={isLoading}
           icon={
@@ -114,6 +95,25 @@ function Tabs(): JSX.Element {
               TransitionComponent={Zoom}
             >
               <Diversity1RoundedIcon
+                fontSize='large'
+                sx={styles.icon}
+              />
+            </Tooltip>
+          }
+        />
+        <Tab
+          to=''
+          aria-label='premium'
+          value={3}
+          component={Link}
+          disabled={isLoading}
+          icon={
+            <Tooltip
+              title='Premium (wkrótce)'
+              placement='right'
+              TransitionComponent={Zoom}
+            >
+              <WorkspacePremiumRoundedIcon
                 fontSize='large'
                 sx={styles.icon}
               />

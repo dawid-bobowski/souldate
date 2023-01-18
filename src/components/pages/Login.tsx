@@ -11,7 +11,7 @@ import Logo from '../../assets/souldate-logo.png';
 import Ukw from '../../assets/ukw-logo.png';
 import BluSoft from '../../assets/blusoft-logo.png';
 
-import { API_SERVER, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
+import { API_SERVER } from '../../app/constants';
 import './Login.css';
 
 declare module '@mui/material/Button' {
@@ -24,8 +24,8 @@ function Login(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState<string>(DEFAULT_USER);
-  const [password, setPassword] = useState<string>(DEFAULT_PASSWORD);
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   async function handleLogin(): Promise<void> {
     if (!username || !password) return;

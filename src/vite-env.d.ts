@@ -9,6 +9,7 @@ type User = IUser;
 interface IAppState {
   isMenuOpen: boolean;
   isLoading: boolean;
+  currentTab: number;
 }
 type AppState = IAppState;
 
@@ -59,9 +60,3 @@ interface TextInputProps {
   value: string;
   setState: any;
 }
-
-interface IFormProps {
-  type: string;
-  defaultAnswers?: Answers;
-}
-type FormProps = IFormProps;

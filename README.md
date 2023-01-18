@@ -35,10 +35,6 @@ Souldate is an alternative to popular dating app called Tinder. What's different
 
 ### How to run the project
 
-#### To run locally
-
-Go to src\app\constants.ts and temporally replace API_SERVER = 'http://127.0.0.1:5000/api'
-
 #### Backend
 
 8. py -m flask run

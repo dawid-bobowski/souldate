@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialState: AppState = {
   isMenuOpen: false,
   isLoading: false,
+  currentTab: 0,
 };
 
 const appSlice = createSlice({
@@ -21,8 +22,11 @@ const appSlice = createSlice({
     stopLoading(state) {
       state.isLoading = false;
     },
+    setTab(state, action: PayloadAction<{ newTab: number }>) {
+      state.currentTab = action.payload.newTab;
+    },
   },
 });
 
-export const { hideMenu, toggleMenu, startLoading, stopLoading } = appSlice.actions;
+export const { hideMenu, toggleMenu, startLoading, stopLoading, setTab } = appSlice.actions;
 export default appSlice.reducer;

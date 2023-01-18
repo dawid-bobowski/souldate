@@ -1,21 +1,24 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { API_SERVER, DEFAULT_EMAIL, DEFAULT_PASSWORD, DEFAULT_USER } from '../../app/constants';
-import LoginImage from '../../assets/sparks.jpg';
-import Logo from '../../assets/souldate-logo.png';
-import './Register.css';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import { useAppDispatch } from '../../app/hooks';
 import { startLoading, stopLoading } from '../../features/app/appSlice';
+
+import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import LoginImage from '../../assets/sparks.jpg';
+import Logo from '../../assets/souldate-logo.png';
+import { API_SERVER } from '../../app/constants';
+import './Register.css';
 
 function Register(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState<string>(DEFAULT_EMAIL);
-  const [username, setUsername] = useState<string>(DEFAULT_USER);
-  const [password, setPassword] = useState<string>(DEFAULT_PASSWORD);
-  const [confirmPassword, setConfirmPassword] = useState<string>(DEFAULT_PASSWORD);
+
+  const [email, setEmail] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
   async function handleRegister(): Promise<void> {
     dispatch(startLoading());

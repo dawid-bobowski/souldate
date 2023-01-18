@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import _ from 'lodash';
 
-import { startLoading, stopLoading } from '../../features/app/appSlice';
+import { setTab, startLoading, stopLoading } from '../../features/app/appSlice';
 import { useAppDispatch } from '../../app/hooks';
 
 import { Box, Button, Typography, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
-import { API_SERVER } from '../../app/constants';
+import { API_SERVER, RANDOM_ANSWERS_LIFESTYLE, RANDOM_ANSWERS_PERSONALITY } from '../../app/constants';
 import './Form.css';
 
 enum PersonalityFormOption {
@@ -25,13 +26,23 @@ enum LifestyleFormOption {
   YES = 'Tak',
 }
 
+interface IFormProps {
+  type: string;
+}
+type FormProps = IFormProps;
+
 function Form(props: FormProps): JSX.Element {
-  const { type, defaultAnswers = {} } = props;
+  const { type } = props;
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const isPersonality = (): boolean => type === 'personality';
+
   const [questions, setQuestions] = useState<Questions>([]);
-  const [answers, setAnswers] = useState<Answers>(defaultAnswers);
+  const [answers, setAnswers] = useState<Answers>(
+    isPersonality() ? RANDOM_ANSWERS_PERSONALITY : RANDOM_ANSWERS_LIFESTYLE
+  );
   const [currentQuestion, setCurrentQuestion] = useState<Question>();
-  const isPersonality: number = type === 'personality' ? 1 : 0;
 
   const formOptions = (): string[] => {
     switch (type) {
@@ -50,8 +61,8 @@ function Form(props: FormProps): JSX.Element {
     }
   }
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    const { value, name } = event.target;
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>, value: string): void {
+    const { name } = event.target;
 
     setAnswers((prevAnswers) => {
       delete prevAnswers[name];
@@ -69,6 +80,7 @@ function Form(props: FormProps): JSX.Element {
       .then((result) => {
         if (result.status === 200) {
           setQuestions(result.data.questions);
+          setCurrentQuestion(result.data.questions.find((item: Question) => item.id === 1));
           dispatch(stopLoading());
         } else {
           dispatch(stopLoading());
@@ -111,6 +123,8 @@ function Form(props: FormProps): JSX.Element {
           dispatch(stopLoading());
           console.log(result.data);
           alert('Data received.');
+          dispatch(setTab({ newTab: isPersonality() ? 1 : 2 }));
+          navigate(isPersonality() ? '/lifestyle-test' : '/your-match');
         } else {
           dispatch(stopLoading());
           console.log(
@@ -134,10 +148,6 @@ function Form(props: FormProps): JSX.Element {
     getQuestions();
   }, []);
 
-  useEffect(() => {
-    setCurrentQuestion(questions.find((item) => item.id === 1));
-  }, [questions]);
-
   return (
     <Box
       id={`${type}-form`}
@@ -152,7 +162,7 @@ function Form(props: FormProps): JSX.Element {
         paddingTop: { xs: '2rem', md: 'unset' },
       }}
     >
-      {currentQuestion ? (
+      {!_.isUndefined(currentQuestion) && (
         <>
           <Box
             className='form-question'
@@ -187,17 +197,18 @@ function Form(props: FormProps): JSX.Element {
                   gap: '1rem',
                   padding: { xs: '0 5%', md: 'unset' },
                   display: 'flex',
-                  flexDirection: type === 'personality' ? 'column' : 'row',
+                  flexDirection: isPersonality() ? 'column' : 'row',
                 }}
               >
                 {formOptions().map((option, optionIndex) => {
                   return (
                     <FormControlLabel
                       key={optionIndex}
-                      value={optionIndex + isPersonality}
+                      value={optionIndex + _.toInteger(isPersonality())}
                       control={<Radio />}
                       label={option}
-                      checked={answers[currentQuestion.name] === optionIndex + isPersonality}
+                      name={currentQuestion.name}
+                      checked={answers[currentQuestion.name] === optionIndex + _.toInteger(isPersonality())}
                       sx={{
                         backgroundColor: 'common.white',
                         padding: { xs: '0.5rem 1rem', md: '1rem 2rem' },
@@ -241,7 +252,7 @@ function Form(props: FormProps): JSX.Element {
           </Box>
           <Button
             type='submit'
-            disabled={type === 'personality' ? answers.length === 50 : answers.length === 15}
+            disabled={isPersonality() ? answers.length === 50 : answers.length === 15}
             sx={{
               color: 'common.white',
               fontSize: { xs: '0.85rem', md: '1rem' },
@@ -259,8 +270,6 @@ function Form(props: FormProps): JSX.Element {
             Wyślij
           </Button>
         </>
-      ) : (
-        <></>
       )}
     </Box>
   );

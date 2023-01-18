@@ -1,10 +1,12 @@
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
-import { API_SERVER } from '../../../app/constants';
+
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { startLoading, stopLoading } from '../../../features/app/appSlice';
+
 import { Avatar, Badge, IconButton } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { startLoading, stopLoading } from '../../../features/app/appSlice';
+import { API_SERVER } from '../../../app/constants';
 
 function ProfilePicture(): JSX.Element {
   const dispatch = useAppDispatch();
