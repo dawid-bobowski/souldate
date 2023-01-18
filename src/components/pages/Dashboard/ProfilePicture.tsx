@@ -22,7 +22,7 @@ function ProfilePicture(): JSX.Element {
       setImportedPicure(event.target.files[0]);
       await axios
         .post(
-          `${API_SERVER}/upload/profile-picture`,
+          `${API_SERVER}/profile-picture`,
           { photo: event.target.files[0], username: localStorage.getItem('username') },
           {
             headers: {
@@ -34,8 +34,8 @@ function ProfilePicture(): JSX.Element {
         .then((result) => {
           if (result.status === 201) {
             dispatch(stopLoading());
-            alert(result.data.msg);
-            refreshPage();
+            // alert(result.data.msg);
+            // refreshPage();
           } else {
             dispatch(stopLoading());
             console.log(
@@ -90,7 +90,7 @@ function ProfilePicture(): JSX.Element {
     >
       <Avatar
         alt={`${username}'s profile picture`}
-        src={importedPicture ? URL.createObjectURL(importedPicture) : `../../src/assets/users/${username}.jpg`}
+        src={importedPicture ? URL.createObjectURL(importedPicture) : `users/${username}.jpg`}
         sx={{ width: 140, height: 140 }}
       />
     </Badge>

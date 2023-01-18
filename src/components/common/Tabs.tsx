@@ -32,7 +32,7 @@ function Tabs(): JSX.Element {
       >
         <Avatar
           variant='circular'
-          src={`../../src/assets/users/${username}.jpg`}
+          src={`users/${username}.jpg`}
           sx={{ width: '48px', height: '48px' }}
         />
       </Box>

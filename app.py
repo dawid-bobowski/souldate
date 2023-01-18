@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
 ################# photo upload
 photos = UploadSet("photos", IMAGES)
-app.config["UPLOADED_PHOTOS_DEST"] = "src/assets/users"
+app.config["UPLOADED_PHOTOS_DEST"] = "public/users"
 configure_uploads(app, photos)
 
 
@@ -462,24 +462,18 @@ def matching():
 
 ################# photo upload
 ################# jeszcze do poprawki ale już wrzucam z innymi zmianami
-@app.post("/api/upload/profile-picture")
+@app.post("/api/profile-picture")
 def upload():
     photo = request.files['photo']
-    nazwka = username_globalzmienna[0]
-    myfile = "{}.jpg".format(nazwka)
-    print(myfile)
-    print("Current Working Directory ", os.getcwd())
-    directory = os.getcwd()
-    print("Current Working Directory ", os.getcwd())
-    print(os.path.isfile(myfile))
+    user = username_globalzmienna[0]
+    myfile = "{}.jpg".format(user)
     # Specify path
-    path = 'src/assets/users/{}.jpg'.format(nazwka)
+    path = 'public/users/{}.jpg'.format(user)
     # Check whether the specified
     # path exists or not
     isExist = os.path.exists(path)
-    print(isExist)
     if isExist == True:
-        os.remove('src/assets/users/{}.jpg'.format(nazwka))
+        os.remove('public/users/{}.jpg'.format(user))
     if photo:
         photos.save(photo, name=myfile)
         flash("Photo saved successfully.")
