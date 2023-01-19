@@ -34,8 +34,7 @@ function ProfilePicture(): JSX.Element {
         .then((result) => {
           if (result.status === 201) {
             dispatch(stopLoading());
-            // alert(result.data.msg);
-            // refreshPage();
+            refreshPage();
           } else {
             dispatch(stopLoading());
             console.log(
@@ -90,7 +89,7 @@ function ProfilePicture(): JSX.Element {
     >
       <Avatar
         alt={`${username}'s profile picture`}
-        src={importedPicture ? URL.createObjectURL(importedPicture) : `users/${username}.jpg`}
+        src={importedPicture ? URL.createObjectURL(importedPicture) : `${API_SERVER}/users/${username}.jpg`}
         sx={{ width: 140, height: 140 }}
       />
     </Badge>

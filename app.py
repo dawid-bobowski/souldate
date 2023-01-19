@@ -3,7 +3,7 @@ import os
 import datetime
 from tempfile import mkdtemp
 from cs50 import SQL
-from flask import (Flask, jsonify, request, session, flash)
+from flask import (Flask, jsonify, request, session, flash, send_file)
 from flask_jwt_extended import (JWTManager, create_access_token, jwt_required)
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -461,16 +461,13 @@ def matching():
 
 
 ################# photo upload
-################# jeszcze do poprawki ale już wrzucam z innymi zmianami
 @app.post("/api/profile-picture")
-def upload():
+@jwt_required()
+def uploadPicture():
     photo = request.files['photo']
     user = username_globalzmienna[0]
     myfile = "{}.jpg".format(user)
-    # Specify path
     path = 'public/users/{}.jpg'.format(user)
-    # Check whether the specified
-    # path exists or not
     isExist = os.path.exists(path)
     if isExist == True:
         os.remove('public/users/{}.jpg'.format(user))
@@ -480,6 +477,13 @@ def upload():
         return jsonify({"msg": "Zdjęcie zostało zaktualizowane!"}), 201
     else:
         return jsonify({"msg": "Nie zaktualizowano zdjęcia!"}), 404
+
+
+# get user profile picture
+@app.route("/api/users/<string:filename>")
+def return_pic(filename):
+    path = 'public/users/{}'.format(filename)
+    return send_file(path)
 
 
 @app.route("/api/user", methods=["GET"])

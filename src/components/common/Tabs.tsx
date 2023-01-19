@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { hideMenu, setTab } from '../../features/app/appSlice';
+import { API_SERVER } from '../../app/constants';
 
 import { Avatar, Box, Tab, Tabs as MuiTabs, Tooltip, Zoom } from '@mui/material';
 import WorkspacePremiumRoundedIcon from '@mui/icons-material/WorkspacePremiumRounded';
@@ -32,7 +33,7 @@ function Tabs(): JSX.Element {
       >
         <Avatar
           variant='circular'
-          src={`users/${username}.jpg`}
+          src={`${API_SERVER}/users/${username}.jpg`}
           sx={{ width: '48px', height: '48px' }}
         />
       </Box>
