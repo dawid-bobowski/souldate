@@ -1,18 +1,17 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import { useAppDispatch } from '../../app/hooks';
 import { startLoading, stopLoading } from '../../features/app/appSlice';
 import { login } from '../../features/user/userSlice';
+import { API_SERVER } from '../../app/constants';
 
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import LoginImage from '../../assets/sparks.jpg';
 import Logo from '../../assets/souldate-logo.png';
 import Ukw from '../../assets/ukw-logo.png';
 import BluSoft from '../../assets/blusoft-logo.png';
-
-import { API_SERVER } from '../../app/constants';
-import './Login.css';
 
 declare module '@mui/material/Button' {
   interface ButtonPropsColorOverrides {
@@ -46,17 +45,13 @@ function Login(): JSX.Element {
         } else {
           dispatch(stopLoading());
           console.log(
-            'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-          );
-          alert(
-            'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+            'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.msg ?? ''
           );
         }
       })
       .catch((error) => {
         dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
-        alert('Unable to send request. Error message: ' + error.message);
       });
   }
 
@@ -120,6 +115,7 @@ function Login(): JSX.Element {
           width={200}
           onClick={() => navigate('/')}
           sx={{
+            margin: '0 auto',
             ':hover': {
               cursor: 'pointer',
             },

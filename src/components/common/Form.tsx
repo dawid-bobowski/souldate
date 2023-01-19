@@ -5,13 +5,12 @@ import _ from 'lodash';
 
 import { setTab, startLoading, stopLoading } from '../../features/app/appSlice';
 import { useAppDispatch } from '../../app/hooks';
+import { logout } from '../../features/user/userSlice';
+import { API_SERVER, RANDOM_ANSWERS_LIFESTYLE, RANDOM_ANSWERS_PERSONALITY } from '../../app/constants';
 
 import { Box, Button, Typography, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-
-import { API_SERVER, RANDOM_ANSWERS_LIFESTYLE, RANDOM_ANSWERS_PERSONALITY } from '../../app/constants';
-import './Form.css';
 
 enum PersonalityFormOption {
   DEFINITELY_AGREE = 'Zdecydowanie zgadzam się z tym stwierdzeniem',
@@ -85,23 +84,13 @@ function Form(props: FormProps): JSX.Element {
         } else {
           dispatch(stopLoading());
           console.log(
-            'Unable to get questions. HTTP status code: ' +
-              result.status +
-              '\nError message: ' +
-              result.data.errorMsg ?? ''
-          );
-          alert(
-            'Unable to get questions. HTTP status code: ' +
-              result.status +
-              '\nError message: ' +
-              result.data.errorMsg ?? ''
+            `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
           );
         }
       })
       .catch((error) => {
         dispatch(stopLoading());
-        console.log('Unable to send request. Error message: ' + error.message);
-        alert('Unable to send request. Error message: ' + error.message);
+        console.log(`Unable to send request. Error message: ${error.message}`);
       });
   }
 
@@ -111,7 +100,7 @@ function Form(props: FormProps): JSX.Element {
     await axios
       .post(
         `${API_SERVER}/${type}_test`,
-        { answers, username: localStorage.getItem('username') },
+        { answers },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -119,28 +108,29 @@ function Form(props: FormProps): JSX.Element {
         }
       )
       .then((result) => {
-        if (result.status === 201) {
-          dispatch(stopLoading());
-          console.log(result.data);
-          alert('Data received.');
-          dispatch(setTab({ newTab: isPersonality() ? 1 : 2 }));
-          navigate(isPersonality() ? '/lifestyle-test' : '/your-match');
-        } else {
-          dispatch(stopLoading());
-          console.log(
-            'Unable to post answers. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ??
-              ''
-          );
-          alert(
-            'Unable to post answers. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ??
-              ''
-          );
+        switch (result.status) {
+          case 201:
+            console.log(result.data);
+            dispatch(stopLoading());
+            dispatch(setTab({ newTab: isPersonality() ? 1 : 2 }));
+            navigate(isPersonality() ? '/lifestyle-test' : '/your-match');
+            break;
+          case 403:
+            console.log(result.data.msg);
+            dispatch(startLoading());
+            dispatch(logout());
+            dispatch(stopLoading());
+            navigate('/login', { replace: true });
+          default:
+            dispatch(stopLoading());
+            console.log(
+              `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
+            );
         }
       })
       .catch((error) => {
         dispatch(stopLoading());
-        console.log('Unable to send request. Error message: ' + error.message);
-        alert('Unable to send request. Error message: ' + error.message);
+        console.log(`Unable to send request. Error message: ${error.message}`);
       });
   }
 
@@ -198,6 +188,8 @@ function Form(props: FormProps): JSX.Element {
                   padding: { xs: '0 5%', md: 'unset' },
                   display: 'flex',
                   flexDirection: isPersonality() ? 'column' : 'row',
+                  width: { md: '100%' },
+                  flexWrap: 'unset',
                 }}
               >
                 {formOptions().map((option, optionIndex) => {
@@ -211,14 +203,14 @@ function Form(props: FormProps): JSX.Element {
                       checked={answers[currentQuestion.name] === optionIndex + _.toInteger(isPersonality())}
                       sx={{
                         backgroundColor: 'common.white',
-                        padding: { xs: '0.5rem 1rem', md: '1rem 2rem' },
-                        margin: 0,
+                        padding: { xs: '0.5rem 1rem', sm: '1rem 2rem' },
+                        margin: '0 auto',
                         borderRadius: '3rem',
                         '& .MuiSvgIcon-root': {
-                          fontSize: { xs: 20, md: 28 },
+                          fontSize: { xs: 20, sm: 28 },
                         },
                         '& .MuiFormControlLabel-label': {
-                          fontSize: { xs: '0.85rem', md: '1.25rem' },
+                          fontSize: { xs: '0.85rem', sm: '1.25rem' },
                         },
                       }}
                     />

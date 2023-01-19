@@ -1,9 +1,13 @@
-import _ from 'lodash';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '../../../app/hooks';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import _ from 'lodash';
+
 import { startLoading, stopLoading } from '../../../features/app/appSlice';
+import { logout } from '../../../features/user/userSlice';
+import { API_SERVER } from '../../../app/constants';
+import { refreshPage } from '../../../helpers/utils';
 
 import { Avatar, Box, Grid, Typography, Button, TextField } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -11,15 +15,9 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import ProfilePicture from './ProfilePicture';
 
-import { API_SERVER } from '../../../app/constants';
-
-/**
- * handleUploadUser should send PATCH request on /user endpoint
-
- */
-
 function Dashboard(): JSX.Element {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState<UserInfo>({
     username: '',
@@ -35,34 +33,49 @@ function Dashboard(): JSX.Element {
   async function handleUploadUser(): Promise<void> {
     dispatch(startLoading());
     await axios
-      .patch(`${API_SERVER}/registerCopy`, {
-        username: user.username,
-        email: user.email,
-        iglink: user.ig,
-        fblink: user.fb,
-        ttlink: user.tt,
-        city: user.city,
-        bday: user.bday,
-      })
+      .patch(
+        `${API_SERVER}/user`,
+        {
+          email: user.email,
+          iglink: user.ig,
+          fblink: user.fb,
+          ttlink: user.tt,
+          city: user.city,
+          bday: user.bday,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
       .then((result) => {
-        if (result.status === 201) {
-          dispatch(stopLoading());
-          setIsEditing(false);
-          console.log('Profil zaktualizowany!');
-        } else {
-          dispatch(stopLoading());
-          console.log(
-            'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-          );
-          alert(
-            'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-          );
+        switch (result.status) {
+          case 201:
+            console.log(result.data.msg);
+            setIsEditing(false);
+            dispatch(stopLoading());
+            break;
+          case 403:
+            console.log(result.data.msg);
+            dispatch(logout());
+            dispatch(stopLoading());
+            navigate('/login', { replace: true });
+          case 409:
+            console.log(result.data.msg);
+            dispatch(stopLoading());
+            refreshPage();
+            break;
+          default:
+            dispatch(stopLoading());
+            console.log(
+              `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
+            );
         }
       })
       .catch((error) => {
         dispatch(stopLoading());
-        console.log('Unable to send request. Error message: ' + error.message);
-        alert('Unable to send request. Error message: ' + error.message);
+        console.log(`Unable to send request. Error message: ${error.message}`);
       });
   }
 
@@ -75,23 +88,26 @@ function Dashboard(): JSX.Element {
         },
       })
       .then((result) => {
-        if (result.status === 200) {
-          setUser(result.data);
-          dispatch(stopLoading());
-        } else {
-          dispatch(stopLoading());
-          console.log(
-            'Unable to get data. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-          );
-          alert(
-            'Unable to get data. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-          );
+        switch (result.status) {
+          case 200:
+            setUser(result.data);
+            dispatch(stopLoading());
+            break;
+          case 403:
+            console.log(result.data.msg);
+            dispatch(logout());
+            dispatch(stopLoading());
+            navigate('/login', { replace: true });
+          default:
+            dispatch(stopLoading());
+            console.log(
+              `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
+            );
         }
       })
       .catch((error) => {
         dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
-        alert('Unable to send request. Error message: ' + error.message);
       });
   }
 
@@ -113,8 +129,8 @@ function Dashboard(): JSX.Element {
         alignItems: 'center',
         backgroundColor: 'rgb(224,159,62)',
         background: 'radial-gradient(circle, rgba(224,159,62,1) 0%, rgba(158,42,43,1) 100%)',
-        paddingTop: { xs: '5rem', sm: '0' },
-        paddingBottom: { xs: '5rem', sm: '0' },
+        paddingTop: { xs: '5rem', sm: '2rem' },
+        paddingBottom: { xs: '5rem', sm: '2rem' },
       }}
     >
       <Box sx={styles.profilePanel}>
@@ -298,7 +314,6 @@ const styles = {
     borderRadius: '1rem',
     padding: '2rem',
     textAlign: 'center',
-    marginTop: '2rem',
     boxShadow: '0px 0px 15px -5px rgba(10, 10, 10, 1)',
     width: { xs: '80%', lg: '900px' },
   },

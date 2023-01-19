@@ -4,12 +4,11 @@ import axios from 'axios';
 
 import { useAppDispatch } from '../../app/hooks';
 import { startLoading, stopLoading } from '../../features/app/appSlice';
+import { API_SERVER } from '../../app/constants';
 
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import LoginImage from '../../assets/sparks.jpg';
 import Logo from '../../assets/souldate-logo.png';
-import { API_SERVER } from '../../app/constants';
-import './Register.css';
 
 function Register(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -39,17 +38,13 @@ function Register(): JSX.Element {
         } else {
           dispatch(stopLoading());
           console.log(
-            'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-          );
-          alert(
-            'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
+            'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.msg ?? ''
           );
         }
       })
       .catch((error) => {
         dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
-        alert('Unable to send request. Error message: ' + error.message);
       });
   }
 
