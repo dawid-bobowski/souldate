@@ -6,3 +6,4 @@ export { default as Dashboard } from './Dashboard';
 export { default as PersonalityTest } from './PersonalityTest';
 export { default as LifestyleTest } from './LifestyleTest';
 export { default as YourMatch } from './YourMatch';
+export { default as Premium } from './Premium';

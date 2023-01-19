@@ -102,7 +102,7 @@ function Tabs(): JSX.Element {
           }
         />
         <Tab
-          to=''
+          to='/premium'
           aria-label='premium'
           value={3}
           component={Link}

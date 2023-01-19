@@ -98,6 +98,10 @@ function App(): JSX.Element {
                 path='/your-match'
                 element={<Pages.YourMatch />}
               />
+              <Route
+                path='/premium'
+                element={<Pages.Premium />}
+              />
             </Route>
           </Route>
           <Route
