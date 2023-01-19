@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
 ################# photo upload
 photos = UploadSet("photos", IMAGES)
-app.config["UPLOADED_PHOTOS_DEST"] = "public/users"
+app.config["UPLOADED_PHOTOS_DEST"] = "public/users/"
 configure_uploads(app, photos)
 
 
@@ -483,7 +483,10 @@ def uploadPicture():
 @app.route("/api/users/<string:filename>")
 def return_pic(filename):
     path = 'public/users/{}'.format(filename)
-    return send_file(path)
+    if os.path.exists(path) == True:
+        return send_file(path)
+    else:
+      return send_file('public/default_user.jpg')
 
 
 @app.route("/api/user", methods=["GET"])
