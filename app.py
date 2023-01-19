@@ -4,13 +4,13 @@ import datetime
 from tempfile import mkdtemp
 from cs50 import SQL
 from flask import (Flask, jsonify, request, session, flash, send_file)
-from flask_jwt_extended import (JWTManager, create_access_token, jwt_required)
+from flask_jwt_extended import (JWTManager, create_access_token, jwt_required, get_jwt_identity)
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_uploads import IMAGES, UploadSet, configure_uploads
 
 lista = [0]
-username_globalzmienna = []
+user_sessions = []
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -19,7 +19,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["JWT_SECRET_KEY"] = "super-secret"
 app.config["SECRET_KEY"] = "pass"
-# app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(seconds=20) :) :) :) :)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(seconds=604800) # default to 7 days
 
 Session(app)
 jwt = JWTManager(app)
@@ -113,14 +113,14 @@ def login():
     if len(rows) != 1 or not check_password_hash(rows[0]["hashword"],
                                                  password):
         return jsonify({"errorMsg": "Invalid username and/or password!"}), 403
-    session["user_id"] = rows[0]["user_id"]
-    cos = session["user_id"]
-    username_globalzmienna.clear()
-    username_globalzmienna.insert(0, username)
-    additional_claims = {"aud": "some_audience", "foo": "bar"}
-    access_token = create_access_token(cos,
-                                       additional_claims=additional_claims)
-    return jsonify({"username": username, "token": access_token}), 200
+    user_loggedin = [user for user in user_sessions if user == username]
+    if user_loggedin != []:
+      return jsonify({"msg": "Użytkownik zalogowany na innym urządzeniu!"}), 403
+    else:
+      access_token = create_access_token(identity=username)
+      user_sessions.append(username)
+      print(user_sessions)
+      return jsonify({ "username": username, "token": access_token }), 200
 
 
 @app.route("/api/personality_test", methods=["POST"])
@@ -277,15 +277,20 @@ def lifestyle():
 
 
 @app.route("/api/logout")
+@jwt_required()
 def logout():
-    session.clear()
-    return {}, 204
+    username_to_logout = get_jwt_identity()
+    user_loggedin = [username for username in user_sessions if username == username_to_logout]
+    if user_loggedin != [] and username_to_logout == user_loggedin[0]:
+      return { "msg": 'Użytkownik wylogowany!' }, 204
+    else:
+      return { "msg": 'Użytkownik nie jest zalogowany!' }, 403
 
 
 @app.route("/api/matching", methods=["GET"])
 @jwt_required()
 def matching():
-    username = username_globalzmienna[0]
+    username = get_jwt_identity()
     user = db.execute("SELECT * FROM users where username = :username",
                       username=username)
     user_id = user[0]['user_id']
@@ -425,38 +430,35 @@ def matching():
     for item in lifestyle15:
         lista.append(item['user_id'])
 
-    user_idek = user_id
-
-    nova1 = [x for x in lista if x != user_idek]
-    partner1 = max(set(nova1), key=nova1.count)
+    nova1 = [x for x in lista if x != user_id]
+    partner = max(set(nova1), key=nova1.count)
   
-    userek_name = db.execute(
+    partner_name = db.execute(
         "SELECT username FROM users WHERE user_id=:user_id",
-        user_id=partner1)[0]['username']
-    adres_em = db.execute("SELECT email FROM users WHERE user_id=:user_id",
-                          user_id=partner1)[0]['email']
-    instagram = db.execute(
+        user_id=partner)[0]['username']
+    partner_email = db.execute("SELECT email FROM users WHERE user_id=:user_id",
+                          user_id=partner)[0]['email']
+    partner_ig = db.execute(
         "SELECT instalink FROM users WHERE user_id=:user_id",
-        user_id=partner1)[0]['instalink']
-    facebook = db.execute("SELECT fblink FROM users WHERE user_id=:user_id",
-                          user_id=partner1)[0]['fblink']
-    twitter = db.execute(
+        user_id=partner)[0]['instalink']
+    partner_fb = db.execute("SELECT fblink FROM users WHERE user_id=:user_id",
+                          user_id=partner)[0]['fblink']
+    partner_tt = db.execute(
         "SELECT twitterlink FROM users WHERE user_id=:user_id",
-        user_id=partner1)[0]['twitterlink']
-    miasto = db.execute("SELECT city FROM users WHERE user_id=:user_id",
-                        user_id=partner1)[0]['city']
-    data_urodzenia = db.execute(
+        user_id=partner)[0]['twitterlink']
+    partner_city = db.execute("SELECT city FROM users WHERE user_id=:user_id",
+                        user_id=partner)[0]['city']
+    partner_bday = db.execute(
         "SELECT bday FROM users WHERE user_id=:user_id",
-        user_id=partner1)[0]['bday']
-    print(userek_name,instagram, facebook, twitter, miasto, data_urodzenia, adres_em)
+        user_id=partner)[0]['bday']
     return jsonify({
-        "username": userek_name,
-        "email": adres_em,
-        "ig": instagram,
-        "fb": facebook,
-        "tt": twitter,
-        "city": miasto,
-        "bday": data_urodzenia
+        "username": partner_name,
+        "email": partner_email,
+        "ig": partner_ig,
+        "fb": partner_fb,
+        "tt": partner_tt,
+        "city": partner_city,
+        "bday": partner_bday
     }), 200
 
 
@@ -465,12 +467,12 @@ def matching():
 @jwt_required()
 def uploadPicture():
     photo = request.files['photo']
-    user = username_globalzmienna[0]
-    myfile = "{}.jpg".format(user)
-    path = 'public/users/{}.jpg'.format(user)
+    username = get_jwt_identity()
+    myfile = "{}.jpg".format(username)
+    path = 'public/users/{}.jpg'.format(username)
     isExist = os.path.exists(path)
     if isExist == True:
-        os.remove('public/users/{}.jpg'.format(user))
+        os.remove('public/users/{}.jpg'.format(username))
     if photo:
         photos.save(photo, name=myfile)
         flash("Photo saved successfully.")
@@ -492,7 +494,7 @@ def return_pic(filename):
 @app.route("/api/user", methods=["GET"])
 @jwt_required()
 def userData():
-    username = username_globalzmienna[0]
+    username = get_jwt_identity()
     user = db.execute("SELECT * FROM users where username = :username",
                       username=username)
     user_id = user[0]['user_id']
@@ -515,7 +517,6 @@ def userData():
     data_urodzenia = db.execute(
         "SELECT bday FROM users WHERE user_id=:user_id",
         user_id=user_id)[0]['bday']
-    #print(instagram, facebook, twitter, miasto, data_urodzenia)
     return jsonify({
         "username": name,
         "email": email,

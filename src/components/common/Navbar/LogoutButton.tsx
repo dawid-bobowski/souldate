@@ -16,7 +16,11 @@ function LogoutButton(): JSX.Element {
   async function handleLogout(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
     await axios
-      .get(`${API_SERVER}/logout`)
+      .get(`${API_SERVER}/logout`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
       .then((result) => {
         if (result.status === 204) {
           dispatch(toggleMenu());
