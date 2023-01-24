@@ -157,7 +157,7 @@ function Login(): JSX.Element {
             disabled={!username || !password}
             color='primary'
             onClick={handleLogin}
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ m: 2, color: 'common.white', boxShadow: 'none', textTransform: 'none', borderRadius: 1 }}
           >
             Zaloguj się
           </Button>

@@ -112,6 +112,11 @@ function YourMatch(): JSX.Element {
           width: { xs: '80%', lg: '900px' },
         }}
       >
+        <Avatar
+          alt={`${match.username}'s profile picture`}
+          src={`${API_SERVER}/users/${match.username}.jpg`}
+          sx={{ width: 100, height: 100, m: '0 auto', mb: 2 }}
+        />
         <Typography
           variant='inherit'
           sx={styles.text}
@@ -136,7 +141,7 @@ function YourMatch(): JSX.Element {
         >
           Miasto: <span style={{ fontWeight: 400 }}>{_.isEmpty(match.city) ? '-' : match.city}</span>
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: '1rem' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: '1rem', mt: 2 }}>
           {match.ig !== '' && (
             <Box
               className='social-box'

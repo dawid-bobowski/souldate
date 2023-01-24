@@ -1,5 +1,6 @@
-import { TextField, Box, Grid, Typography, Button} from '@mui/material';
+import { TextField, Box, Grid, Typography, Button } from '@mui/material';
 import '../../App.css';
+import Card from '../../assets/debit-card.jpg';
 
 function Premium(): JSX.Element {
   return (
@@ -47,47 +48,74 @@ function Premium(): JSX.Element {
           width: { xs: '80%', lg: '900px' },
         }}
       >
-       
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Box
+            component='img'
+            src={Card}
+            width={200}
+            sx={{ m: '0 auto' }}
+          />
+          <Typography
+            variant='body1'
+            sx={{
+              position: 'relative',
+              top: { xs: -30, md: 0 },
+              fontFamily: 'Alexandria, sans-serif',
+              fontWeight: 300,
+              fontSize: '1.25rem',
+            }}
+          >
+            Jeżeli jesteś zainteresowana/y płatną subskrypcją, <b>odblokowującą dodatkowe funkcje</b>, uzupełnij dane
+            swojej karty, a my zweryfikujemy ją w celu pobierania cyklicznych opłat za dodatkowe usługi.
+          </Typography>
+        </Box>
         <TextField
-                margin='normal'
-                name='name'
-                label='Imię i nazwisko'
-                id='name'
-                autoComplete='Jan Kowalski'
-                sx={styles.cardInput}
-        />
-       <TextField
-                margin='normal'
-                name='card'
-                label='Numer karty'
-                id='card'
-                autoComplete='1234 5678 9012 3456'
-                sx={styles.cardInput}
+          margin='normal'
+          name='name'
+          label='Imię i nazwisko'
+          id='name'
+          autoComplete='Jan Kowalski'
+          sx={styles.cardInput}
         />
         <TextField
-                margin='normal'
-                name='date'
-                label='Data wygaśnięcia'
-                id='date'
-                autoComplete='12/01'
-                sx={styles.cardInput}
+          margin='normal'
+          name='card'
+          label='Numer karty'
+          id='card'
+          autoComplete='1234 5678 9012 3456'
+          sx={styles.cardInput}
         />
         <TextField
-                margin='normal'
-                name='cvv'
-                label='CVV'
-                id='cvv'
-                autoComplete='678'
-                sx={styles.cardInput}
+          margin='normal'
+          name='date'
+          label='Data wygaśnięcia'
+          id='date'
+          autoComplete='12/01'
+          sx={styles.cardInput}
+        />
+        <TextField
+          margin='normal'
+          name='cvv'
+          label='CVV'
+          id='cvv'
+          autoComplete='678'
+          sx={styles.cardInput}
         />
         <Button
-            type='button'
-            variant='contained'
-            color='primary'
-            sx={{ mt: 3, mb: 2, color: 'common.white', textTransform: 'none' }}
-          >
-        DOKONAJ ZAKUPU
-      </Button>
+          type='button'
+          variant='contained'
+          color='primary'
+          sx={{ mt: 3, mb: 2, color: 'common.white', textTransform: 'none' }}
+        >
+          Dokonaj zakupu
+        </Button>
       </Box>
     </Grid>
   );

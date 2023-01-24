@@ -316,6 +316,7 @@ const styles = {
     textAlign: 'center',
     boxShadow: '0px 0px 15px -5px rgba(10, 10, 10, 1)',
     width: { xs: '80%', lg: '900px' },
+    mt: '2rem',
   },
   sectionWrapper: {
     display: 'flex',

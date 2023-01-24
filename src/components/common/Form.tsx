@@ -42,6 +42,7 @@ function Form(props: FormProps): JSX.Element {
     isPersonality() ? RANDOM_ANSWERS_PERSONALITY : RANDOM_ANSWERS_LIFESTYLE
   );
   const [currentQuestion, setCurrentQuestion] = useState<Question>();
+  const [currentAnswer, setCurrentAnswer] = useState<number>();
 
   const formOptions = (): string[] => {
     switch (type) {
@@ -69,7 +70,7 @@ function Form(props: FormProps): JSX.Element {
       newAnswers[name] = parseInt(value);
       return newAnswers;
     });
-    handleNextQuestion();
+    setCurrentAnswer(parseInt(value));
   }
 
   async function getQuestions(): Promise<void> {
@@ -138,6 +139,12 @@ function Form(props: FormProps): JSX.Element {
     getQuestions();
   }, []);
 
+  useEffect(() => {
+    if (currentQuestion && answers[currentQuestion.name]) {
+      setCurrentAnswer(answers[currentQuestion.name]);
+    }
+  }, [currentQuestion]);
+
   return (
     <Box
       id={`${type}-form`}
@@ -200,11 +207,11 @@ function Form(props: FormProps): JSX.Element {
                       control={<Radio />}
                       label={option}
                       name={currentQuestion.name}
-                      checked={answers[currentQuestion.name] === optionIndex + _.toInteger(isPersonality())}
+                      checked={currentAnswer === optionIndex + _.toInteger(isPersonality())}
                       sx={{
                         backgroundColor: 'common.white',
                         padding: { xs: '0.5rem 1rem', sm: '1rem 2rem' },
-                        margin: '0 auto',
+                        marginRight: 0,
                         borderRadius: '3rem',
                         '& .MuiSvgIcon-root': {
                           fontSize: { xs: 20, sm: 28 },

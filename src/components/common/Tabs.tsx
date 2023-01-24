@@ -28,7 +28,7 @@ function Tabs(): JSX.Element {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          padding: '12px 16px',
+          padding: '2rem 16px',
         }}
       >
         <Avatar

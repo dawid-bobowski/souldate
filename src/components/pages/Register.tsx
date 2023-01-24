@@ -108,6 +108,7 @@ function Register(): JSX.Element {
           width={200}
           onClick={() => navigate('/')}
           sx={{
+            margin: '0 auto',
             ':hover': {
               cursor: 'pointer',
             },
@@ -168,7 +169,7 @@ function Register(): JSX.Element {
             disabled={!username || !password}
             color='primary'
             onClick={handleRegister}
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ m: 2, color: 'common.white', boxShadow: 'none', textTransform: 'none', borderRadius: 1 }}
           >
             Zarejestruj się
           </Button>
