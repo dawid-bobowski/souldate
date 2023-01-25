@@ -10,6 +10,7 @@ import Dev2 from '../../assets/authors/dev2.png';
 import Dev3 from '../../assets/authors/dev3.png';
 import Dev4 from '../../assets/authors/dev4.png';
 import Dev5 from '../../assets/authors/dev5.png';
+import Dev6 from '../../assets/authors/dev6.png';
 
 function Home(): JSX.Element {
   const navigate = useNavigate();
@@ -324,6 +325,22 @@ function Home(): JSX.Element {
                 sx={styles.teamTypography}
               >
                 Karolina Wiśniewska
+              </Typography>
+            </Box>
+            <Box
+              className='home-team-member'
+              sx={styles.teamBox}
+            >
+              <Avatar
+                alt='członek zespołu 6'
+                src={Dev6}
+                sx={styles.teamAvatar}
+              />
+              <Typography
+                variant='caption'
+                sx={styles.teamTypography}
+              >
+                Opiekun - Krzysztof Błaszkiewicz
               </Typography>
             </Box>
           </Grid>
