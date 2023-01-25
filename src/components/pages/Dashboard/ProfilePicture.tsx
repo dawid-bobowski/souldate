@@ -50,18 +50,19 @@ function ProfilePicture(): JSX.Element {
               console.log(result.data.msg);
               refreshPage();
             default:
-          }
-          if (result.status === 201) {
-          } else {
-            dispatch(stopLoading());
-            console.log(
-              `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
-            );
+              console.log(
+                `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
+              );
+              dispatch(logout());
+              dispatch(stopLoading());
+              navigate('/login', { replace: true });
           }
         })
         .catch((error) => {
-          dispatch(stopLoading());
           console.log(`Unable to send request. Error message: ${error.message}`);
+          dispatch(logout());
+          dispatch(stopLoading());
+          navigate('/login', { replace: true });
         });
     }
   }

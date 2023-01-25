@@ -12,9 +12,13 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 
 import { API_SERVER } from '../../app/constants';
 import '../../App.css';
+import { logout } from '../../features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 function YourMatch(): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [match, setMatch] = useState<Match>({
     username: '',
     email: '',
@@ -34,32 +38,40 @@ function YourMatch(): JSX.Element {
         },
       })
       .then((result) => {
-        if (result.status === 200) {
-          const { username, email, bday, city, fb, ig, tt } = result.data;
-          setMatch({
-            username: _.isNull(username) ? '' : username,
-            email: _.isNull(email) ? '' : email,
-            bday: _.isNull(bday) ? '' : bday,
-            city: _.isNull(city) ? '' : city,
-            fb: _.isNull(fb) ? '' : fb,
-            ig: _.isNull(ig) ? '' : ig,
-            tt: _.isNull(tt) ? '' : tt,
-          });
-          dispatch(stopLoading());
-        } else {
-          dispatch(stopLoading());
-          console.log(
-            'Unable to get match. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-          );
-          alert(
-            'Unable to get match. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-          );
+        switch (result.status) {
+          case 200:
+            const { username, email, bday, city, fb, ig, tt } = result.data;
+            setMatch({
+              username: _.isNull(username) ? '' : username,
+              email: _.isNull(email) ? '' : email,
+              bday: _.isNull(bday) ? '' : bday,
+              city: _.isNull(city) ? '' : city,
+              fb: _.isNull(fb) ? '' : fb,
+              ig: _.isNull(ig) ? '' : ig,
+              tt: _.isNull(tt) ? '' : tt,
+            });
+            dispatch(stopLoading());
+            break;
+          case 403:
+            console.log(result.data.msg);
+            dispatch(logout());
+            dispatch(stopLoading());
+            navigate('/login', { replace: true });
+            break;
+          default:
+            console.log(
+              `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
+            );
+            dispatch(logout());
+            dispatch(stopLoading());
+            navigate('/login', { replace: true });
         }
       })
       .catch((error) => {
+        console.log(`Unable to send request. Error message: ${error.message}`);
+        dispatch(logout());
         dispatch(stopLoading());
-        console.log('Unable to send request. Error message: ' + error.message);
-        alert('Unable to send request. Error message: ' + error.message);
+        navigate('/login', { replace: true });
       });
   }
 

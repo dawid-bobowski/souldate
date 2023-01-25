@@ -5,7 +5,6 @@ from tempfile import mkdtemp
 from cs50 import SQL
 from flask import (Flask, jsonify, request, flash, send_file)
 from flask_jwt_extended import (JWTManager, create_access_token, jwt_required, get_jwt_identity)
-from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_uploads import IMAGES, UploadSet, configure_uploads
 
@@ -14,14 +13,10 @@ user_sessions = []
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-# app.config["SESSION_FILE_DIR"] = mkdtemp()
-# app.config["SESSION_PERMANENT"] = False
-# app.config["SESSION_TYPE"] = "filesystem"
 app.config["JWT_SECRET_KEY"] = "super-secret"
 app.config["SECRET_KEY"] = "pass"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(seconds=604800) # default to 7 days
 
-# Session(app)
 jwt = JWTManager(app)
 
 if __name__ == '__main__':

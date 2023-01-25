@@ -6,8 +6,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import { useAppDispatch } from '../../../app/hooks';
 import { logout } from '../../../features/user/userSlice';
-import { toggleMenu } from '../../../features/app/appSlice';
+import { startLoading, stopLoading, toggleMenu } from '../../../features/app/appSlice';
 import { API_SERVER } from '../../../app/constants';
+import { refreshPage } from '../../../helpers/utils';
 
 function LogoutButton(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -22,22 +23,33 @@ function LogoutButton(): JSX.Element {
         },
       })
       .then((result) => {
-        if (result.status === 204) {
-          dispatch(toggleMenu());
-          navigate('/');
-          dispatch(logout());
-        } else {
-          console.log(
-            'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-          );
-          alert(
-            'Unable to log out. HTTP status code: ' + result.status + '\nError message: ' + result.data.errorMsg ?? ''
-          );
+        switch (result.status) {
+          case 204:
+            dispatch(toggleMenu());
+            navigate('/');
+            dispatch(logout());
+            break;
+          case 403:
+            console.log(result.data.msg);
+            dispatch(startLoading());
+            dispatch(toggleMenu());
+            dispatch(logout());
+            dispatch(stopLoading());
+            refreshPage();
+          default:
+            console.log(
+              `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
+            );
+            dispatch(logout());
+            dispatch(stopLoading());
+            navigate('/login', { replace: true });
         }
       })
       .catch((error) => {
-        console.log('Unable to send request. Error message: ' + error.message);
-        alert('Unable to send request. Error message: ' + error.message);
+        console.log(`Unable to send request. Error message: ${error.message}`);
+        dispatch(logout());
+        dispatch(stopLoading());
+        navigate('/login', { replace: true });
       });
   }
 

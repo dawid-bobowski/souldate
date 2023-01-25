@@ -80,7 +80,9 @@ function Form(props: FormProps): JSX.Element {
       .then((result) => {
         if (result.status === 200) {
           setQuestions(result.data.questions);
-          setCurrentQuestion(result.data.questions.find((item: Question) => item.id === 1));
+          const firstQuestion: Question = result.data.questions.find((item: Question) => item.id === 1);
+          setCurrentQuestion(firstQuestion);
+          setCurrentAnswer(answers[firstQuestion.name]);
           dispatch(stopLoading());
         } else {
           dispatch(stopLoading());
@@ -123,15 +125,19 @@ function Form(props: FormProps): JSX.Element {
             dispatch(stopLoading());
             navigate('/login', { replace: true });
           default:
-            dispatch(stopLoading());
             console.log(
               `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
             );
+            dispatch(logout());
+            dispatch(stopLoading());
+            navigate('/login', { replace: true });
         }
       })
       .catch((error) => {
-        dispatch(stopLoading());
         console.log(`Unable to send request. Error message: ${error.message}`);
+        dispatch(logout());
+        dispatch(stopLoading());
+        navigate('/login', { replace: true });
       });
   }
 

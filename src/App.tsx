@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { useAppDispatch, useAppSelector } from './app/hooks';
-import { startLoading } from './features/app/appSlice';
+import { startLoading, stopLoading } from './features/app/appSlice';
 import { login } from './features/user/userSlice';
 import SharedLayout from './components/layouts/SharedLayout';
 import PrivateRoute from './helpers/PrivateRoute';
@@ -60,6 +60,7 @@ function App(): JSX.Element {
     if (token !== null && username !== null) {
       dispatch(startLoading());
       dispatch(login({ username, token }));
+      dispatch(stopLoading());
     }
   }, []);
 

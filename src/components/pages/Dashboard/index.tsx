@@ -67,15 +67,19 @@ function Dashboard(): JSX.Element {
             refreshPage();
             break;
           default:
-            dispatch(stopLoading());
             console.log(
               `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
             );
+            dispatch(logout());
+            dispatch(stopLoading());
+            navigate('/login', { replace: true });
         }
       })
       .catch((error) => {
-        dispatch(stopLoading());
         console.log(`Unable to send request. Error message: ${error.message}`);
+        dispatch(logout());
+        dispatch(stopLoading());
+        navigate('/login', { replace: true });
       });
   }
 
@@ -99,15 +103,19 @@ function Dashboard(): JSX.Element {
             dispatch(stopLoading());
             navigate('/login', { replace: true });
           default:
-            dispatch(stopLoading());
             console.log(
               `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
             );
+            dispatch(logout());
+            dispatch(stopLoading());
+            navigate('/login', { replace: true });
         }
       })
       .catch((error) => {
-        dispatch(stopLoading());
         console.log('Unable to send request. Error message: ' + error.message);
+        dispatch(logout());
+        dispatch(stopLoading());
+        navigate('/login', { replace: true });
       });
   }
 
