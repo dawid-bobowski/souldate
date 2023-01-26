@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { useAppDispatch, useAppSelector } from './app/hooks';
-import { setTab, startLoading, stopLoading } from './features/app/appSlice';
+import { clearError, setTab, startLoading, stopLoading } from './features/app/appSlice';
 import { login } from './features/user/userSlice';
 import SharedLayout from './components/layouts/SharedLayout';
 import PrivateRoute from './helpers/PrivateRoute';
@@ -10,6 +10,7 @@ import * as Pages from './components/pages';
 import '@mui/material/styles/createPalette';
 import './App.css';
 import { Loader } from './components/common';
+import Snackbar from '@mui/material/Snackbar/Snackbar';
 
 declare module '@mui/material/styles/createPalette' {
   interface CommonColors {
@@ -52,22 +53,40 @@ const theme = createTheme({
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
   const isLoading: boolean = useAppSelector((state) => state.app.isLoading);
+  const isError: boolean = useAppSelector((state) => state.app.isError);
+  const errorMsg: string = useAppSelector((state) => state.app.errorMsg);
 
   useEffect(() => {
     const username = localStorage.getItem('username');
     const token = localStorage.getItem('token');
 
+    dispatch(setTab({ newTab: 0 }));
+
     if (token !== null && username !== null) {
       dispatch(startLoading());
       dispatch(login({ username, token }));
-      dispatch(setTab({ newTab: 0 }));
       dispatch(stopLoading());
     }
   }, []);
 
+  function handleCloseError(): void {
+    dispatch(clearError());
+  }
+
   return (
     <ThemeProvider theme={theme}>
       {isLoading && <Loader />}
+      <Snackbar
+        open={isError}
+        autoHideDuration={3000}
+        onClose={handleCloseError}
+        message={errorMsg}
+        sx={{
+          position: 'fixed',
+          bottom: '1rem',
+          right: '3rem',
+        }}
+      />
       <BrowserRouter>
         <Routes>
           <Route

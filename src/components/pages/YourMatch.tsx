@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 
-import { startLoading, stopLoading, setTab } from '../../features/app/appSlice';
+import { startLoading, stopLoading, setTab, setError } from '../../features/app/appSlice';
 import { logout } from '../../features/user/userSlice';
 import { useAppDispatch } from '../../app/hooks';
 
@@ -53,30 +53,39 @@ function YourMatch(): JSX.Element {
             dispatch(stopLoading());
             break;
           case 403:
-            console.log(result.data.msg);
             dispatch(logout());
             dispatch(stopLoading());
             navigate('/login', { replace: true });
+            dispatch(setError({ msg: result.data.msg }));
             break;
           default:
-            console.log(
-              `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
-            );
             dispatch(logout());
             dispatch(stopLoading());
             navigate('/login', { replace: true });
+            dispatch(
+              setError({
+                msg: `Unable to get questions. HTTP status code: ${result.status}\nError message: ${
+                  result.data.msg ?? ''
+                }`,
+              })
+            );
         }
       })
       .catch((error) => {
-        console.log(`Unable to send request. Error message: ${error.message}`);
         if (error.response.status === 406) {
           dispatch(stopLoading());
           dispatch(setTab({ newTab: 1 }));
           navigate('/personality-test', { replace: true });
+          dispatch(setError({ msg: 'Wypełnij test zanim poznasz wynik!' }));
         } else {
           dispatch(logout());
           dispatch(stopLoading());
           navigate('/login', { replace: true });
+          dispatch(
+            setError({
+              msg: `Unable to send request. Error message: ${error.message}`,
+            })
+          );
         }
       });
   }

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { useAppDispatch } from '../../app/hooks';
-import { startLoading, stopLoading } from '../../features/app/appSlice';
+import { setError, startLoading, stopLoading } from '../../features/app/appSlice';
 import { login } from '../../features/user/userSlice';
 import { API_SERVER } from '../../app/constants';
 
@@ -42,16 +42,29 @@ function Login(): JSX.Element {
           dispatch(login(result.data));
           dispatch(stopLoading());
           navigate('/dashboard');
+          dispatch(
+            setError({
+              msg: `Zalogowano!`,
+            })
+          );
         } else {
           dispatch(stopLoading());
-          console.log(
-            'Unable to login. HTTP status code: ' + result.status + '\nError message: ' + result.data.msg ?? ''
+          dispatch(
+            setError({
+              msg: `Unable to get questions. HTTP status code: ${result.status}\nError message: ${
+                result.data.msg ?? ''
+              }`,
+            })
           );
         }
       })
       .catch((error) => {
         dispatch(stopLoading());
-        console.log('Unable to send request. Error message: ' + error.message);
+        dispatch(
+          setError({
+            msg: `Unable to send request. Error message: ${error.message}`,
+          })
+        );
       });
   }
 

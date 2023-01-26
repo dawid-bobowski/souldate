@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { useAppDispatch } from '../../app/hooks';
-import { startLoading, stopLoading } from '../../features/app/appSlice';
+import { setError, startLoading, stopLoading } from '../../features/app/appSlice';
 import { API_SERVER } from '../../app/constants';
 
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
@@ -35,16 +35,29 @@ function Register(): JSX.Element {
           setEmail('');
           dispatch(stopLoading());
           navigate('/login');
+          dispatch(
+            setError({
+              msg: `Konto zostało utworzone!`,
+            })
+          );
         } else {
           dispatch(stopLoading());
-          console.log(
-            'Unable to register. HTTP status code: ' + result.status + '\nError message: ' + result.data.msg ?? ''
+          dispatch(
+            setError({
+              msg: `Unable to get questions. HTTP status code: ${result.status}\nError message: ${
+                result.data.msg ?? ''
+              }`,
+            })
           );
         }
       })
       .catch((error) => {
         dispatch(stopLoading());
-        console.log('Unable to send request. Error message: ' + error.message);
+        dispatch(
+          setError({
+            msg: `Unable to send request. Error message: ${error.message}`,
+          })
+        );
       });
   }
 

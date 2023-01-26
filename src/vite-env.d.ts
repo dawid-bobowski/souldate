@@ -10,6 +10,8 @@ interface IAppState {
   isMenuOpen: boolean;
   isLoading: boolean;
   currentTab: number;
+  isError: boolean;
+  errorMsg: string;
 }
 type AppState = IAppState;
 

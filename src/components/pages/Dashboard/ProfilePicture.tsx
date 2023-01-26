@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { startLoading, stopLoading } from '../../../features/app/appSlice';
+import { setError, startLoading, stopLoading } from '../../../features/app/appSlice';
 import { logout } from '../../../features/user/userSlice';
 import { API_SERVER } from '../../../app/constants';
 import { refreshPage } from '../../../helpers/utils';
@@ -41,28 +41,36 @@ function ProfilePicture(): JSX.Element {
               refreshPage();
               break;
             case 403:
-              console.log(result.data.msg);
               dispatch(logout());
               dispatch(stopLoading());
               navigate('/login', { replace: true });
+              dispatch(setError({ msg: result.data.msg }));
               break;
             case 404:
-              console.log(result.data.msg);
               refreshPage();
+              dispatch(setError({ msg: result.data.msg }));
             default:
-              console.log(
-                `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
-              );
               dispatch(logout());
               dispatch(stopLoading());
               navigate('/login', { replace: true });
+              dispatch(
+                setError({
+                  msg: `Unable to get questions. HTTP status code: ${result.status}\nError message: ${
+                    result.data.msg ?? ''
+                  }`,
+                })
+              );
           }
         })
         .catch((error) => {
-          console.log(`Unable to send request. Error message: ${error.message}`);
           dispatch(logout());
           dispatch(stopLoading());
           navigate('/login', { replace: true });
+          dispatch(
+            setError({
+              msg: `Unable to send request. Error message: ${error.message}`,
+            })
+          );
         });
     }
   }

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 
-import { startLoading, stopLoading } from '../../../features/app/appSlice';
+import { setError, startLoading, stopLoading } from '../../../features/app/appSlice';
 import { logout } from '../../../features/user/userSlice';
 import { API_SERVER } from '../../../app/constants';
 import { refreshPage } from '../../../helpers/utils';
@@ -52,34 +52,42 @@ function Dashboard(): JSX.Element {
       .then((result) => {
         switch (result.status) {
           case 201:
-            console.log(result.data.msg);
             setIsEditing(false);
             dispatch(stopLoading());
+            dispatch(setError({ msg: result.data.msg }));
             break;
           case 403:
-            console.log(result.data.msg);
             dispatch(logout());
             dispatch(stopLoading());
             navigate('/login', { replace: true });
+            dispatch(setError({ msg: result.data.msg }));
           case 409:
-            console.log(result.data.msg);
             dispatch(stopLoading());
             refreshPage();
+            dispatch(setError({ msg: result.data.msg }));
             break;
           default:
-            console.log(
-              `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
-            );
             dispatch(logout());
             dispatch(stopLoading());
             navigate('/login', { replace: true });
+            dispatch(
+              setError({
+                msg: `Unable to get questions. HTTP status code: ${result.status}\nError message: ${
+                  result.data.msg ?? ''
+                }`,
+              })
+            );
         }
       })
       .catch((error) => {
-        console.log(`Unable to send request. Error message: ${error.message}`);
         dispatch(logout());
         dispatch(stopLoading());
         navigate('/login', { replace: true });
+        dispatch(
+          setError({
+            msg: `Unable to send request. Error message: ${error.message}`,
+          })
+        );
       });
   }
 
@@ -98,24 +106,32 @@ function Dashboard(): JSX.Element {
             dispatch(stopLoading());
             break;
           case 403:
-            console.log(result.data.msg);
             dispatch(logout());
             dispatch(stopLoading());
             navigate('/login', { replace: true });
+            dispatch(setError({ msg: result.data.msg }));
           default:
-            console.log(
-              `Unable to get questions. HTTP status code: ${result.status}\nError message: ${result.data.msg ?? ''}`
-            );
             dispatch(logout());
             dispatch(stopLoading());
             navigate('/login', { replace: true });
+            dispatch(
+              setError({
+                msg: `Unable to get questions. HTTP status code: ${result.status}\nError message: ${
+                  result.data.msg ?? ''
+                }`,
+              })
+            );
         }
       })
       .catch((error) => {
-        console.log('Unable to send request. Error message: ' + error.message);
         dispatch(logout());
         dispatch(stopLoading());
         navigate('/login', { replace: true });
+        dispatch(
+          setError({
+            msg: `Unable to send request. Error message: ${error.message}`,
+          })
+        );
       });
   }
 

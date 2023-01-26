@@ -4,6 +4,8 @@ const initialState: AppState = {
   isMenuOpen: false,
   isLoading: false,
   currentTab: 0,
+  isError: false,
+  errorMsg: '',
 };
 
 const appSlice = createSlice({
@@ -25,8 +27,16 @@ const appSlice = createSlice({
     setTab(state, action: PayloadAction<{ newTab: number }>) {
       state.currentTab = action.payload.newTab;
     },
+    setError(state, action: PayloadAction<{ msg: string }>) {
+      state.isError = true;
+      state.errorMsg = action.payload.msg;
+    },
+    clearError(state) {
+      state.isError = false;
+      state.errorMsg = '';
+    },
   },
 });
 
-export const { hideMenu, toggleMenu, startLoading, stopLoading, setTab } = appSlice.actions;
+export const { hideMenu, toggleMenu, startLoading, stopLoading, setTab, setError, clearError } = appSlice.actions;
 export default appSlice.reducer;
