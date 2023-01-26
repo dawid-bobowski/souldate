@@ -257,6 +257,9 @@ def matching():
         user = db.execute("SELECT * FROM users where username = :username",
                         username=username)
         user_id = user[0]['user_id']
+        traits_done = db.execute("SELECT user_id FROM traits WHERE user_id=:user_id",user_id=user_id)
+        if traits_done == []:
+            return jsonify({"msg":"Brak wypełnionego testu!"}), 406
         otwartosc = db.execute("SELECT OPN FROM traits WHERE user_id=:user_id",
                             user_id=user_id)[0]['OPN']
         ugodowosc = db.execute("SELECT AGR FROM traits WHERE user_id=:user_id",

@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 
-import { startLoading, stopLoading } from '../../features/app/appSlice';
+import { startLoading, stopLoading, setTab } from '../../features/app/appSlice';
+import { logout } from '../../features/user/userSlice';
 import { useAppDispatch } from '../../app/hooks';
 
 import { Avatar, Box, Grid, Tooltip, Typography, Zoom } from '@mui/material';
@@ -12,8 +14,6 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 
 import { API_SERVER } from '../../app/constants';
 import '../../App.css';
-import { logout } from '../../features/user/userSlice';
-import { useNavigate } from 'react-router-dom';
 
 function YourMatch(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -69,9 +69,15 @@ function YourMatch(): JSX.Element {
       })
       .catch((error) => {
         console.log(`Unable to send request. Error message: ${error.message}`);
-        dispatch(logout());
-        dispatch(stopLoading());
-        navigate('/login', { replace: true });
+        if (error.response.status === 406) {
+          dispatch(stopLoading());
+          dispatch(setTab({ newTab: 1 }));
+          navigate('/personality-test', { replace: true });
+        } else {
+          dispatch(logout());
+          dispatch(stopLoading());
+          navigate('/login', { replace: true });
+        }
       });
   }
 
