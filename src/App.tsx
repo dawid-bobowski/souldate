@@ -81,11 +81,7 @@ function App(): JSX.Element {
         autoHideDuration={3000}
         onClose={handleCloseError}
         message={errorMsg}
-        sx={{
-          position: 'fixed',
-          bottom: '1rem',
-          right: '3rem',
-        }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       />
       <BrowserRouter>
         <Routes>

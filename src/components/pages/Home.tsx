@@ -340,7 +340,13 @@ function Home(): JSX.Element {
                 variant='caption'
                 sx={styles.teamTypography}
               >
-                Opiekun - Krzysztof Błaszkiewicz
+                Krzysztof Błaszkiewicz
+              </Typography>
+              <Typography
+                variant='caption'
+                sx={styles.teamTypography2}
+              >
+                Opiekun
               </Typography>
             </Box>
           </Grid>
@@ -376,5 +382,9 @@ const styles = {
   teamTypography: {
     marginTop: '1rem',
     fontSize: { xs: '1.25rem', sm: 'inherit' },
+  },
+  teamTypography2: {
+    fontSize: { xs: '1.25rem', sm: 'inherit' },
+    color: 'common.grey',
   },
 };
